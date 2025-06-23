@@ -1,0 +1,27 @@
+# This patches the Astro dependency to allow for import aliases in the Astro config file. (astro.config.ts)
+
+diff --git a/dist/core/config/vite-load.js b/dist/core/config/vite-load.js
+index 39ef1219281014fe727f26e6d8591de94b1bbc1d..5833157d224a7b9c1b70e6d0f24a546610c0719b 100644
+--- a/dist/core/config/vite-load.js
++++ b/dist/core/config/vite-load.js
+@@ -1,8 +1,11 @@
++import configAliasPlugin from '../../vite-plugin-config-alias/index.js';
++import { loadTSConfig } from './tsconfig.js';
+ import { pathToFileURL } from "node:url";
+ import { createServer } from "vite";
+ import loadFallbackPlugin from "../../vite-plugin-load-fallback/index.js";
+ import { debug } from "../logger/core.js";
+ async function createViteServer(root, fs) {
++  const {tsconfigFile: tsConfigPath, tsconfig: tsConfig} = await loadTSConfig(root);
+   const viteServer = await createServer({
+     configFile: false,
+     server: { middlewareMode: true, hmr: false, watch: null, ws: false },
+@@ -10,7 +13,7 @@ async function createViteServer(root, fs) {
+     clearScreen: false,
+     appType: "custom",
+     ssr: { external: true },
+-    plugins: [loadFallbackPlugin({ fs, root: pathToFileURL(root) })]
++    plugins: [configAliasPlugin({ settings: { tsConfig, tsConfigPath } }), loadFallbackPlugin({ fs, root: pathToFileURL(root) })]
+   });
+   return viteServer;
+ }
