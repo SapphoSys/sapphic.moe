@@ -17,6 +17,8 @@ jobs:
         run: |
           flyctl deploy --remote-only \
             --build-arg COMMIT_HASH=$(git rev-parse --short HEAD) \
-            --build-arg COMMIT_DATE="$(git log -1 --format=%cd --date=iso)"
+            --build-arg COMMIT_DATE="$(git log -1 --format=%cd --date=iso)" \
+            --build-arg ASTRO_DB_REMOTE_URL="${{ secrets.ASTRO_DB_REMOTE_URL }}" \
+            --build-arg ASTRO_DB_APP_TOKEN="${{ secrets.ASTRO_DB_APP_TOKEN }}"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
