@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import FeedList from '$components/feeds/Feeds.tsx';
+import Layout from '$layouts/Page.astro';
+---
+
+<Layout title="Feeds" description="See what our friends and favorite creators are posting!">
+  <header class="flex flex-col gap-3 pb-5">
+    <h1 class="pt-2 text-4xl font-semibold">/feeds</h1>
+    <p>See what our friends and favorite creators are posting!</p>
+    <p class="italic">Feed list updated server-side every 3 hours.</p>
+  </header>
+
+  <noscript>
+    <p class="italic text-ctp-subtext1">Please enable JavaScript to view feeds!</p>
+  </noscript>
+
+  <div class="hidden" data-requires-js>
+    <FeedList client:load transition:persist="feedlist" />
+  </div>
+</Layout>

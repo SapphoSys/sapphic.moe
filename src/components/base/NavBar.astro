@@ -1,41 +1,28 @@
 ---
 import Avatar from '$components/base/Avatar.astro';
 import NavLink from '$components/base/NavLink.astro';
-
-interface Link {
-  href: string;
-  text: string;
-  icon: string;
-}
-
-const links = [
-  { href: '/', text: 'Home', icon: 'home' },
-  { href: '/about', text: 'About', icon: 'information' },
-  { href: '/articles', text: 'Articles', icon: 'pencil' },
-  { href: '/contact', text: 'Contact', icon: 'link-variant' },
-] satisfies Link[];
+import LanyardStatus from '$components/home/Lanyard.tsx';
+import { navLinks, platforms } from '$utils/config';
 ---
 
-<header class="pb-5">
-  <div class="flex items-center gap-3 pb-2">
-    <a
-      href="https://sappho.systems/avatar"
-      title="A link to our profile picture. The character displayed here is Silver Wolf from the videogame Honkai: Star Rail."
-      target="_blank"
-    >
-      <Avatar class="w-20 rounded-full border-none" width={50} height={50} />
+<header
+  class="mx-auto flex w-full max-w-4xl flex-col flex-wrap justify-between gap-y-3 px-8 pt-8 text-center md:flex-row md:items-center"
+>
+  <div class="flex flex-row items-center gap-x-4">
+    <a href="/" class="flex text-center text-ctp-text active:scale-125">
+      <Avatar class="w-12 rounded-full border-none" width={20} height={20} />
     </a>
 
-    <div class="flex flex-col">
-      <h1 class="text-3xl font-semibold">Sapphic Angels</h1>
-      <p class="text-ctp-overlay1">(she/it/they)</p>
+    <div class="flex flex-col items-start justify-center">
+      <h2 class="text-xl font-semibold">Sapphic Angels</h2>
+      <LanyardStatus userId={platforms.discordID} client:idle transition:persist="lanyard" />
     </div>
   </div>
 
-  <nav class="flex gap-3" aria-label="navigation-links">
+  <nav class="flex flex-row flex-wrap items-center gap-x-5 gap-y-2">
     {
-      links.map(({ href, text }) => {
-        return <NavLink {href} {text} class="underline-offset-4" />;
+      navLinks.map(({ link, text }) => {
+        return <NavLink href={link} {text} class="underline-offset-4" />;
       })
     }
   </nav>

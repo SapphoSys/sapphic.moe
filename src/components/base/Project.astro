@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+import type { Technology } from '$types/stack';
+import { loadImage } from '$utils/helpers/image';
+
+interface Props {
+  name: string;
+  description: string;
+  color: string;
+  image: string;
+  stack: Technology[];
+  link: string;
+}
+
+const { name, description, color, image, stack, link } = Astro.props;
+
+const borderClass = `border-ctp-${color}`;
+const textClass = `text-ctp-${color}`;
+
+const parsedImage = await loadImage(`/logos/${image}`);
+---
+
+<div
+  class:list={['not-prose flex flex-col gap-2 rounded-md border-2 bg-ctp-mantle p-4', borderClass]}
+>
+  <div class="flex grow flex-row items-center">
+    <div class="flex grow flex-col gap-1">
+      <span class="text-xl font-bold text-ctp-subtext1">{name}</span>
+      <p class="break-words pr-6 text-lg">{description}</p>
+    </div>
+
+    <Image
+      src={parsedImage}
+      alt={`Icon for ${name}`}
+      class="size-14 rounded-md"
+      densities={[1, 1.5, 2]}
+      width={100}
+      height={100}
+    />
+  </div>
+
+  <div class="flex flex-row items-center justify-between">
+    <div class="flex flex-row gap-2">
+      {
+        stack.map((tech) => (
+          <a
+            href={tech.link}
+            class="rounded-none"
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`Learn more about ${tech.name}`}
+            aria-label={`Learn more about ${tech.name}`}
+            data-custom-icon
+          >
+            <Icon
+              class={textClass}
+              name={tech.icon}
+              size={24}
+              title={tech.name}
+              aria-label={tech.name}
+            />
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href={link}
+      class:list={['items-center justify-center text-center', textClass]}
+      target="_blank"
+      title={`Visit ${name}`}
+      aria-label={`Visit ${name}`}
+      data-stack-icon
+    >
+      <Icon name="mdi:link-variant" size={24} aria-hidden={true} />
+    </a>
+  </div>
+</div>

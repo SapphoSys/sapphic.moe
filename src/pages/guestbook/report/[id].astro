@@ -1,0 +1,103 @@
+---
+export const prerender = false;
+
+import { db, Guestbook, sql } from 'astro:db';
+import { Icon } from 'astro-icon/components';
+
+import ReportForm from '$components/guestbook/ReportForm.tsx';
+import Layout from '$layouts/Page.astro';
+import { GUESTBOOK_VALID_COLORS } from '$utils/constants';
+import { formatDate } from '$utils/helpers/date';
+
+const { id } = Astro.params;
+const entryId = Number.parseInt(id || '', 10);
+
+if (!entryId || isNaN(entryId)) {
+  return Astro.redirect('/404');
+}
+
+const entry = await db
+  .select()
+  .from(Guestbook)
+  .where(sql`id = ${entryId}`)
+  .get();
+
+if (!entry) return Astro.redirect('/404');
+
+const borderColor = GUESTBOOK_VALID_COLORS.includes(entry.color) ? entry.color : 'pink';
+const borderClass = `border-ctp-${borderColor}`;
+const textClass = `text-ctp-${borderColor}`;
+
+let errorMessage = null;
+
+if (Astro.request.method === 'POST') {
+  const data = await Astro.request.formData();
+  const turnstile_token = data.get('cf-turnstile-response');
+  const reason = data.get('reason');
+
+  if (!turnstile_token) {
+    errorMessage = 'Please complete the Turnstile verification.';
+  } else if (!reason) {
+    errorMessage = 'Please provide a reason for reporting.';
+  } else {
+    data.append('entryId', entryId.toString());
+    const response = await fetch(new URL('/api/report', Astro.url), {
+      method: 'POST',
+      body: data,
+    });
+
+    if (response.ok) {
+      Astro.cookies.set('guestbook_report_success', 'true', {
+        httpOnly: true,
+        path: '/guestbook',
+        maxAge: 60,
+      });
+      return Astro.redirect('/guestbook');
+    } else {
+      const result = await response.json();
+      errorMessage = result.message || 'Error sending report';
+    }
+  }
+}
+---
+
+<Layout description="Report a guestbook message" title="Report Message" turnstile={true}>
+  <header class="flex flex-col gap-3 pb-5">
+    <h1 class="pt-2 text-4xl font-semibold">Report Message</h1>
+    <p>Report this guestbook message if it violates our guidelines.</p>
+  </header>
+
+  {errorMessage && <div class="mb-8 rounded bg-ctp-red p-3 text-ctp-crust">{errorMessage}</div>}
+
+  <div class="mb-8 flex flex-col gap-6">
+    <div class:list={['flex flex-col gap-2 rounded-md border-2 bg-ctp-mantle p-4', borderClass]}>
+      <div class="flex grow flex-row items-center justify-between text-center">
+        <h2 class="text-xl font-bold text-ctp-subtext1">{entry.name}</h2>
+        {
+          entry.url && (
+            <a
+              href={entry.url}
+              class="items-center justify-center text-center"
+              target="_blank"
+              title={`A link to ${entry.name}'s website.`}
+              aria-label={`A link to ${entry.name}'s website.`}
+              data-custom-icon
+            >
+              <Icon name="mdi:link-variant" size={24} class={textClass} aria-hidden={true} />
+            </a>
+          )
+        }
+      </div>
+
+      <p class="break-words text-base">{entry.message}</p>
+
+      <div class="flex flex-row items-center justify-between">
+        <time class="text-sm text-ctp-subtext0" datetime={entry.createdAt.toISOString()}>
+          {formatDate(entry.createdAt, 'relative')}
+        </time>
+      </div>
+    </div>
+
+    <ReportForm client:load {entryId} />
+  </div>
+</Layout>

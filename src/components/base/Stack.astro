@@ -1,0 +1,50 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import type { Technology } from '$types/stack';
+
+interface Props {
+  title: string;
+  description: string;
+  stack: Technology[];
+  color: string;
+}
+
+const { title, description, stack, color } = Astro.props;
+
+const borderClass = `border-ctp-${color}`;
+const textClass = `text-ctp-${color}`;
+---
+
+<div
+  class:list={['not-prose flex flex-col gap-3 rounded-md border-2 bg-ctp-mantle p-4', borderClass]}
+>
+  <div class="flex flex-col gap-1">
+    <span class:list={['text-xl font-bold', textClass]}>{title}</span>
+    <span class:list={['text-lg text-ctp-subtext1', textClass]}>{description}</span>
+  </div>
+
+  <div class="flex flex-wrap gap-4">
+    {
+      stack.map((tech) => (
+        <a
+          href={tech.link}
+          class="rounded-none"
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`Learn more about ${tech.name}`}
+          aria-label={`Learn more about ${tech.name}`}
+          data-custom-icon
+        >
+          <Icon
+            name={tech.icon}
+            size={32}
+            class={textClass}
+            title={tech.name}
+            aria-label={tech.name}
+          />
+        </a>
+      ))
+    }
+  </div>
+</div>

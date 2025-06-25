@@ -1,0 +1,36 @@
+---
+import Clock from '$components/home/Clock.tsx';
+import LastFM from '$components/home/LastFM.tsx';
+import LatestArticle from '$components/home/LatestArticle.astro';
+import Weather from '$components/home/Weather.tsx';
+import { platforms, preferences } from '$utils/config';
+---
+
+<noscript>
+  <p class="italic text-ctp-subtext1">
+    Some content had to be hidden because JavaScript is disabled. Sorry! :(
+  </p>
+  <p class="italic text-ctp-subtext1">Please enable JavaScript to view all of the content!</p>
+</noscript>
+
+<div class="hidden" data-requires-js>
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_minmax(240px,1fr)]">
+    <div class="md:col-span-2">
+      <LastFM username={platforms.lastFM} client:idle transition:persist="lastfm" />
+    </div>
+
+    <Clock
+      timeZone={preferences.timeZone}
+      formatString={preferences.timeFormat}
+      refreshInterval={1000}
+      client:load
+      transition:persist="clock"
+    />
+
+    <Weather location={preferences.location} client:visible transition:persist="weather" />
+
+    <div class="md:col-span-2">
+      <LatestArticle />
+    </div>
+  </div>
+</div>

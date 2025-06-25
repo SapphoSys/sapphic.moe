@@ -1,0 +1,20 @@
+---
+import Stack from '$components/base/Stack.astro';
+import { learnedStack, learningStack } from '$data/stack';
+---
+
+<div class="flex flex-col gap-6">
+  <Stack
+    title="Technologies we know & use"
+    description="Technologies we know and use in our projects."
+    stack={learnedStack}
+    color="pink"
+  />
+
+  <Stack
+    title="Technologies we're learning / plan to learn"
+    description="Technologies we're either currently learning or planning to learn in the near future."
+    stack={learningStack}
+    color="green"
+  />
+</div>

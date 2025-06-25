@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+
+import type { Button } from '$types/button';
+
+interface Props {
+  buttons: Button[];
+  folder: 'friends' | 'other';
+}
+
+const { buttons, folder } = Astro.props;
+---
+
+<div class="not-prose pixelated flex flex-wrap gap-x-5 gap-y-6 md:gap-x-9">
+  {
+    buttons.map((button) => {
+      return (
+        <a href={button.url} title={button.name} target="_blank" class="rounded-none">
+          <Image
+            class="h-[31px] w-[88px]"
+            src={`/buttons/${folder}/${button.image}`}
+            alt={`Webring of ${button.name}`}
+            width={88}
+            height={31}
+          />
+        </a>
+      );
+    })
+  }
+</div>

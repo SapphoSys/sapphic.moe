@@ -1,0 +1,45 @@
+---
+import { site } from '$utils/config';
+
+interface Props {
+  title: string;
+  description: string;
+  created: string | Date;
+  minutesRead: string;
+}
+
+const { title, description, created, minutesRead } = Astro.props;
+---
+
+{/* eslint-disable tailwindcss/enforces-shorthand */}
+{/* Satori does not support certain Tailwind CSS features. */}
+
+<div class="flex h-full w-full flex-col bg-[#1e1e2e] text-[#cad3f5]">
+  <div class="flex h-4/5 w-full flex-col justify-center px-16 py-12">
+    <h1 class="text-7xl font-bold leading-tight tracking-tight text-[#f5c2e7]">{title}</h1>
+    <h2 class="text-3xl text-[#cdd6f4]">{description}</h2>
+  </div>
+
+  <div
+    class="flex h-1/5 w-full items-center justify-between border-t-2 border-[#45475a] bg-[#181825] px-16 py-8"
+  >
+    <div class="flex flex-col items-start">
+      <time class="text-2xl text-[#c6d0f5]">{created}</time>
+      <span class="text-2xl text-[#a5adce]">{minutesRead}</span>
+    </div>
+
+    <div class="flex items-center">
+      <div class="flex">
+        <img
+          alt="Cherry blossom"
+          class="h-12 w-12"
+          src="https://em-content.zobj.net/source/google/387/cherry-blossom_1f338.png"
+        />
+      </div>
+
+      <div class="flex items-center text-3xl">
+        <span class="pl-3 text-[#f5c2e7]">{site.name}</span>
+      </div>
+    </div>
+  </div>
+</div>

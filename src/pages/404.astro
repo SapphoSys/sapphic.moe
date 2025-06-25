@@ -2,15 +2,11 @@
 import Layout from '$layouts/Page.astro';
 ---
 
-<Layout
-  description="Nothing but dust and ghosts..."
-  pageTitle="404 | Page Not Found"
-  title="404 | Sapphic Angels"
->
-  <header>
-    <h1 class="title">404</h1>
-    <p class="italic">Nothing but dust and ghosts...</p>
-  </header>
+<Layout description="Nothing but dust and ghosts..." title="404">
+  <header class="flex flex-col gap-3 pb-5">
+    <h1 class="pt-2 text-4xl font-semibold">404</h1>
 
-  <p>The page you were looking for does not reside here, unfortunately.</p>
+    <p>Nothing but dust and ghosts...</p>
+    <p>The page you were looking for does not reside here, unfortunately.</p>
+  </header>
 </Layout>

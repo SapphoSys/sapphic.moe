@@ -1,0 +1,151 @@
+import { technologies } from '$data/technologies';
+import type { Project } from '$types/stack';
+
+export const projects = [
+  {
+    name: 'simple-fm',
+    description: 'A simple, asynchronous Last.fm library written in TypeScript.',
+    color: 'lavender',
+    image: 'simple-fm.png',
+    stack: [technologies.typescript],
+    link: 'https://simple.sapphic.moe',
+  },
+  {
+    name: 'Destiny Labeler',
+    description: 'A Destiny 2 labeler for Bluesky.',
+    color: 'red',
+    image: 'destiny.png',
+    stack: [technologies.typescript, technologies.bluesky, technologies.nix],
+    link: 'https://bsky.app/profile/destiny.sapphic.moe',
+  },
+  {
+    name: 'tailwindcss.com',
+    description: 'Added the Astro framework guide to the Tailwind CSS documentation.',
+    color: 'sapphire',
+    image: 'tailwindcss.svg',
+    stack: [
+      technologies.nextjs,
+      technologies.react,
+      technologies.typescript,
+      technologies.tailwind,
+      technologies.mdx,
+    ],
+    link: 'https://tailwindcss.com',
+  },
+  {
+    name: 'sapphic.moe',
+    description: "Our personal website you're viewing right now!",
+    color: 'pink',
+    image: 'sapphic.png',
+    stack: [
+      technologies.astro,
+      technologies.react,
+      technologies.typescript,
+      technologies.tailwind,
+      technologies.mdx,
+      technologies.nix,
+      technologies.flydotio,
+    ],
+    link: 'https://sapphic.moe',
+  },
+  {
+    name: 'Parallel Program Report',
+    description: 'Track Guardians who have the Parallel Program emblem in Destiny 2.',
+    color: 'red',
+    image: 'parallel.png',
+    stack: [technologies.astro, technologies.htmx, technologies.typescript, technologies.tailwind],
+    link: 'https://parallel.report',
+  },
+  {
+    name: 'tclip',
+    description: 'Private pastebin for Tailscale users. Added dark mode support.',
+    color: 'text',
+    image: 'tailscale.png',
+    stack: [technologies.go, technologies.nix, technologies.tailwind],
+    link: 'https://github.com/tailscale-dev/tclip',
+  },
+  {
+    name: 'Braytech',
+    description:
+      'Destiny 2 companion app which provides detailed information about the game. Contributed to the Russian translation.',
+    color: 'red',
+    image: 'braytech.png',
+    stack: [
+      technologies.react,
+      technologies.reactRouter,
+      technologies.vite,
+      technologies.typescript,
+      technologies.bungie,
+    ],
+    link: 'https://bray.tech',
+  },
+  {
+    name: 'OldTwitter',
+    description:
+      'An extension to return the old Twitter layout. Helped with the Russian translation.',
+    color: 'sapphire',
+    image: 'oldtwitter.png',
+    stack: [technologies.javascript],
+    link: 'https://github.com/dimdenGD/OldTwitter',
+  },
+  {
+    name: 'Destiny Item Manager',
+    description:
+      'A powerful Destiny inventory management tool. Contributed heavily to the Russian translation.',
+    color: 'peach',
+    image: 'destinyitemmanager.png',
+    stack: [technologies.react, technologies.typescript, technologies.sass, technologies.bungie],
+    link: 'https://destinyitemmanager.com',
+  },
+
+  {
+    name: 'Destiny Recipes',
+    description:
+      'A collection of useful tools for Destiny. Contributed to the Russian translation.',
+    color: 'red',
+    image: 'destinyrecipes.png',
+    stack: [technologies.angular, technologies.bungie],
+    link: 'https://destinyrecipes.com',
+  },
+  {
+    name: 'Little Light',
+    description: 'A mobile item manager app for Destiny 2. Contributed to the Russian translation.',
+    color: 'mauve',
+    image: 'littlelight.png',
+    stack: [technologies.flutter, technologies.dart, technologies.bungie],
+    link: 'https://littlelight.club',
+  },
+  {
+    name: 'worker-links',
+    description: 'A simple URL shortener for Cloudflare Workers. Refreshed the web UI.',
+    color: 'peach',
+    image: 'worker-links.png',
+    stack: [technologies.hono, technologies.typescript, technologies.cloudflareWorkers],
+    link: 'https://github.com/Erisa/worker-links',
+  },
+  {
+    name: 'Felicity Docs',
+    description: 'A powerful Discord bot, designed to enhance your Destiny 2 gaming experience.',
+    color: 'red',
+    image: 'felicity.svg',
+    stack: [technologies.astro, technologies.typescript, technologies.tailwind, technologies.mdx],
+    link: 'https://felicity.pages.dev',
+  },
+  {
+    name: 'dotfiles',
+    description: 'Dotfiles for our NixOS system configuration.',
+    color: 'yellow',
+    image: 'dotfiles.svg',
+    stack: [technologies.nix],
+    link: 'https://github.com/SapphoSys/dotfiles',
+  },
+  {
+    name: 'Unofficial Last.fm API Docs',
+    description:
+      'Added missing methods (artist, chart, geo, tag, and track) to the API documentation.',
+    color: 'red',
+    image: 'lastfm.svg',
+    stack: [technologies.markdown],
+    link: 'https://lastfm-docs.github.io/api-docs/',
+  },
+] satisfies Project[];

@@ -1,5 +1,6 @@
 ---
 import { getEntry, render } from 'astro:content';
+
 const { id } = Astro.params;
 
 const entry = await getEntry('articles', id!)!;

@@ -4,12 +4,19 @@ description: >-
   The resource to help you play, complete, and enjoy OneShot on Linux
   distrubutions.
 created: 2024-04-03
-modified: 2024-04-04
+modified: 2025-05-28
 tags:
   - oneshot
   - linux
 comments: true
 ---
+
+## Update
+An update from May 28, 2025. (2025-05-28)
+
+Future Cat LLC has released [OneShot: World Machine Edition](https://store.steampowered.com/app/2915460/OneShot_World_Machine_Edition/) on Steam. It's worth checking out as it has excellent Linux support!
+
+## Original article
 *Note: this guide assumes you have the *[*Steam version*](https://store.steampowered.com/app/420530/OneShot/)* of OneShot.*  
 *For the [itch.io version](https://futurecat.itch.io/oneshot) of OneShot, please see the "[I cannot get the itch.io version to run!](#i-cannot-get-the-itchio-version-to-run)" section.*
 
@@ -21,10 +28,7 @@ It's simply not feasible for an average user to have to scour the wide Internet 
 
 That's why we have decided to write an article guide to make sure one can enjoy the game on Linux with close to no hurdles.
 
-## Table of Contents
-
-## Caveats
-
+<Accordion title="Caveats" severity="error">
 Unfortunately, due to the nature of the game, your immersion may be slightly ruined.
 
 For example, the game automatically changing your desktop wallpaper during a certain puzzle won't work on Linux. See the [Desktop wallpaper not changing](#my-desktop-wallpaper-is-not-updating) section for more information.
@@ -32,18 +36,19 @@ For example, the game automatically changing your desktop wallpaper during a cer
 OneShot is best played and experienced on a Windows environment.
 
 If you don't mind this trade-off though or simply don't care, keep on reading.
+</Accordion>
 
 ## Prerequisites
 
 You will need to install [Protontricks](https://github.com/Matoking/protontricks).
 
-## Installing Protontricks
+### Installing Protontricks
 
 There are several ways to install Protontricks.
 
 *If you already have Protontricks installed, you can skip to the *[*Running the game*](#running-the-game)* section.*
 
-### Method 1: Installing Protontricks via Flatpak
+### Method 1: Installing Protontricks as a Flatpak package
 
 If you have Flatpak installed, you can run the following command to install Protontricks:
 
@@ -87,10 +92,7 @@ Head over to your library, right click OneShot, select "**Properties..."** and h
 
 Enable "**Force the use of a specific Steam Play compatibility tool**", and select **Proton 7.0-6**. This will download that specific Proton version, which might take a while.
 
-<Image 
-  src="compatibility-tab.png" 
-  alt="The Steam compatibility tab for OneShot." 
-/>
+![The Steam compatibility tab for OneShot.](/compatibility-tab.png)
 
 Once that's done, you can launch OneShot from your Steam library and the majority of the game will run just fine!
 
@@ -111,11 +113,7 @@ ln -s ~/.steam/steam/steamapps/compatdata/420530/pfx/drive_c/users/steamuser/Doc
 
 Now whenever the game creates a document file, you can always access it under your Documents folder! (`~/Documents/ProtonDocuments`)
 
-<Image 
-  src="protondocuments.png" 
-  alt="GNOME File Explorer (Nautilus) showing the ProtonDocuments symlink in your home directory's Documents folder." 
-/>
-
+![GNOME File Explorer (Nautilus) showing the ProtonDocuments symlink in your home directory's Documents folder.](/protondocuments.png)
 
 You may see additional folders like Downloads, Templates, Videos and so on in the **ProtonDocuments** folder, but don't worry about them!
 
@@ -155,13 +153,9 @@ protontricks-launch --appid 420530 ~/.steam/steam/steamapps/compatdata/420530/pf
 
 Now you can launch OneShot and the clover program by just typing `launch-oneshot` and `launch-oneshot-clover` respectively in your terminal!
 
-<Spoiler
-  description="OneShot and the clover program being open at the same time"
-  image="spoiler-clover-program.png"
-  caption="OneShot and the clover program being open at the same time on the way to the Tower on Linux."
->
-
-</Spoiler>
+<Accordion title="Spoilers for OneShot" severity="warning" open={false}>
+![OneShot and the clover program being open at the same time on the way to the Tower on Linux.](/spoiler-clover-program.png "OneShot and the clover program being open at the same time on the way to the Tower on Linux.")
+</Accordion>
 
 ## Questions and answers
 
@@ -202,10 +196,7 @@ ln -s ~/.steam/steam/steamapps/compatdata/420530/pfx/drive_c/users/steamuser/App
 
 This will create a **OneShotSaves** symlink in your Documents folder for easy access:
 
-<Image 
-  src="oneshotsaves.png" 
-  alt="The OneShotSaves symlink in your home directory's Documents folder. It contains your save files for OneShot, as well as some configuration files." 
-/>
+![The OneShotSaves symlink in your home directory's Documents folder. It contains your save files for OneShot, as well as some configuration files.](/oneshotsaves.png)
 
 ### My desktop wallpaper is not updating!
 
@@ -233,5 +224,3 @@ As much as we love OneShot, we honestly wish it was updated to work well to run 
 No hate towards the developers of the game though! We know it must be pretty hard to support the Linux version of OneShot and ensure it runs well across all distributions and configurations.
 
 Thank you for reading 'till the end!
-
-If you want to support us, please donate to [our Ko-fi page](https://ko-fi.com/solelychloe) as we're trying to run away from our abusive family.

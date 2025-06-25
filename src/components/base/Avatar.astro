@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 
+import { images } from '$utils/config';
+
 interface Props {
   class?: string;
   width: number;
@@ -14,6 +16,8 @@ const { class: className, width, height } = Astro.props;
   class:list={[className, 'inline-flex aspect-square overflow-hidden rounded-full']}
   {width}
   {height}
-  src="/avatar.webp"
-  alt="A link to my avatar. The character displayed here is Silver Wolf from the videogame Honkai: Star Rail."
+  src={images.path}
+  alt={images.alt}
+  title={`${images.alt} Click to get back to the home page.`}
+  loading="eager"
 />

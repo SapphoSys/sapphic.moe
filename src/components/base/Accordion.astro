@@ -1,0 +1,89 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  title: string;
+  severity?: 'info' | 'warning' | 'error' | 'success';
+  open?: boolean;
+  disableCollapse?: boolean;
+}
+
+const { title, severity = 'info', open = true, disableCollapse = false } = Astro.props;
+
+const severityConfig = {
+  info: {
+    border: 'border-ctp-blue',
+    background: 'bg-ctp-blue',
+    icon: 'mdi:information',
+  },
+  warning: {
+    border: 'border-ctp-yellow',
+    background: 'bg-ctp-yellow',
+    icon: 'mdi:alert',
+  },
+  error: {
+    border: 'border-ctp-red',
+    background: 'bg-ctp-red',
+    icon: 'mdi:alert-circle',
+  },
+  success: {
+    border: 'border-ctp-green',
+    background: 'bg-ctp-green',
+    icon: 'mdi:check-circle',
+  },
+};
+
+const config = severityConfig[severity];
+---
+
+<div class:list={['rounded-md border-2 bg-ctp-mantle', config.border]}>
+  <details class="group" open={disableCollapse || open}>
+    <summary
+      class:list={[
+        'flex items-center gap-2 p-3 font-semibold text-ctp-base',
+        config.background,
+        disableCollapse ? 'pointer-events-none' : 'cursor-pointer',
+      ]}
+      data-disabled={disableCollapse}
+    >
+      <Icon name={config.icon} size={25} aria-hidden="true" class="!text-ctp-base" />
+
+      <span class="!text-ctp-base">{title}</span>
+
+      {
+        !disableCollapse && (
+          <Icon
+            name="mdi:chevron-down"
+            size={25}
+            class="ml-auto !text-ctp-base group-open:rotate-180 motion-safe:transition-transform motion-safe:duration-200"
+            aria-hidden="true"
+          />
+        )
+      }
+    </summary>
+
+    <div
+      data-accordion-content
+      class="overflow-hidden motion-safe:transition-[height] motion-safe:duration-200 motion-safe:ease-in-out"
+    >
+      <div
+        class="break-words px-4 py-3 prose-p:my-3 prose-p:text-ctp-text first:prose-p:my-0 last:prose-p:my-0 prose-figure:my-0"
+      >
+        <slot />
+      </div>
+    </div>
+  </details>
+</div>
+
+<style>
+  details > summary {
+    list-style: none;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
+
+<script>
+  import '$scripts/accordion';
+</script>

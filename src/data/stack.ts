@@ -1,0 +1,48 @@
+import { technologies } from '$data/technologies';
+import type { Technology } from '$types/stack';
+
+export const learnedStack = [
+  technologies.typescript,
+  technologies.javascript,
+  technologies.python,
+  technologies.nodejs,
+  technologies.bun,
+  technologies.react,
+  technologies.astro,
+  technologies.vite,
+  technologies.htmx,
+  technologies.flydotio,
+  technologies.cloudflareWorkers,
+  technologies.django,
+  technologies.tailwind,
+  technologies.nix,
+  technologies.debian,
+  technologies.tailscale,
+  technologies.caddy,
+  technologies.docker,
+  technologies.git,
+  technologies.postgres,
+  technologies.sqlite,
+] satisfies Technology[];
+
+export const learningStack = [
+  technologies.go,
+  technologies.rust,
+  technologies.kotlin,
+  technologies.csharp,
+  technologies.fsharp,
+  technologies.lua,
+  technologies.deno,
+  technologies.tauri,
+  technologies.svelte,
+  technologies.solid,
+  technologies.bungie,
+  technologies.bluesky,
+  technologies.regex,
+  technologies.bash,
+  technologies.powershell,
+  technologies.kubernetes,
+  technologies.podman,
+  technologies.vim,
+  technologies.neovim,
+] satisfies Technology[];

@@ -1,37 +1,81 @@
 ---
 import { Icon } from 'astro-icon/components';
+
+import { footerLinks } from '$utils/config';
+import { formatDate } from '$utils/helpers/date';
+import { getPackageVersions, getWebsiteVersion } from '$utils/helpers/server';
+
+const { astroVersion, reactVersion } = await getPackageVersions();
+const { name, date, hash, version } = await getWebsiteVersion();
+const hashURL = `https://github.com/SapphoSys/sapphic.moe/commit/${hash}`;
+
+const maxRows = Math.max(...footerLinks.map((c) => c.length));
 ---
 
-<footer class="pt-5" aria-label="footer">
-  <hr class="text-ctp-surface1" />
-  <p class="pt-3">&copy; 2016-{new Date().getFullYear()} Sapphic Angels.</p>
+<footer class="bg-ctp-mantle">
+  <hr class="border text-ctp-surface1" />
 
-  <div class="flex flex-row flex-wrap gap-x-4 gap-y-2 pt-3" aria-label="footer-links">
-    <div class="flex gap-1">
-      <Icon name="mdi:heart" size={20} aria-hidden={true} />
-      <a
-        href="https://ko-fi.com/solelychloe"
-        title="A link to our Ko-fi page, where you can choose to support us with financial means, if you wish."
-        target="_blank"
-      >
-        Support us
-      </a>
+  <div
+    class="mx-auto flex w-full max-w-4xl flex-col gap-8 px-8 py-5 md:flex-row md:items-stretch md:justify-between"
+  >
+    <div class="grid grid-cols-2 gap-2 md:shrink-0 md:grid-cols-2 md:gap-x-8 md:gap-y-1">
+      {
+        Array.from({ length: maxRows }).map((_, rowIndex) => (
+          <Fragment>
+            {footerLinks.map((col) => {
+              const link = col[rowIndex];
+              return link ? (
+                <a
+                  class="flex items-center gap-1 text-lg"
+                  href={link.link}
+                  target={link.new ? '_blank' : undefined}
+                >
+                  <Icon name={link.icon} size={20} aria-hidden={true} />
+
+                  {link.text}
+                </a>
+              ) : (
+                <div />
+              );
+            })}
+          </Fragment>
+        ))
+      }
     </div>
 
-    <div class="flex gap-1">
-      <Icon name="mdi:rss" size={20} aria-hidden={true} />
-      <a href="/rss.xml" title="A link to our RSS feed for our blog articles.">RSS feed</a>
-    </div>
+    <div class="flex flex-col gap-2 text-left text-base md:shrink md:grow-0 md:gap-1 md:text-right">
+      <div class="flex grow flex-col">
+        <div class="flex flex-col">
+          <p>
+            Copyright &copy; 2016-{formatDate(new Date(), 'year')} Sapphic Angels. 🏳️‍⚧️🏳️‍🌈
+          </p>
 
-    <div class="flex gap-1">
-      <Icon name="mdi:source-branch" size={20} aria-hidden={true} />
-      <a
-        href="https://github.com/SapphicMoe/sapphic.moe"
-        title="A link to the source code that houses this website."
-        target="_blank"
-      >
-        Source code
-      </a>
+          <p>
+            Website licensed under <a href="https://opensource.org/licenses/zlib" target="_blank"
+              >zlib/libpng</a
+            >.
+          </p>
+
+          <p>
+            Articles licensed under <a
+              href="https://creativecommons.org/licenses/by-nc/4.0/"
+              target="_blank">CC BY-NC-SA 4.0</a
+            >.
+          </p>
+        </div>
+
+        <div class="flex flex-col pt-5 text-ctp-subtext1">
+          <p class="break-words">
+            <a href="https://github.com/SapphoSys/sapphic.moe" class="font-bold" target="_blank"
+              >{name}</a
+            > v{version} running on Astro {astroVersion} & React {reactVersion}
+          </p>
+
+          <p class="break-words">
+            Updated on {formatDate(date, 'iso')} (<a href={hashURL} target="_blank">{hash}</a>)
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

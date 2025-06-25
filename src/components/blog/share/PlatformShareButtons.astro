@@ -1,0 +1,21 @@
+---
+import ShareButton from '$components/blog/share/ShareButton.astro';
+import { sharePlatforms } from '$data/share';
+
+interface Props {
+  title: string;
+  url: string;
+  buttonClass?: string;
+}
+
+const { title, url, buttonClass = '' } = Astro.props;
+
+const shareParams = {
+  title,
+  url,
+};
+---
+
+<div class="flex flex-wrap items-center gap-4">
+  {sharePlatforms.map((platform) => <ShareButton {platform} params={shareParams} {buttonClass} />)}
+</div>

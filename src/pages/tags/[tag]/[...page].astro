@@ -1,0 +1,53 @@
+---
+import type { GetStaticPaths, GetStaticPathsOptions } from 'astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+
+import Pagination from '$components/blog/Pagination.astro';
+import ArticleList from '$layouts/ArticleList.astro';
+import { compareDates } from '$utils/helpers/date';
+
+interface Props {
+  page: {
+    data: Array<{
+      params: {
+        id: string;
+      };
+      props: CollectionEntry<'articles'>;
+    }>;
+  };
+}
+
+const { page } = Astro.props;
+const { tag } = Astro.params;
+
+const articles = page.data.map((p) => p.props);
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }: GetStaticPathsOptions) => {
+  const articleCollection = await getCollection('articles');
+
+  const sortedArticles = articleCollection.sort((a, b) =>
+    compareDates(b.data.created, a.data.created)
+  );
+
+  const articles = sortedArticles.map((article) => ({
+    params: { id: article.id },
+    props: { ...article },
+  }));
+
+  const tags = Array.from(new Set(sortedArticles.flatMap((article) => article.data.tags)));
+
+  return tags.flatMap((tag) => {
+    return paginate(
+      articles.filter(({ props }) => tag && props.data.tags?.includes(tag)),
+      {
+        params: { tag },
+        pageSize: 10,
+      }
+    );
+  });
+};
+---
+
+<ArticleList {tag} {articles}>
+  <Pagination {page} prevLabel="See newer articles" nextLabel="See more articles" />
+</ArticleList>

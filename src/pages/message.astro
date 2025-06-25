@@ -1,0 +1,81 @@
+---
+export const prerender = false;
+
+import Accordion from '$components/base/Accordion.astro';
+import MessageForm from '$components/message/MessageForm.tsx';
+import Layout from '$layouts/Page.astro';
+import { handleSubmission } from '$utils/forms/message';
+
+let submissionSuccess = false;
+let errorMessage: string | null = null;
+
+if (Astro.request.method === 'POST') {
+  const result = await handleSubmission(Astro.request);
+
+  if (result.success) {
+    Astro.cookies.set('message_success', 'true', {
+      httpOnly: true,
+      path: '/message',
+      maxAge: 60,
+    });
+  } else {
+    Astro.cookies.set('message_error', result.error || 'An unknown error occurred', {
+      httpOnly: true,
+      path: '/message',
+      maxAge: 60,
+    });
+  }
+  return Astro.redirect('/message', 303);
+}
+
+if (Astro.cookies.has('message_success')) {
+  submissionSuccess = true;
+  Astro.cookies.delete('message_success', { path: '/message' });
+}
+
+if (Astro.cookies.has('message_error')) {
+  errorMessage = Astro.cookies.get('message_error')?.value ?? 'An unknown error occurred.';
+  Astro.cookies.delete('message_error', { path: '/message' });
+}
+---
+
+<Layout description="Directly leave us a private message." title="Message" turnstile={true}>
+  <header class="flex flex-col gap-3 pb-5">
+    <h1 class="pt-2 text-4xl font-semibold">Message</h1>
+    <p>Directly leave us a private message.</p>
+  </header>
+
+  {
+    submissionSuccess && (
+      <div class="mb-4">
+        <Accordion title="Success!" severity="success" disableCollapse={true}>
+          <p>Your message was sent.</p>
+          <p>(It might take a while for us to respond back, so please be patient. 😅)</p>
+        </Accordion>
+      </div>
+    )
+  }
+
+  {
+    errorMessage && (
+      <div class="mb-4">
+        <Accordion title="Error" severity="error" disableCollapse={true}>
+          <p>{errorMessage}</p>
+        </Accordion>
+      </div>
+    )
+  }
+  <div class="hidden" data-requires-js>
+    <form class="flex flex-col gap-4" method="POST">
+      <MessageForm client:load />
+      <input type="hidden" name="special" value="" />
+    </form>
+  </div>
+
+  <noscript>
+    <p class="italic text-ctp-subtext1">
+      The message form relies on Cloudflare Turnstile for CAPTCHA verification, which unfortunately
+      won't work because JavaScript is disabled on your end.
+    </p>
+  </noscript>
+</Layout>

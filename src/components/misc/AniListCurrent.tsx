@@ -1,0 +1,90 @@
+import { Icon } from '@iconify/react';
+import { type FC, useEffect, useState } from 'react';
+
+import AnimeCard from '$components/misc/AniListCard.tsx';
+import useAniList from '$hooks/useAniList';
+import { cn } from '$utils/helpers/misc';
+
+export interface CurrentlyWatchingAnimeProps {
+  username: string;
+  limit?: number;
+}
+
+const CurrentlyWatchingAnime: FC<CurrentlyWatchingAnimeProps> = ({ username, limit = 8 }) => {
+  const { data, loading, isRefreshing, error } = useAniList(username, 300000, limit);
+  const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !initialLoadComplete) {
+      setInitialLoadComplete(true);
+    }
+  }, [loading, initialLoadComplete]);
+
+  if (loading && !initialLoadComplete) {
+    return (
+      <div
+        className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-ctp-pink bg-ctp-mantle p-4 text-center"
+        role="status"
+        aria-live="polite"
+      >
+        <Icon
+          icon="line-md:loading-loop"
+          fontSize={30}
+          aria-hidden={true}
+          className="text-ctp-pink"
+        />
+        Loading currently watching anime...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div
+        className="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 text-ctp-mauve dark:border-ctp-pink dark:text-ctp-pink"
+        role="alert"
+        aria-live="assertive"
+      >
+        <div className={cn('animate-fade-in-up')}>Error loading anime data: {error.message}</div>
+      </div>
+    );
+  }
+
+  if (!data?.currentlyWatching || data.currentlyWatching.length === 0) {
+    return (
+      <div
+        className="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 text-ctp-subtext1 dark:border-ctp-pink"
+        role="alert"
+        aria-live="polite"
+      >
+        <div className={cn('animate-fade-in-up')}>No currently watching anime found.</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="not-prose">
+      <div
+        className={cn('grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4', 'animate-fade-in-up')}
+        role="region"
+        aria-label="Currently watching anime"
+      >
+        {data.currentlyWatching.map((anime) => (
+          <AnimeCard key={anime.id} anime={anime} showProgress={true} />
+        ))}
+      </div>
+      {isRefreshing && initialLoadComplete && (
+        <div className="flex justify-center">
+          <Icon
+            icon="line-md:loading-loop"
+            fontSize={20}
+            aria-hidden={true}
+            className="text-ctp-pink motion-reduce:hidden"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CurrentlyWatchingAnime;

@@ -1,42 +1,63 @@
 # syntax = docker/dockerfile:1
 
-# Base image with pnpm setup
-FROM node:20-alpine AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
+# Adjust NODE_VERSION as desired
+ARG NODE_VERSION=22.14.0
+FROM node:${NODE_VERSION}-slim AS base
 
-# Enable corepack to use pnpm
-RUN npm install -g corepack@latest
-RUN corepack enable
-ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+LABEL fly_launch_runtime="Astro"
 
-# Set working directory and copy files
+# Astro app lives here
 WORKDIR /app
+
+# Set production environment
+ENV NODE_ENV="production"
+
+# Install pnpm
+ARG PNPM_VERSION=10.12.1
+RUN npm install -g pnpm@$PNPM_VERSION
+
+# Throw-away build stage to reduce size of final image
+FROM base AS build
+
+# Declare build arguments to receive values from flyctl deploy --build-arg
+ARG COMMIT_HASH
+ARG COMMIT_DATE
+
+# Install packages needed to build node modules
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
+
+# Install node modules
+COPY package.json pnpm-lock.yaml ./
+COPY . .
+RUN pnpm install --frozen-lockfile --shamefully-hoist --prod=false
+
+# Copy application code
 COPY . .
 
-# Build stage
-FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
+RUN echo >> .env && \
+    echo "COMMIT_HASH=${COMMIT_HASH}" >> .env && \
+    echo "COMMIT_DATE=${COMMIT_DATE}" >> .env
+
+# Set environment variables for Astro
 ENV ASTRO_TELEMETRY_DISABLED=1
+
+# Build application
 RUN pnpm run build
 
-# Caddy builder stage for Cloudflare DNS
-FROM caddy:builder-alpine AS caddy-builder
+# Remove development dependencies
+RUN pnpm prune --prod
 
-RUN xcaddy build \
-  --with github.com/caddy-dns/cloudflare \
-  --with github.com/jonaharagon/caddy-umami
+# Final stage for app image
+FROM base
 
-# Final stage using Caddy
-FROM caddy:alpine
+# Copy built application
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 
-# Copy the built Caddy with Cloudflare DNS support
-COPY --from=caddy-builder /usr/bin/caddy /usr/bin/caddy
+ENV PORT=4321
+ENV HOST=0.0.0.0
 
-# Copy built static files to Caddy's serving directory
-COPY --from=build /app/dist /var/www/html
-COPY Caddyfile /Caddyfile
-
-# Expose port and start Caddy
-EXPOSE 8080
-CMD ["caddy", "run", "--config", "/Caddyfile"]
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 4321
+CMD [ "node", "./dist/server/entry.mjs" ]

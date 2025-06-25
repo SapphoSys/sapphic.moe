@@ -1,27 +1,36 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-const { page } = Astro.props;
+const { page, prevLabel = 'See newer entries', nextLabel = 'See more entries' } = Astro.props;
 ---
 
-{
-  page.url.next && (
-    <div class="flex flex-row-reverse pt-2">
-      <Icon size={30} name="mdi:arrow-right" aria-hidden={true} />
-      <a href={page.url.next} title="See more articles">
-        See more articles
+<div class="flex justify-between">
+  {
+    page.url.prev ? (
+      <a
+        href={page.url.prev}
+        title={prevLabel}
+        class="flex items-center gap-x-2 rounded-lg border border-ctp-pink bg-ctp-crust px-3 text-ctp-pink hover:bg-ctp-pink hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out"
+      >
+        <Icon size={20} name="mdi:arrow-left" aria-hidden={true} class="!text-current" />
+        <span class="py-1">{prevLabel}</span>
       </a>
-    </div>
-  )
-}
-
-{
-  page.url.prev && (
-    <div class="flex pt-2">
-      <Icon size={30} name="mdi:arrow-left" aria-hidden={true} />
-      <a href={page.url.prev} title="See newer articles">
-        See newer articles
+    ) : (
+      <div />
+    )
+  }
+  {
+    page.url.next ? (
+      <a
+        href={page.url.next}
+        title={nextLabel}
+        class="flex items-center gap-x-2 rounded-lg border border-ctp-pink bg-ctp-crust px-3 text-ctp-pink hover:bg-ctp-pink hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out"
+      >
+        <span class="py-1">{nextLabel}</span>
+        <Icon size={20} name="mdi:arrow-right" aria-hidden={true} class="!text-current" />
       </a>
-    </div>
-  )
-}
+    ) : (
+      <div />
+    )
+  }
+</div>

@@ -1,0 +1,21 @@
+label {
+  @apply block pb-1 font-semibold;
+}
+
+input + p,
+select + p {
+  @apply pt-2 text-base opacity-80;
+}
+
+input,
+textarea {
+  @apply w-full rounded-md border-2 border-ctp-surface2 border-opacity-60 bg-ctp-base px-4 py-2 focus:border-ctp-mauve focus:outline-none focus:ring-0 motion-safe:transition motion-safe:ease-out dark:focus:border-ctp-pink;
+}
+
+button {
+  @apply flex flex-row items-center gap-2 rounded-lg bg-ctp-mauve px-2.5 py-1.5 text-center font-medium text-ctp-base hover:opacity-80 motion-safe:transition motion-safe:ease-out dark:bg-ctp-pink;
+
+  [data-icon] {
+    @apply text-ctp-base;
+  }
+}

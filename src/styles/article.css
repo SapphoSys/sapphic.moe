@@ -1,35 +1,27 @@
 .article-content {
-  @apply max-w-none;
   @apply text-xl;
-  @apply -mt-5;
-
-  /* ugly fix but whatever */
-  .external-link {
-    @apply text-ctp-pink;
-    @apply select-none;
-  }
+  @apply -mt-3;
 
   :is(h1, h2, h3, p, ul, li, strong, span, figcaption) {
-    @apply text-ctp-text;
+    @apply text-ctp-text dark:text-ctp-text;
   }
 
   figcaption {
     @apply text-center;
   }
 
-  /* Heading links */
   & :is(h1, h2, h3, h4, h5, h6) {
     @apply gap-1;
     @apply flex;
 
     & a {
-      @apply transition delay-[1ms] ease-in;
+      @apply motion-safe:transition motion-safe:delay-[1ms] motion-safe:ease-in;
       @apply opacity-0;
       @apply pl-1;
 
       &:hover {
         @apply font-bold;
-        @apply transition ease-out hover:opacity-60;
+        @apply hover:opacity-60 motion-safe:transition motion-safe:ease-out;
       }
     }
 

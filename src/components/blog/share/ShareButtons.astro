@@ -1,0 +1,24 @@
+---
+import NativeShareButton from '$components/blog/share/NativeShareButton.tsx';
+import PlatformShareButtons from '$components/blog/share/PlatformShareButtons.astro';
+
+const { title, description, articleUrl } = Astro.props;
+
+const shareButtonClasses =
+  'flex items-center justify-center gap-x-1.5 border border-2 ease-out hover:opacity-50 motion-safe:transition text-ctp-mauve dark:text-ctp-pink bg-ctp-mantle';
+---
+
+<div class="not-prose flex flex-row gap-4">
+  <div class="hidden" data-requires-js>
+    <NativeShareButton
+      title={title}
+      text={description}
+      url={articleUrl}
+      buttonClass={shareButtonClasses}
+      client:idle
+      data-umami-event="Native share button"
+    />
+  </div>
+
+  <PlatformShareButtons {title} url={articleUrl} buttonClass={shareButtonClasses} />
+</div>

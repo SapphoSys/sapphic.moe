@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+import { getLatestArticle } from '$utils/helpers/article';
+import { getMinutesRead } from '$utils/helpers/article';
+import { formatDate } from '$utils/helpers/date';
+
+const articles = await getCollection('articles');
+
+const article = await getLatestArticle(articles);
+const { minutesRead } = await getMinutesRead(article);
+---
+
+{
+  article.data && (
+    <div class="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink">
+      <div class="flex flex-row items-center justify-between text-center">
+        <h2 class="text-base text-ctp-subtext1">Latest article</h2>
+        <a href="/articles" title="View all articles" aria-label="View all articles">
+          <Icon name="mdi:pencil" size={24} aria-hidden={true} />
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <a href={`/article/${article.id}`} class="m-0 p-0 text-2xl font-semibold">
+          {article.data.title}
+        </a>
+
+        <div class="flex flex-row gap-x-3">
+          <time
+            class="flex flex-row items-center gap-x-1.5"
+            datetime={formatDate(article.data.created)}
+          >
+            <Icon size={20} name="mdi:calendar" aria-hidden={true} />
+            {formatDate(article.data.created)}
+          </time>
+
+          <div class="flex flex-row items-center gap-x-1.5">
+            <Icon size={20} name="mdi:clock-outline" aria-hidden={true} />
+            {minutesRead}
+          </div>
+        </div>
+
+        <p class="m-0 p-0 text-base text-ctp-subtext1">{article.data.description}</p>
+      </div>
+    </div>
+  )
+}

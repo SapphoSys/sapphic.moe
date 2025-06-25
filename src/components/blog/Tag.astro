@@ -6,6 +6,10 @@ interface Props {
 const { tag } = Astro.props;
 ---
 
-<span class="mr-1">
-  <a href={`/articles/tags/${tag}`} title={`Article tagged with ${tag}`}>#{tag}</a>
-</span>
+<a
+  href={`/tags/${tag}`}
+  title={`Article tagged with ${tag}`}
+  class="flex flex-row items-center rounded-lg border border-ctp-mauve bg-ctp-crust px-3 text-ctp-mauve hover:bg-ctp-mauve hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out dark:border-ctp-pink dark:text-ctp-pink dark:hover:bg-ctp-pink"
+>
+  #{tag}
+</a>

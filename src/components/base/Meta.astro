@@ -1,0 +1,66 @@
+---
+import { SEO } from 'astro-seo';
+
+import { images, platforms, rss, site } from '$utils/config';
+import { processOgImage } from '$utils/helpers/image';
+
+interface Props {
+  description?: string;
+  title: string;
+  created?: string;
+  ogImage?: {
+    src?: string;
+    alt?: string;
+  };
+}
+
+const { description, ogImage, created, title } = Astro.props;
+
+const siteName = Astro.site?.hostname;
+const isArticle = Astro.url.pathname.startsWith('/article/');
+
+const processedOgImage = processOgImage(ogImage, images.path, images.alt, Astro.site);
+const processedTitle = Astro.url.pathname === '/' ? site.name : `${title} | ${site.name}`;
+---
+
+<SEO
+  title={processedTitle}
+  {description}
+  charset="UTF-8"
+  openGraph={{
+    basic: {
+      title,
+      type: 'website',
+      image: processedOgImage.src,
+    },
+    optional: {
+      siteName: ogImage ? site.name : siteName,
+      description,
+    },
+    article: {
+      publishedTime: created,
+    },
+    image: {
+      alt: processedOgImage.alt,
+    },
+  }}
+  twitter={{
+    card: isArticle ? 'summary_large_image' : 'summary',
+    creator: platforms.twitter,
+    description,
+    image: processedOgImage.src,
+    imageAlt: processedOgImage.alt,
+  }}
+  extend={{
+    meta: [
+      { name: 'darkreader-lock' },
+      { name: 'viewport', content: 'width=device-width, minimum-scale=1' },
+      { name: 'generator', content: Astro.generator },
+    ],
+    link: [
+      { rel: 'alternate', href: rss.feed, type: 'application/rss+xml', title: rss.title },
+      { rel: 'me', href: platforms.mastodon },
+      { rel: 'sitemap', href: '/sitemap-index.xml' },
+    ],
+  }}
+/>

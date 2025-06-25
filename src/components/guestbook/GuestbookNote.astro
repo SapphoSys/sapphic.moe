@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import { GUESTBOOK_VALID_COLORS } from '$utils/constants';
+import { formatDate } from '$utils/helpers/date';
+
+interface Props {
+  id: number;
+  name: string;
+  message: string;
+  url: string | null;
+  color?: string;
+  createdAt: Date;
+}
+
+const { id, name, message, url, color = 'pink', createdAt } = Astro.props;
+
+const borderColor = GUESTBOOK_VALID_COLORS.includes(color) ? color : 'pink';
+const borderClass = `border-ctp-${borderColor}`;
+const textClass = `text-ctp-${borderColor}`;
+---
+
+<div class:list={['flex flex-col gap-2 rounded-md border-2 bg-ctp-mantle p-4', borderClass]}>
+  <div class="flex grow flex-row items-center justify-between text-center">
+    <h2 class="text-xl font-bold text-ctp-subtext1">{name}</h2>
+
+    {
+      url && (
+        <a
+          href={url}
+          class="items-center justify-center text-center"
+          target="_blank"
+          title={`A link to ${name}'s website.`}
+          aria-label={`A link to ${name}'s website.`}
+          data-custom-icon
+        >
+          <Icon name="mdi:link-variant" size={24} class={textClass} aria-hidden={true} />
+        </a>
+      )
+    }
+  </div>
+
+  <p class="break-words text-base">{message}</p>
+
+  <div class="flex flex-row items-center justify-between">
+    <time
+      class="text-sm text-ctp-subtext0"
+      datetime={formatDate(createdAt, 'iso')}
+      title={`Signed on ${formatDate(createdAt, 'iso')}`}
+    >
+      {formatDate(createdAt, 'relative')}
+    </time>
+
+    <a href={`/guestbook/report/${id}`} title="Report this message" data-custom-icon>
+      <Icon name="mdi:flag" size={24} class={textClass} />
+    </a>
+  </div>
+</div>

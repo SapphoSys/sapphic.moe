@@ -1,35 +1,11 @@
 ---
+import Grid from '$components/home/Grid.astro';
+import Header from '$components/home/Header.astro';
 import Layout from '$layouts/Page.astro';
-// import Donation from '$components/home/Donation.astro';
-import Friends from '$components/home/Friends.astro';
 ---
 
-<Layout pageTitle="Sapphic Angels">
-  <section class="flex flex-col gap-y-5 pt-3" aria-label="introduction">
-    <h1 class="title">Hello!</h1>
+<Layout>
+  <Header />
 
-    <p>
-      We're the Sapphic Angels system. We're software engineers with a fascination for system
-      administration and messing about with pieces of technology. Feel free to look around to get to
-      know us better! ^w^
-    </p>
-  </section>
-
-  <section class="pt-3">
-    <div
-      class="flex flex-col gap-5 rounded-md border border-ctp-mauve bg-ctp-base p-5 dark:border-ctp-pink"
-    >
-      <p>⚠️ We're currently rebuilding our site, so some things may break!</p>
-    </div>
-  </section>
-
-  <!-- <section class="pt-3">
-    <Donation />
-  </section> -->
-
-  <section class="pt-5 motion-reduce:hidden" aria-hidden={true}>
-    <h1 class="title">Friends</h1>
-
-    <Friends />
-  </section>
+  <Grid />
 </Layout>

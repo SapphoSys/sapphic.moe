@@ -1,0 +1,14 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+import TableOfContents from '$components/blog/TableOfContents.tsx';
+
+interface Props {
+  headings: MarkdownHeading[];
+  open?: boolean;
+}
+
+const { headings, open = false } = Astro.props;
+---
+
+<TableOfContents client:visible headings={headings} initialOpen={open} />

@@ -1,0 +1,63 @@
+---
+export const prerender = false;
+
+import Accordion from '$components/base/Accordion.astro';
+import GuestbookForm from '$components/guestbook/GuestbookForm.tsx';
+import Layout from '$layouts/Page.astro';
+import { handleSubmission } from '$utils/forms/guestbook';
+
+let errorMessage = null;
+
+if (Astro.request.method === 'POST') {
+  const result = await handleSubmission(Astro.request);
+
+  if (result.success) {
+    Astro.cookies.set('guestbook_success', 'true', {
+      httpOnly: true,
+      path: '/guestbook',
+      maxAge: 60,
+    });
+    return Astro.redirect('/guestbook', 303);
+  } else {
+    Astro.cookies.set('guestbook_error', result.error || 'An error occurred', {
+      httpOnly: true,
+      path: '/guestbook',
+      maxAge: 60,
+    });
+    return Astro.redirect('/guestbook', 303);
+  }
+}
+---
+
+<Layout description="Sign the guestbook" title="Sign Guestbook" turnstile={true}>
+  <header class="flex flex-col gap-3 pb-5">
+    <h1 class="pt-2 text-4xl font-semibold">Sign Guestbook</h1>
+    <p>Leave your mark in the guestbook.</p>
+  </header>
+
+  {
+    errorMessage && (
+      <div class="mb-4">
+        <Accordion title="Error" severity="error" disableCollapse={true}>
+          <p>{errorMessage}</p>
+        </Accordion>
+      </div>
+    )
+  }
+
+  <div class="hidden" data-requires-js>
+    <div class="flex flex-col gap-y-6">
+      <form class="flex flex-col gap-4" method="POST">
+        <GuestbookForm client:load />
+        <input type="hidden" name="special" value="" />
+      </form>
+    </div>
+  </div>
+
+  <noscript>
+    <p class="italic text-ctp-subtext1">
+      Guestbook relies on Cloudflare Turnstile for CAPTCHA verification, which unfortunately won't
+      work because JavaScript is disabled on your end.
+    </p>
+  </noscript>
+</Layout>

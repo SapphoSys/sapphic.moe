@@ -1,54 +1,42 @@
 ---
+import { type CollectionEntry } from 'astro:content';
+
+import ArticleCard from '$components/blog/ArticleCard.astro';
 import Layout from '$layouts/Page.astro';
+import { getMinutesRead } from '$utils/helpers/article';
+import { compareDates } from '$utils/helpers/date';
 
-import BlogCard from '$components/blog/Card.astro';
-
-import { Icon } from 'astro-icon/components';
-import { type CollectionEntry, render, getEntry } from 'astro:content';
 interface Props {
   tag?: string | number;
   articles: CollectionEntry<'articles'>[];
 }
 
 const { tag, articles } = Astro.props;
+
+const title = tag ? `Articles tagged with #${tag}` : 'Articles';
+const description = tag
+  ? `${articles.length} article${articles.length > 1 ? 's' : ''} found.`
+  : 'A personal blog, comprising of whatever stuff we feel like rambling about.';
 ---
 
-<Layout
-  description="A personal blog, comprising of whatever stuff we feel like rambling about."
-  pageTitle="Articles"
-  title="Articles | Sapphic Angels"
->
+<Layout {title} {description}>
   <header class="flex flex-col gap-3 pb-5">
-    <h1 class="pt-2 text-4xl font-semibold">Articles</h1>
-    <p>A personal blog, comprising of whatever stuff we feel like rambling about.</p>
-
-    {
-      tag && (
-        <div class="flex flex-row flex-wrap gap-x-1">
-          <Icon size={25} name="mdi:filter-cog" aria-hidden={true} />
-          <span>
-            Showing <span class="font-bold">{tag}</span> articles.
-          </span>
-          <a href="/articles">[Close]</a>
-        </div>
-      )
-    }
+    <h1 class="pt-2 text-4xl font-semibold">{title}</h1>
+    <p>{description}</p>
   </header>
 
-  {
-    articles
-      .filter(({ data }) => !data.draft)
-      .sort((a, b) => new Date(b.data.created).valueOf() - new Date(a.data.created).valueOf())
-      .map(async ({ data, id }) => {
-        const entry = await getEntry('articles', id!)!;
+  <div class="flex flex-col gap-5">
+    {
+      articles
+        .filter(({ data }) => !data.draft)
+        .sort((a, b) => compareDates(b.data.created, a.data.created))
+        .map(async (article) => {
+          const { minutesRead } = await getMinutesRead(article);
 
-        const {
-          remarkPluginFrontmatter: { minutesRead },
-        } = await render(entry);
-
-        return <BlogCard {data} {id} {minutesRead} />;
-      })
-  }
+          return <ArticleCard {...article.data} id={article.id} {minutesRead} />;
+        })
+    }
+  </div>
 
   <slot />
 </Layout>

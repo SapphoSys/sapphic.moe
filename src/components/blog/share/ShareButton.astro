@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import type { ShareButtonProps } from '$types/share';
+
+type Props = ShareButtonProps;
+
+const { platform, params, buttonClass = '' } = Astro.props;
+
+const commonButtonClasses =
+  buttonClass ||
+  'flex items-center justify-center border ease-out hover:opacity-50 motion-safe:transition';
+
+const shareUrl = platform.url(params);
+---
+
+<a
+  href={shareUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={[commonButtonClasses, 'rounded-md border-2 px-3 py-2.5', `border-${platform.color}`]}
+  aria-label={`Share on ${platform.name}`}
+  title={`Share on ${platform.name}`}
+  data-umami-event={`Share on ${platform.name}`}
+  data-custom-icon
+>
+  {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+  <Icon size={25} name={platform.icon} class={`text-${platform.color}`} aria-hidden={true} />
+</a>

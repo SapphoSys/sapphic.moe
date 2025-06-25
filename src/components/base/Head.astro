@@ -1,11 +1,13 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import LoadingIndicator from 'astro-loading-indicator/component';
 
-import HeadMeta from '$components/base/HeadMeta.astro';
+import Meta from '$components/base/Meta.astro';
+import { analytics } from '$utils/config';
+import { isProduction } from '$utils/helpers/misc';
 
 interface Props {
   description?: string;
-  pageTitle: string;
   title: string;
   created?: string;
   ogImage?: {
@@ -14,12 +16,27 @@ interface Props {
   };
 }
 
-const { description, pageTitle, title, created, ogImage } = Astro.props;
+const { description, title, created, ogImage } = Astro.props;
 ---
 
 <head>
-  <HeadMeta {description} {pageTitle} {title} {created} {ogImage} />
+  <Meta {description} {title} {created} {ogImage} />
   <ClientRouter />
+
+  {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+  <LoadingIndicator color="" class="loading-indicator" />
+
+  {
+    isProduction && (
+      <script
+        is:inline
+        defer
+        src={analytics.script}
+        data-website-id={analytics.websiteId}
+        data-astro-rerun
+      />
+    )
+  }
 
   <slot />
 </head>

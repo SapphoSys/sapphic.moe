@@ -1,7 +1,9 @@
 ---
-import ArticleLayout from '$layouts/Article.astro';
+import { type CollectionEntry, getCollection, getEntry, render } from 'astro:content';
 
-import { getCollection, type CollectionEntry, render, getEntry } from 'astro:content';
+import Image from '$components/blog/Image.astro';
+import ArticleLayout from '$layouts/Article.astro';
+import { getMinutesRead } from '$utils/helpers/article';
 
 interface Props {
   article: CollectionEntry<'articles'>;
@@ -22,12 +24,11 @@ const {
 } = Astro.props;
 
 const entry = await getEntry('articles', id)!;
-const {
-  Content,
-  remarkPluginFrontmatter: { minutesRead },
-} = await render(entry);
+
+const { minutesRead } = await getMinutesRead(entry);
+const { Content, headings } = await render(entry);
 ---
 
-<ArticleLayout {...article.data} {id} {minutesRead}>
-  <Content />
+<ArticleLayout {...article.data} {id} minutesRead={minutesRead} {headings} fullWidth={true}>
+  <Content components={{ img: Image }} />
 </ArticleLayout>

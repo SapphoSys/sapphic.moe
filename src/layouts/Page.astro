@@ -1,45 +1,60 @@
 ---
-import { slide } from 'astro:transitions';
-
 import Footer from '$components/base/Footer.astro';
 import Head from '$components/base/Head.astro';
 import NavBar from '$components/base/NavBar.astro';
+import { layoutTransition } from '$utils/animation';
+import { site } from '$utils/config';
 
 import '@fontsource/atkinson-hyperlegible/400.css';
+import '@fontsource/iosevka/400.css';
 
 interface Props {
   description?: string;
-  pageTitle: string;
   title?: string;
   created?: string;
   ogImage?: {
     src?: string;
     alt?: string;
   };
+  turnstile?: boolean;
+  fullWidth?: boolean;
 }
 
 const {
-  description = 'Software engineer, sysadmin, community manager.',
-  pageTitle,
-  title = 'Sapphic Angels',
+  description = site.description,
+  title = site.name,
   created,
   ogImage,
+  turnstile,
+  fullWidth = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html class="flex flex-col" lang="en">
-  <Head {description} {pageTitle} {title} {created} {ogImage}>
+<html
+  class="flex flex-col scroll-smooth"
+  lang="en"
+  transition:name="root"
+  transition:animate="none"
+>
+  <Head {description} {title} {created} {ogImage}>
     <slot name="head" />
+    {
+      turnstile && (
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline />
+      )
+    }
   </Head>
 
-  <body class="flex flex-col text-xl lg:self-center">
+  <body class="flex min-h-screen flex-col text-xl">
     <NavBar />
 
     <main
-      class="flex flex-col gap-2"
-      aria-label="content"
-      transition:animate={slide({ duration: '0.36s' })}
+      class:list={[
+        'w-full flex-grow py-8',
+        !fullWidth && 'mx-auto flex max-w-4xl flex-col gap-2 px-8',
+      ]}
+      transition:animate={layoutTransition}
     >
       <slot />
     </main>
@@ -49,19 +64,109 @@ const {
     <style is:global>
       a,
       button {
-        @apply text-ctp-mauve transition ease-out hover:underline hover:opacity-50 dark:text-ctp-pink;
+        @apply w-fit rounded-full text-ctp-mauve ease-out hover:underline hover:opacity-50 motion-safe:transition dark:text-ctp-pink;
+        @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-ctp-mauve focus-visible:ring-offset-2 focus-visible:ring-offset-ctp-base dark:focus-visible:ring-ctp-pink;
       }
 
       body {
         @apply font-body;
         @apply ctp-latte bg-ctp-base text-ctp-text dark:ctp-mocha selection:bg-ctp-mauve selection:text-ctp-crust dark:bg-ctp-base dark:selection:bg-ctp-pink;
-        @apply w-auto px-8 py-14 sm:lg:w-[40em];
       }
 
-      [data-icon] {
-        @apply mt-1;
+      .loading-indicator {
+        @apply bg-ctp-mauve dark:bg-ctp-pink;
+      }
+
+      [data-icon]:not([data-custom-icon] > [data-icon]) {
         @apply text-ctp-mauve dark:text-ctp-pink;
       }
+
+      @keyframes fadeOutUp {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeOutDown {
+        from {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        to {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-16px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeInZoom {
+        from {
+          opacity: 0;
+          transform: scale(0.97);
+        }
+
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fadeOutZoom {
+        from {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+        to {
+          opacity: 0;
+          transform: scale(1.02);
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .animate-fade-in-up {
+          animation-name: fadeInUp;
+          animation-duration: 0.4s;
+          animation-timing-function: ease-out;
+          animation-delay: 0s;
+          animation-fill-mode: backwards;
+          animation-iteration-count: 1;
+        }
+      }
     </style>
+
+    <script>
+      import '$scripts/init';
+    </script>
   </body>
 </html>

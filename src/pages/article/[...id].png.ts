@@ -1,24 +1,21 @@
-import type { APIContext } from 'astro';
-import type { ReactNode } from 'react';
-
-import { html } from 'satori-html';
-import { Transformer } from '@napi-rs/image';
-import { getCollection } from 'astro:content';
-import { format } from 'date-fns';
-
-import HTMLTemplate from '$components/blog/OGImage.astro';
-
 import { getContainerRenderer } from '@astrojs/mdx';
-import { loadRenderers } from 'astro:container';
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
-
-import satori from 'satori';
 import Atkinson from '@fontsource/atkinson-hyperlegible/files/atkinson-hyperlegible-latin-400-normal.woff?arraybuffer';
+import { Transformer } from '@napi-rs/image';
+import type { APIContext } from 'astro';
+import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { loadRenderers } from 'astro:container';
+import { getCollection, getEntry } from 'astro:content';
+import { Buffer } from 'buffer';
+import type { ReactNode } from 'react';
+import satori from 'satori';
+import { html } from 'satori-html';
 
-const dimensions = {
-  width: 1200,
-  height: 630,
-};
+import HTMLTemplate from '$components/blog/OpenGraphTemplate.astro';
+import { images } from '$utils/config';
+import { getMinutesRead } from '$utils/helpers/article';
+import { formatDate } from '$utils/helpers/date';
+
+const { width, height } = images.openGraph.dimensions;
 
 interface Props {
   title: string;
@@ -45,7 +42,12 @@ export const getStaticPaths = async () => {
 
 export const GET = async (context: APIContext) => {
   const { title, description, created } = context.props as Props;
-  const createdAt = format(new Date(created), 'MMMM d, yyyy');
+  const createdAt = formatDate(created);
+
+  const entry = await getEntry('articles', context.params.id!);
+  if (!entry) return new Response('Not Found', { status: 404 });
+
+  const { minutesRead } = await getMinutesRead(entry);
 
   const container = await AstroContainer.create({
     renderers: await loadRenderers([getContainerRenderer()]),
@@ -56,6 +58,7 @@ export const GET = async (context: APIContext) => {
       title,
       description,
       created: createdAt,
+      minutesRead,
     },
   });
 
@@ -69,10 +72,10 @@ export const GET = async (context: APIContext) => {
         style: 'normal',
       },
     ],
-    ...dimensions,
+    ...images.openGraph.dimensions,
   });
 
-  const image = await Transformer.fromSvg(svg).crop(0, 0, 1200, 630).png();
+  const image = await Transformer.fromSvg(svg).crop(0, 0, width, height).png();
 
   return new Response(image, {
     headers: {

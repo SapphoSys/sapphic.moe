@@ -1,0 +1,131 @@
+.tooltip-container {
+  @apply absolute right-6 top-4 z-[1000];
+}
+
+[data-rmiz-btn-zoom],
+[data-rmiz-btn-unzoom] {
+  @apply bg-ctp-mantle/80 hover:bg-ctp-mantle motion-safe:transition-colors;
+  @apply border-2 border-ctp-mauve dark:border-ctp-pink;
+  @apply shadow-lg;
+  @apply focus-visible:text-ctp-pink focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-transparent;
+  @apply h-10 w-10;
+  @apply rounded-full;
+  @apply m-0 p-2;
+  @apply touch-manipulation;
+  appearance: none;
+}
+[data-rmiz-btn-zoom]:not(:focus):not(:active) {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.tooltip {
+  @apply absolute left-auto right-[100%] top-1 ml-4 mr-3 w-max min-w-32 break-words rounded-lg bg-ctp-crust p-3 text-ctp-text opacity-0;
+
+  transform: translateX(8px);
+  max-width: min(320px, 60vw);
+  white-space: normal;
+  line-height: 1.4;
+  @apply motion-safe:transition motion-safe:duration-200 motion-safe:ease-in-out;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip.visible {
+  @apply translate-x-0 opacity-100;
+}
+
+@media (max-width: 640px) {
+  .tooltip {
+    max-width: 280px;
+    margin-left: 8px;
+    right: calc(100% + 8px);
+  }
+}
+
+.tooltip::after {
+  @apply absolute -right-2 top-3 border-solid border-ctp-mantle;
+  content: '';
+  transform: none;
+  border-width: 8px 0 8px 8px;
+}
+
+.info-button {
+  @apply select-none;
+}
+
+[data-rmiz-ghost] {
+  @apply absolute;
+  @apply pointer-events-none;
+}
+
+[data-rmiz-content='found'] img,
+[data-rmiz-content='found'] svg,
+[data-rmiz-content='found'] [role='img'],
+[data-rmiz-content='found'] [data-zoom] {
+  @apply cursor-zoom-in;
+}
+
+[data-rmiz-modal]::backdrop {
+  @apply hidden;
+}
+
+[data-rmiz-modal][open] {
+  @apply fixed;
+  @apply h-screen w-screen;
+  @apply max-h-none max-w-none;
+  @apply m-0 border-0 p-0;
+  @apply cursor-zoom-out;
+  @apply overflow-hidden;
+  background: transparent;
+}
+
+[data-rmiz-modal-overlay] {
+  @apply fixed;
+  @apply inset-0;
+
+  transition: background-color 0.3s;
+}
+
+[data-rmiz-modal-overlay='hidden'] {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+[data-rmiz-modal-overlay='visible'] {
+  @apply bg-ctp-mantle/80 backdrop-blur-sm transition duration-300 ease-in-out;
+}
+
+[data-rmiz-modal-content] {
+  @apply relative h-full w-full;
+}
+
+[data-rmiz-modal-img] {
+  @apply absolute origin-top-left cursor-zoom-out select-none;
+  image-rendering: high-quality;
+  transition: transform 0.3s;
+
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  [data-rmiz-modal-overlay] {
+    transition: all 0.01s !important;
+  }
+
+  [data-rmiz-modal-img] {
+    transition: all 0.01s !important;
+  }
+}

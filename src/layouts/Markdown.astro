@@ -1,24 +1,86 @@
 ---
-import Layout from '$layouts/Page.astro';
 
-import '@fontsource/iosevka/400.css';
+import type { MarkdownHeading } from 'astro';
+
+import ToC from '$components/blog/ToC.astro';
+import Layout from '$layouts/Page.astro';
+import { layoutTransition } from '$utils/animation';
+
 import '$styles/article.css';
 
 interface Props {
   title: string;
   description?: string;
+  headings?: MarkdownHeading[];
+  fullWidth?: boolean;
+  showToc?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, headings, fullWidth = false, showToc = true } = Astro.props;
+const hasTableOfContents = headings && headings.length > 0 && showToc;
 ---
 
-<Layout {description} pageTitle={title} title={`${title} | Sapphic Angels`}>
-  <header class="flex flex-col">
-    <h1 class="py-2 text-4xl font-semibold">{title}</h1>
-    <p>{description}</p>
-  </header>
+<Layout {description} {title} {fullWidth}>
+  <div>
+    <header class:list={['mx-auto flex max-w-4xl flex-col gap-4', fullWidth && 'px-8']}>
+      <div class="flex flex-col gap-2">
+        <h1
+          class="text-4xl font-semibold"
+          transition:name={`page-${title}-title`}
+          transition:animate={layoutTransition}
+        >
+          {title}
+        </h1>
 
-  <section class="article-content prose pt-10 dark:prose-invert">
-    <slot />
-  </section>
+        {
+          description && (
+            <p
+              class="transition duration-150 ease-in-out"
+              transition:name={`page-${title}-description`}
+              transition:animate={layoutTransition}
+            >
+              {description}
+            </p>
+          )
+        }
+      </div>
+    </header>
+
+    <div
+      class:list={[
+        'mx-auto max-w-4xl pt-6',
+        fullWidth &&
+          'px-8 2xl:container 2xl:grid 2xl:max-w-none 2xl:grid-cols-[minmax(300px,1fr),minmax(0,65ch),1fr] 2xl:items-start 2xl:gap-10',
+      ]}
+    >
+      {
+        hasTableOfContents && fullWidth && (
+          <aside class="sticky top-8 hidden max-h-screen w-fit 2xl:col-start-1 2xl:block 2xl:pr-8">
+            <ToC {headings} />
+          </aside>
+        )
+      }
+
+      <section
+        class:list={[
+          'article-content prose break-words pt-3 dark:prose-invert',
+          fullWidth && '2xl:col-start-2 2xl:col-end-3 2xl:pl-1.5',
+        ]}
+      >
+        <slot />
+      </section>
+    </div>
+  </div>
 </Layout>
+
+<style is:global>
+  .article-content {
+    :is(h2) {
+      @apply mb-3;
+    }
+
+    :is(h1, h2, h3) {
+      @apply scroll-mt-24;
+    }
+  }
+</style>

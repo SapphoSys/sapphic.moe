@@ -9,11 +9,14 @@
       "~/*": ["src/*"],
       "$assets/*": ["src/assets/*"],
       "$components/*": ["src/components/*"],
+      "$data/*": ["src/data/*"],
+      "$hooks/*": ["src/hooks/*"],
       "$layouts/*": ["src/layouts/*"],
+      "$plugins/*": ["plugins/*"],
+      "$scripts/*": ["src/scripts/*"],
       "$styles/*": ["src/styles/*"],
-      "$typings/*": ["src/typings/*"],
-      "$utils/*": ["src/utils/*"],
-      "$config": ["src/site.config.ts"]
+      "$types/*": ["src/types/*"],
+      "$utils/*": ["src/utils/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

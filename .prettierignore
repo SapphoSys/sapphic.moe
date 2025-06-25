@@ -21,3 +21,5 @@ pnpm-lock.yaml
 
 *.md
 *.mdx
+
+.dockerignore

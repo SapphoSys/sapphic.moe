@@ -8,24 +8,18 @@ interface Props extends HTMLAttributes<'a'> {
 
 const { text, href, class: className, ...props } = Astro.props;
 
-let isActive: boolean;
-
-if (!href) {
-  isActive = false;
-} else if (href === '/') {
-  isActive = href === Astro.url.pathname;
-} else if (Astro.url.pathname.includes('/article')) {
-  isActive = href === '/articles';
-} else {
-  isActive = Astro.url.pathname.includes(typeof href === 'string' ? href : href.href);
-}
+const isActive = !href
+  ? false
+  : Astro.url.pathname.includes('/article')
+    ? href === '/articles'
+    : Astro.url.pathname.includes(typeof href === 'string' ? href : href.href);
 ---
 
 <a
   class:list={[className, { 'font-extrabold underline': isActive }]}
   {href}
   {...props}
-  title={`${text} page`}
+  aria-label={`${text} page`}
 >
   <slot />
   {text}

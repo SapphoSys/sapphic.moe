@@ -1,6 +1,6 @@
 ---
-title: Using Cloudflare R2 as your primary storage on Owncloud
-description: A guide on how to set up Cloudflare R2 on Owncloud and use it as your storage.
+title: Using Cloudflare R2 as your primary storage on ownCloud
+description: A guide on how to set up Cloudflare R2 on ownCloud and use it as your storage.
 created: '2023-04-02'
 modified: '2024-03-24'
 tags:
@@ -10,34 +10,36 @@ comments: true
 ---
 ## Introduction
 
-We have a compute instance that is running [Owncloud](https://owncloud.com), which we use to backup our files and whatnot. While we were configuring the instance and uploading our files, we quickly realized that our instance's storage is very limited and did not have enough space to actually house all of our potential future backups.
+We have a compute instance that is running [ownCloud](https://owncloud.com), which we use to backup our files and whatnot. While we were configuring the instance and uploading our files, we quickly realized that our instance's storage is very limited and did not have enough space to actually house all of our potential future backups.
 
-But then we had an idea: what if we could hook up [Cloudflare's R2 service](https://www.cloudflare.com/products/r2/) to Owncloud?
+But then we had an idea: what if we could hook up [Cloudflare's R2 service](https://www.cloudflare.com/products/r2/) to ownCloud?
 
 Stick with us as we show you how to do exactly that in this article.
 
-## Table of contents
-
 ## Preamble
 
-**💡 This guide assumes you're running an instance of Owncloud on a Docker container using docker-compose.**
+<Accordion title="Notice" severity="info">
+This guide assumes you're running an instance of ownCloud on a Docker container using docker-compose.
+</Accordion>
 
-If you don't have an instance of Owncloud running on Docker, follow these steps:
+If you don't have an instance of ownCloud running on Docker, follow these steps:
 
 * You'll need to install Docker first. The official Docker Docs page provides [a guide](https://docs.docker.com/engine/install/#server) on how to install Docker on just about every system.
 
-* Then, head over to Owncloud's [documentation page](https://doc.owncloud.com/server/10.12/admin_manual/installation/docker) and install Owncloud on a Docker container.
+* Then, head over to ownCloud's [documentation page](https://doc.owncloud.com/server/10.12/admin_manual/installation/docker) and install ownCloud on a Docker container.
 
 ## Creating a bucket
 
 Go to your [Cloudflare dashboard](https://dash.cloudflare.com) and navigate to the R2 page. Then click on the **Create bucket**
 button.
 
-**💡 When creating a bucket, make sure you give this bucket a unique name because you won't be able to change it afterwards!**
+<Accordion title="Warning" severity="warning">
+When creating a bucket, make sure you give this bucket a unique name because you won't be able to change it afterwards!
+</Accordion>
 
 For the purposes of this guide, we'll stick with the bucket name `owncloud-instance`.
 
-![The unique name for your Cloudflare R2 bucket.](https://elixi.re/i/eq5h5.png "The unique name for your Cloudflare R2 bucket.")
+![The unique name for your Cloudflare R2 bucket.](/creating-a-bucket.png "The unique name for your Cloudflare R2 bucket.")
 
 Once you're done with that, head back to the R2 page, click on the **Manage R2 API Tokens** link and click on the **Create API token** button.
 
@@ -55,29 +57,33 @@ When you're done, click on the **Create API Token** button.
 
 You'll be able to see your **Access Key ID** and **Secret Access Key** values here. Keep them somewhere safe, as you will not be able to see them again!
 
-![The R2 API token being successfully created with the "Access Key ID" and "Secret Access Key" values provided.](https://elixi.re/i/3rlfx.png "The R2 API token being successfully created with the \"Access Key ID\" and \"Secret Access Key\" values provided.")
+![The R2 API token being successfully created with the "Access Key ID" and "Secret Access Key" values provided.](/creating-an-api-token.png "The R2 API token being successfully created with the \"Access Key ID\" and \"Secret Access Key\" values provided.")
 
-## Installing the S3 extension for Owncloud
+## Installing the S3 extension for ownCloud
 
-Once you're done creating an R2 bucket, head over to your Owncloud admin dashboard.
+Once you're done creating an R2 bucket, head over to your ownCloud admin dashboard.
 
 Click on the menu bar located in the upper left corner, and select the **Market** tab.
 
-![The Market tab on your Owncloud instance.](https://elixi.re/i/7zakj.png "The Market tab on your Owncloud instance.")
+![The Market tab on your ownCloud instance.](/market-tab.png "The Market tab on your ownCloud instance.")
 
 Scroll down until you find the **S3 Primary Object Storage** extension, and install it.
 
-![The S3 Primary Object Storage extension on the Owncloud Marketplace.](https://elixi.re/i/rnmm8.png "The S3 Primary Object Storage extension on the Owncloud Marketplace.")
+![The S3 Primary Object Storage extension on the ownCloud Marketplace.](/s3-extension.png "The S3 Primary Object Storage extension on the ownCloud Marketplace.")
 
-**💡 Note, you'll want this extension and not the extension called "External Storage: S3"!**
+<Accordion title="Notice" severity="info">
+Note, you'll want this extension and not the extension called "External Storage: S3"!
+</Accordion>
 
-## Setting up R2 for your Owncloud instance
+## Setting up R2 for your ownCloud instance
 
-**⚠️ Before proceeding any further, make sure you back up all your data! Proceeding with the steps below will wipe any data you had on your Owncloud instance.**
+<Accordion title="Warning" severity="warning">
+ Before proceeding any further, make sure you back up all your data! Proceeding with the steps below will wipe any data you had on your ownCloud instance.
+</Accordion>
 
-You're done with all that? Great. It's time to configure R2 to work on your Owncloud instance.
+You're done with all that? Great. It's time to configure R2 to work on your ownCloud instance.
 
-Run the following command to access the filesystem of your Owncloud Docker instance:
+Run the following command to access the filesystem of your ownCloud Docker instance:
 
 ```bash title="Terminal"
 > docker exec -t -i owncloud_server /bin/bash
@@ -120,19 +126,19 @@ You'll want to replace the following options:
 
 * **hostname**: You can find the bucket hostname on the bucket page itself. Make sure to only include the URL name! (the `/owncloud-instance` bit from the URL can be removed)
 
-![The R2 bucket hostname.](https://elixi.re/i/y8e7l.png "The R2 bucket hostname.")
+![The R2 bucket hostname.](/r2-bucket-hostname.png "The R2 bucket hostname.")
 
 Then, run `docker restart owncloud_server` to apply the changes.
 
-And that's it! Log back in to your Owncloud admin dashboard, and your instance should utilize your Cloudflare R2 bucket as its primary storage.
+And that's it! Log back in to your ownCloud admin dashboard, and your instance should utilize your Cloudflare R2 bucket as its primary storage.
 
 ## Conclusion
 
-Overall, it's pretty painless for your Owncloud instance to utilize Cloudflare's R2 service.
+Overall, it's pretty painless for your ownCloud instance to utilize Cloudflare's R2 service.
 
 We will warn you though, Cloudflare's base plan for R2 only includes 10 GB of storage per month.
 
-![The pricing plans for Cloudflare's R2 service.](https://elixi.re/i/kwujy.png "The pricing plans for Cloudflare's R2 service.")
+![The pricing plans for Cloudflare's R2 service.](/r2-pricing.png "The pricing plans for Cloudflare's R2 service.")
 
 But it all depends if you're fine with that. :)
 

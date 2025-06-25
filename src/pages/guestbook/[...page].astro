@@ -1,0 +1,170 @@
+---
+export const prerender = false;
+
+import { db, Guestbook } from 'astro:db';
+import { Icon } from 'astro-icon/components';
+
+import Accordion from '$components/base/Accordion.astro';
+import Pagination from '$components/blog/Pagination.astro';
+import GuestbookNote from '$components/guestbook/GuestbookNote.astro';
+import Layout from '$layouts/Page.astro';
+import { compareDates } from '$utils/helpers/date';
+
+const ITEMS_PER_PAGE = 10;
+
+const { page: pageParam } = Astro.params;
+const currentPage = pageParam ? parseInt(pageParam) : 1;
+
+if (isNaN(currentPage)) return Astro.redirect('/404');
+
+const entries = await db.select().from(Guestbook);
+const sortedEntries = entries.sort((a, b) => compareDates(b.createdAt, a.createdAt));
+
+const start = (currentPage - 1) * ITEMS_PER_PAGE;
+const end = start + ITEMS_PER_PAGE;
+const paginatedEntries = sortedEntries.slice(start, end);
+
+if (currentPage > 1 && paginatedEntries.length === 0) return Astro.redirect('/guestbook/1');
+
+const page = {
+  data: paginatedEntries,
+  start,
+  end,
+  size: ITEMS_PER_PAGE,
+  total: sortedEntries.length,
+  currentPage,
+  lastPage: Math.ceil(sortedEntries.length / ITEMS_PER_PAGE),
+  url: {
+    current: `/guestbook/${currentPage}`,
+    next:
+      currentPage < Math.ceil(sortedEntries.length / ITEMS_PER_PAGE)
+        ? `/guestbook/${currentPage + 1}`
+        : undefined,
+    prev: currentPage > 1 ? `/guestbook/${currentPage - 1}` : undefined,
+  },
+};
+
+let submissionSuccess = false;
+let errorMessage: string | null = null;
+
+let reportSuccess = false;
+
+if (Astro.cookies.has('guestbook_success')) {
+  submissionSuccess = true;
+  Astro.cookies.delete('guestbook_success', { path: '/guestbook' });
+}
+
+if (Astro.cookies.has('guestbook_report_success')) {
+  reportSuccess = true;
+  Astro.cookies.delete('guestbook_report_success', { path: '/guestbook' });
+}
+
+if (Astro.cookies.has('guestbook_error')) {
+  const errorCookie = Astro.cookies.get('guestbook_error');
+  if (errorCookie?.value) {
+    errorMessage = errorCookie.value;
+  }
+  Astro.cookies.delete('guestbook_error', { path: '/guestbook' });
+}
+
+const url = new URL(Astro.request.url);
+if (url.searchParams.has('message')) {
+  url.searchParams.delete('message');
+  if (typeof window !== 'undefined') {
+    window.history.replaceState({}, document.title, url.toString());
+  }
+}
+---
+
+<Layout description="View messages left by visitors." title="Guestbook" turnstile={true}>
+  <header class="flex flex-col gap-3 pb-3">
+    <h1 class="pt-2 text-4xl font-semibold">Guestbook</h1>
+    <p>View messages left by visitors.</p>
+  </header>
+
+  {
+    submissionSuccess && (
+      <div class="mb-4">
+        <Accordion title="Success!" severity="success" disableCollapse={true}>
+          <p>Your entry has been submitted.</p>
+        </Accordion>
+      </div>
+    )
+  }
+
+  {
+    reportSuccess && (
+      <div class="mb-4">
+        <Accordion title="Success!" severity="success" disableCollapse={true}>
+          <p>Your report has been sent successfully. We'll review it as soon as possible.</p>
+        </Accordion>
+      </div>
+    )
+  }
+
+  {
+    errorMessage && (
+      <div class="mb-4">
+        <Accordion title="Error" severity="error" disableCollapse={true}>
+          <p>{errorMessage}</p>
+        </Accordion>
+      </div>
+    )
+  }
+
+  <div class="animate-pulse" data-guestbook-loading>
+    <div class="flex pb-6">
+      <div class="h-10 w-36 rounded-lg bg-ctp-surface0"></div>
+    </div>
+
+    <div class="flex flex-col gap-y-6">
+      <div class="flex flex-col gap-y-6 pt-1">
+        {
+          [...Array(3)].map(() => (
+            <div class="rounded-lg bg-ctp-surface0 p-6">
+              <div class="mb-2 h-6 w-48 rounded bg-ctp-surface1" />
+              <div class="h-16 rounded bg-ctp-surface1" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden" data-requires-js>
+    <div class="flex pb-6">
+      <a
+        href="/guestbook/sign"
+        class="flex flex-row items-center gap-2 rounded-lg bg-ctp-mauve px-4 py-2 text-ctp-base dark:bg-ctp-pink"
+        data-custom-icon
+      >
+        <Icon name="mdi:pencil-plus" size={20} />
+        Sign Guestbook
+      </a>
+    </div>
+
+    <div class="flex flex-col gap-y-6">
+      <div class="flex flex-col gap-y-6 pt-1">
+        {
+          page.data.length !== 0 ? (
+            page.data.map(({ id, name, message, createdAt, url, color }) => (
+              <GuestbookNote {id} {name} {message} {createdAt} {url} {color} />
+            ))
+          ) : (
+            <Accordion title="No entries yet!" severity="info" open={true}>
+              <p>The guestbook is empty. Be the first to leave a message!</p>
+            </Accordion>
+          )
+        }
+      </div>
+      <Pagination {page} prevLabel="See newer messages" nextLabel="See more messages" />
+    </div>
+  </div>
+
+  <noscript>
+    <p class="italic text-ctp-subtext1">
+      Guestbook relies on Cloudflare Turnstile for CAPTCHA verification, which unfortunately won't
+      work because JavaScript is disabled on your end.
+    </p>
+  </noscript>
+</Layout>

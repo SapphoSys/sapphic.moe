@@ -1,0 +1,47 @@
+---
+title: Miscellanea
+description: Even more info about us and our tastes!
+---
+
+import RecentlyCompletedAnime from '$components/misc/AniListCompleted.tsx';
+import CurrentlyWatchingAnime from '$components/misc/AniListCurrent.tsx';
+import TopAlbums from '$components/misc/TopAlbums.tsx';
+import { platforms } from '$utils/config';
+
+## Albums
+View our Last.fm profile [here][lastfm].
+
+### Recently listened
+<noscript>
+  <p class="italic text-ctp-subtext1">Please enable JavaScript to view albums!</p>
+</noscript>
+
+<div data-requires-js className="hidden">
+  <TopAlbums
+    username={platforms.lastFM}
+    period="1month"
+    limit={20}
+    client:load
+    transition:persist="topalbums"
+  />
+</div>
+
+---
+
+## Anime
+View our AniList profile [here][anilist].
+
+<noscript>
+  <p class="italic text-ctp-subtext1">Please enable JavaScript to view anime lists!</p>
+</noscript>
+
+<div data-requires-js className="hidden">
+  ### Currently watching
+  <CurrentlyWatchingAnime username={platforms.aniList} limit={8} client:load />
+
+  ### Recently completed
+  <RecentlyCompletedAnime username={platforms.aniList} limit={20} client:load />
+</div>
+
+[anilist]: https://anilist.co/user/SapphoSys "Our AniList profile. (SapphoSys)"
+[lastfm]: https://www.last.fm/user/solelychloe "Our Last.fm profile. (solelychloe)"

@@ -21,7 +21,7 @@
             nodejs
             pnpm
             flyctl
-            caddy
+            turso-cli
           ];
         };
       });

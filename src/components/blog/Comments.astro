@@ -1,6 +1,12 @@
 ---
-import { blog } from '$config';
+import { blog } from '$utils/config';
+import { isProduction } from '$utils/helpers/misc';
 ---
 
+{/* eslint-disable-next-line tailwindcss/no-custom-classname */}
 <div class="giscus"></div>
-<script is:inline src="https://giscus.app/client.js" {...blog.comments.options} async></script>
+{
+  isProduction && (
+    <script is:inline src="https://giscus.app/client.js" {...blog.giscus} async data-astro-rerun />
+  )
+}

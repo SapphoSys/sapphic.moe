@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "astro-build.astro-vscode",
-    "matthewpi.caddyfile-support",
     "editorconfig.editorconfig",
     "dbaeumer.vscode-eslint",
     "unifiedjs.vscode-mdx",
