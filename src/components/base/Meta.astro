@@ -1,7 +1,7 @@
 ---
 import { SEO } from 'astro-seo';
 
-import { images, platforms, rss, site } from '$utils/config';
+import { colors, images, platforms, rss, site } from '$utils/config';
 import { processOgImage } from '$utils/helpers/image';
 
 interface Props {
@@ -56,6 +56,7 @@ const processedTitle = Astro.url.pathname === '/' ? site.name : `${title} | ${si
       { name: 'darkreader-lock' },
       { name: 'viewport', content: 'width=device-width, minimum-scale=1' },
       { name: 'generator', content: Astro.generator },
+      { name: 'theme-color', content: colors.dark.link },
     ],
     link: [
       { rel: 'alternate', href: rss.feed, type: 'application/rss+xml', title: rss.title },
