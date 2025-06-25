@@ -165,13 +165,14 @@ const image = {
         ]}
       >
         <slot />
+
         <div class="flex flex-wrap items-center gap-4 py-8">
           <ShareButtons {title} {description} articleUrl={Astro.url.href} />
         </div>
+
+        {checkComments() && <Comments />}
       </section>
     </div>
-
-    {checkComments() && <Comments />}
   </div>
 </Layout>
 
