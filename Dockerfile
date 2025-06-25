@@ -22,8 +22,7 @@ FROM base AS build
 # Declare build arguments to receive values from flyctl deploy --build-arg
 ARG COMMIT_HASH
 ARG COMMIT_DATE
-ARG ASTRO_DB_REMOTE_URL
-ARG ASTRO_DB_APP_TOKEN
+ARG ENV_FILE
 
 # Install packages needed to build node modules
 RUN apt-get update -qq && \
@@ -37,11 +36,9 @@ RUN pnpm install --frozen-lockfile --shamefully-hoist --prod=false
 # Copy application code
 COPY . .
 
-RUN echo >> .env && \
+RUN echo "${ENV_FILE}" > .env && \
     echo "COMMIT_HASH=${COMMIT_HASH}" >> .env && \
-    echo "COMMIT_DATE=${COMMIT_DATE}" >> .env && \
-    echo "ASTRO_DB_REMOTE_URL=${ASTRO_DB_REMOTE_URL}" >> .env && \
-    echo "ASTRO_DB_APP_TOKEN=${ASTRO_DB_APP_TOKEN}" >> .env
+    echo "COMMIT_DATE=${COMMIT_DATE}" >> .env
 
 # Set environment variables for Astro
 ENV ASTRO_TELEMETRY_DISABLED=1
