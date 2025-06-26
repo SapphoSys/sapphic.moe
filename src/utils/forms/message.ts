@@ -1,5 +1,6 @@
 import { DISCORD_CONTACT_WEBHOOK_URL, TURNSTILE_SECRET_TOKEN } from 'astro:env/server';
 
+import { site } from '$utils/config';
 import { CLOUDFLARE_TURNSTILE_URL, MESSAGE_CHARACTER_LIMIT } from '$utils/constants';
 import { formatDate } from '$utils/helpers/date';
 
@@ -22,7 +23,7 @@ const returnEncodedMailtoUrl = (email: string, name: string, message: string) =>
       .join('%0D%0A')}`
   )}`;
 
-  return `http://localhost:4321/api/mailto?url=${encodeURIComponent(mailtoUrl)}`;
+  return `${site.url}/api/mailto?url=${encodeURIComponent(mailtoUrl)}`;
 };
 
 const sendDiscordMessage = async (details: MessageDetails, url: string) => {
