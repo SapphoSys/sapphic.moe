@@ -107,7 +107,6 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
       className={`overflow-hidden rounded-md border-2 border-ctp-mauve bg-ctp-mantle motion-safe:transition-opacity motion-safe:duration-200 dark:border-ctp-pink ${
         isVisible ? 'opacity-100' : 'opacity-0'
       }`}
-      data-react-component="TableOfContents"
     >
       <button
         type="button"
