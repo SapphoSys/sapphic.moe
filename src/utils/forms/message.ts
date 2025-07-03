@@ -2,7 +2,6 @@ import { DISCORD_CONTACT_WEBHOOK_URL, TURNSTILE_SECRET_TOKEN } from 'astro:env/s
 
 import { site } from '$utils/config';
 import { CLOUDFLARE_TURNSTILE_URL, MESSAGE_CHARACTER_LIMIT } from '$utils/constants';
-import { formatDate } from '$utils/helpers/date';
 
 export interface MessageDetails {
   name: string;
@@ -16,14 +15,12 @@ export interface SubmissionResult {
 }
 
 const returnEncodedMailtoUrl = (email: string, name: string, message: string) => {
-  const mailtoUrl = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`Re: Message from ${name}`)}&body=${encodeURIComponent(
-    `%0D%0A%0D%0AOn ${formatDate(new Date(), 'iso')}, ${name} wrote:%0D%0A%0D%0A${message
-      .split('\n')
-      .map((line) => `> ${line}`)
-      .join('%0D%0A')}`
-  )}`;
+  const url = new URL(`${site.url}/api/mailto`);
+  url.searchParams.set('email', email);
+  url.searchParams.set('name', name);
+  url.searchParams.set('message', message);
 
-  return `${site.url}/api/mailto?url=${encodeURIComponent(mailtoUrl)}`;
+  return `<${url.href}>`;
 };
 
 const sendDiscordMessage = async (details: MessageDetails, url: string) => {
@@ -55,15 +52,8 @@ const sendDiscordMessage = async (details: MessageDetails, url: string) => {
         accent_color: 0xf38ba8,
         components: [
           {
-            type: 1,
-            components: [
-              {
-                type: 2,
-                label: 'Reply via Email',
-                style: 5,
-                url: returnEncodedMailtoUrl(details.email, details.name, details.message),
-              },
-            ],
+            type: 10,
+            content: `🔗 [Reply via email](${returnEncodedMailtoUrl(details.email, details.name, details.message)})`,
           },
         ],
       },
