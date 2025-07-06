@@ -8,9 +8,16 @@ import typographyConfig from './src/utils/typography';
 
 const unsafeBorderContent = GUESTBOOK_VALID_COLORS.map((color) => `border-ctp-${color}`);
 const unsafeTextContent = GUESTBOOK_VALID_COLORS.map((color) => `text-ctp-${color}`);
+const unsafeFocusContent = GUESTBOOK_VALID_COLORS.map((color) => `focus:bg-ctp-${color}`);
+const unsafeHoverContent = GUESTBOOK_VALID_COLORS.map((color) => `hover:bg-ctp-${color}`);
 
 export default {
-  safelist: [...unsafeBorderContent, ...unsafeTextContent],
+  safelist: [
+    ...unsafeBorderContent,
+    ...unsafeTextContent,
+    ...unsafeHoverContent,
+    ...unsafeFocusContent,
+  ],
   content: ['./src/**/*.{astro,html,js,md,mdx,ts,tsx}'],
   theme: {
     fontFamily: {
