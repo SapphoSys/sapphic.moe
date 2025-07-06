@@ -130,7 +130,7 @@ const TopAlbums: FC<TopAlbumsProps> = ({ username, period = '12month', limit = 2
             className={cn(
               'group relative block aspect-square overflow-hidden rounded-md',
               'border-2 border-transparent',
-              'hover:border-ctp-mauve dark:hover:border-ctp-pink',
+              'hover:border-ctp-mauve hover:opacity-100 dark:hover:border-ctp-pink',
               'focus:outline-none focus:ring-2 focus:ring-ctp-mauve focus:ring-offset-2 focus:ring-offset-ctp-base dark:focus:ring-ctp-pink'
             )}
             aria-label={`${album.name} by ${album.artist.name} - ${album.playcount} plays. View on Last.fm.`}

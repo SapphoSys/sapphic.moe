@@ -19,7 +19,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime, showProgress }) => {
       className={cn(
         'group relative block aspect-[2/3] overflow-hidden rounded-md',
         'border-2 border-transparent',
-        'hover:border-ctp-mauve dark:hover:border-ctp-pink',
+        'hover:border-ctp-mauve hover:opacity-100 dark:hover:border-ctp-pink',
         'focus:outline-none focus:ring-2 focus:ring-ctp-pink focus:ring-offset-2 focus:ring-offset-ctp-base'
       )}
       aria-label={`${anime.title.english || anime.title.romaji}${
