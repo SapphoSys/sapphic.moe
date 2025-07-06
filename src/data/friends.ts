@@ -62,7 +62,7 @@ export const friends = [
     url: 'https://invoxiplaygames.uk',
   },
   {
-    name: 'Isabel Roses',
+    name: 'isabel roses',
     image: 'isabelroses.gif',
     url: 'https://isabelroses.com',
   },

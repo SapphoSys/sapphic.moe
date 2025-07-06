@@ -38,7 +38,7 @@ export const feedList: FeedListEntry[] = [
   },
   {
     url: 'https://isabelroses.com/feed.xml',
-    title: 'Isabel Roses',
+    title: 'isabel roses',
     avatar: 'https://github.com/isabelroses.png',
   },
   {
