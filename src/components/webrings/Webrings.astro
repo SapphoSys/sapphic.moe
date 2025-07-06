@@ -1,0 +1,82 @@
+---
+import { Icon } from 'astro-icon/components';
+
+import { webrings } from '$data/webrings';
+---
+
+<div class="flex flex-col gap-y-6">
+  {
+    webrings.map((webring) => {
+      const bgClass = `bg-ctp-${webring.color}`;
+      const borderClass = `border-ctp-${webring.color}`;
+      const textClass = `text-ctp-${webring.color}`;
+
+      return (
+        <div
+          class:list={[
+            borderClass,
+            'flex flex-row items-stretch overflow-hidden rounded-lg border-2 bg-ctp-mantle shadow-sm',
+          ]}
+        >
+          <a
+            href={webring.links.previous}
+            class:list={[
+              borderClass,
+              textClass,
+              'group',
+              `hover:${bgClass} hover:opacity-100`,
+              `focus:${bgClass} focus:opacity-100`,
+              'flex items-center rounded-none border-r-2 px-6 transition-colors',
+            ]}
+            aria-label="Previous site in webring"
+            data-custom-icon
+          >
+            <Icon
+              name="mdi:arrow-left-thick"
+              size={30}
+              class:list={[textClass, 'group-hover:text-ctp-mantle group-focus:text-ctp-mantle']}
+            />
+          </a>
+          <a
+            href={webring.links.base}
+            class:list={[
+              borderClass,
+              textClass,
+              'group',
+              `hover:${bgClass} hover:opacity-100`,
+              `focus:${bgClass} focus:opacity-100`,
+              'flex flex-1 flex-col items-center justify-center gap-1 rounded-none px-6 py-4 text-center transition-colors hover:no-underline',
+            ]}
+            aria-label="Webring home"
+          >
+            <span class="text-xl font-bold text-ctp-text group-hover:text-ctp-mantle group-focus:text-ctp-mantle">
+              {webring.name}
+            </span>
+            <span class="text-base text-ctp-overlay2 group-hover:text-ctp-mantle group-focus:text-ctp-mantle">
+              {webring.description}
+            </span>
+          </a>
+          <a
+            href={webring.links.next}
+            class:list={[
+              borderClass,
+              textClass,
+              'group',
+              `focus:${bgClass} focus:opacity-100`,
+              `hover:${bgClass} hover:opacity-100`,
+              'flex items-center rounded-none border-l-2 px-6 transition-colors',
+            ]}
+            aria-label="Next site in webring"
+            data-custom-icon
+          >
+            <Icon
+              name="mdi:arrow-right-thick"
+              size={30}
+              class:list={[textClass, 'group-hover:text-ctp-mantle group-focus:text-ctp-mantle']}
+            />
+          </a>
+        </div>
+      );
+    })
+  }
+</div>
