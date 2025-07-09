@@ -75,11 +75,11 @@ export const GET = async (context: APIContext) => {
     ...images.openGraph.dimensions,
   });
 
-  const image = await Transformer.fromSvg(svg).crop(0, 0, width, height).png();
+  const image = await Transformer.fromSvg(svg).crop(0, 0, width, height).webpLossless();
 
   return new Response(image, {
     headers: {
-      'Content-Type': 'image/png',
+      'Content-Type': 'image/webp',
     },
   });
 };
