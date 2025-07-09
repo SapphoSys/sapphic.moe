@@ -3,6 +3,7 @@ import Parser from 'rss-parser';
 
 import { feedList } from '$data/feeds';
 import type { FeedCacheEntry, FeedItem } from '$types/feeds';
+import { FEEDS_MAX_ITEMS } from '$utils/constants';
 import {
   cleanFeedTitle,
   getFeedBaseUrl,
@@ -87,7 +88,7 @@ export const GET: APIRoute = async () => {
     return dateB - dateA;
   });
 
-  allFeedItems = allFeedItems.slice(0, 20);
+  allFeedItems = allFeedItems.slice(0, FEEDS_MAX_ITEMS);
 
   feedsCache.set(cacheKey, { data: allFeedItems, timestamp: now });
   console.warn(`[API Route /api/feeds] Cached fetched data`);
