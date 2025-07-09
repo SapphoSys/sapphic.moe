@@ -34,7 +34,7 @@ RUN apk add --no-cache build-base python3
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
 
-RUN pnpm install --frozen-lockfile --prod
+RUN pnpm install --frozen-lockfile --prod --prefer-offline
 
 # Copy application code
 COPY . .
