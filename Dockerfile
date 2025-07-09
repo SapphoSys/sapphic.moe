@@ -27,10 +27,10 @@ ARG ENV_FILE
 # Install packages needed to build node modules
 RUN apk add --no-cache build-base python3
 
-# Install node modules (copy only lockfile/package.json for cache)
+# Install node modules
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --prod
 
 # Copy application code
 COPY . .
