@@ -30,7 +30,7 @@ RUN apk add --no-cache build-base python3
 # Install node modules (copy only lockfile/package.json for cache)
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
-RUN pnpm install --frozen-lockfile --shamefully-hoist --prod=false
+RUN pnpm install --frozen-lockfile
 
 # Copy application code
 COPY . .
