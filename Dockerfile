@@ -9,8 +9,11 @@ LABEL fly_launch_runtime="Astro"
 # Astro app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV="production"
+# Suppress update notifications
+ENV NPM_CONFIG_UPDATE_NOTIFIER=false
+
+# Disable Astro telemetry
+ENV ASTRO_TELEMETRY_DISABLED=1
 
 # Install pnpm
 ARG PNPM_VERSION=10.12.1
@@ -30,6 +33,7 @@ RUN apk add --no-cache build-base python3
 # Install node modules
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
+
 RUN pnpm install --frozen-lockfile --prod
 
 # Copy application code
@@ -39,11 +43,11 @@ RUN echo "${ENV_FILE}" > .env && \
     echo "COMMIT_HASH=${COMMIT_HASH}" >> .env && \
     echo "COMMIT_DATE=${COMMIT_DATE}" >> .env
 
-# Set environment variables for Astro
-ENV ASTRO_TELEMETRY_DISABLED=1
-
 # Build application
 RUN pnpm run build
+
+# Set production environment
+ENV NODE_ENV="production"
 
 # Final stage for app image
 FROM base
