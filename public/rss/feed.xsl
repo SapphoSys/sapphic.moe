@@ -191,7 +191,7 @@
                     </a>
                     <xsl:text> v</xsl:text>
                     <xsl:value-of select="/rss/channel/versions/website" />
-                    <xsl:text> running on Astro </xsl:text>
+                    <xsl:text> on Astro </xsl:text>
                     <xsl:value-of select="/rss/channel/versions/astro" />
                     <xsl:text> &amp; React </xsl:text>
                     <xsl:value-of select="/rss/channel/versions/react" />
