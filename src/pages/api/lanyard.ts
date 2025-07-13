@@ -44,18 +44,24 @@ export const GET: APIRoute = async ({ url }) => {
     now - cachedEntry.timestamp < FAILURE_COOLDOWN_MS
   ) {
     console.warn(`[API Route] Using cached data for ${cacheKey} due to previous failures`);
-    return new Response(JSON.stringify(cachedEntry.data), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ discord_status: cachedEntry.data?.discord_status ?? 'offline' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 
   if (cachedEntry && now - cachedEntry.timestamp < CACHE_DURATION_MS) {
     console.warn(`[API Route] Cache hit for ${cacheKey}`);
-    return new Response(JSON.stringify(cachedEntry.data), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ discord_status: cachedEntry.data?.discord_status ?? 'offline' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 
   const headers = new Headers({
@@ -89,10 +95,13 @@ export const GET: APIRoute = async ({ url }) => {
 
           if (cachedEntry?.data) {
             console.warn(`[API Route] Returning cached data for ${cacheKey} after failure`);
-            return new Response(JSON.stringify(cachedEntry.data), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json' },
-            });
+            return new Response(
+              JSON.stringify({ discord_status: cachedEntry.data.discord_status ?? 'offline' }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' },
+              }
+            );
           }
 
           const errorMessage = `Lanyard API HTTP error: Status ${apiRequest.status}. ${errorBody || apiRequest.statusText}`;
@@ -119,10 +128,13 @@ export const GET: APIRoute = async ({ url }) => {
 
         if (cachedEntry?.data) {
           console.warn(`[API Route] Returning cached data for ${cacheKey} after API error`);
-          return new Response(JSON.stringify(cachedEntry.data), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          });
+          return new Response(
+            JSON.stringify({ discord_status: cachedEntry.data.discord_status ?? 'offline' }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
         }
 
         return new Response(
@@ -144,12 +156,15 @@ export const GET: APIRoute = async ({ url }) => {
         failureCount: 0,
       });
 
-      return new Response(JSON.stringify(result.data), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return new Response(
+        JSON.stringify({ discord_status: result.data?.discord_status ?? 'offline' }),
+        {
+          status: 200,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     } catch (err) {
       console.error(`[API Route] Attempt ${attempt} failed for user ${userId}:`, err);
 
@@ -169,10 +184,13 @@ export const GET: APIRoute = async ({ url }) => {
 
         if (cachedEntry?.data) {
           console.warn(`[API Route] Returning cached data for ${cacheKey} after max retries`);
-          return new Response(JSON.stringify(cachedEntry.data), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-          });
+          return new Response(
+            JSON.stringify({ discord_status: cachedEntry.data.discord_status ?? 'offline' }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
         }
 
         const errorMessage = `An unexpected server error occurred after retries: ${err instanceof Error ? err.message : String(err)}`;
@@ -191,10 +209,13 @@ export const GET: APIRoute = async ({ url }) => {
 
   if (cachedEntry?.data) {
     console.warn(`[API Route] Returning cached data for ${cacheKey} at end of retries`);
-    return new Response(JSON.stringify(cachedEntry.data), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({ discord_status: cachedEntry.data.discord_status ?? 'offline' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
 
   const finalErrorMessage = `An unexpected error occurred after all retries for user ${userId}.`;

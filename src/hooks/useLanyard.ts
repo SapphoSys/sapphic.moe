@@ -1,10 +1,12 @@
 import { type Dispatch, type SetStateAction, useEffect, useState } from 'react';
 
-import type { LanyardData, UseLanyardResult } from '$types/lanyard';
+import type { LanyardStatusResponse, UseLanyardResult } from '$types/lanyard';
 
 const useLanyard = (userId: string, refreshInterval = 5000): UseLanyardResult => {
-  const [data, setData]: [LanyardData | null, Dispatch<SetStateAction<LanyardData | null>>] =
-    useState<LanyardData | null>(null);
+  const [data, setData]: [
+    LanyardStatusResponse | null,
+    Dispatch<SetStateAction<LanyardStatusResponse | null>>,
+  ] = useState<LanyardStatusResponse | null>(null);
   const [loading, setLoading]: [boolean, Dispatch<SetStateAction<boolean>>] = useState(true);
   const [isRefreshing, setIsRefreshing]: [boolean, Dispatch<SetStateAction<boolean>>] =
     useState(false);
@@ -39,8 +41,7 @@ const useLanyard = (userId: string, refreshInterval = 5000): UseLanyardResult =>
         const fetchUrl = `/api/lanyard?${params.toString()}`;
 
         const request = await fetch(fetchUrl);
-
-        const result: LanyardData | { error: string } | null = await request.json();
+        const result: LanyardStatusResponse | { error: string } | null = await request.json();
 
         if (!request.ok || (result && 'error' in result)) {
           const errorMessage =
@@ -53,8 +54,7 @@ const useLanyard = (userId: string, refreshInterval = 5000): UseLanyardResult =>
           setData(null);
           setError(null);
         } else {
-          const processedData: LanyardData = result as LanyardData;
-          setData(processedData);
+          setData(result);
           setError(null);
         }
       } catch (err) {

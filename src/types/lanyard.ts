@@ -4,6 +4,10 @@ export interface LanyardApiResponse {
   error?: string;
 }
 
+export interface LanyardStatusResponse {
+  discord_status: 'online' | 'idle' | 'dnd' | 'offline';
+}
+
 export interface LanyardData {
   spotify: LanyardSpotify | null;
   listening_to_spotify: boolean;
@@ -79,7 +83,7 @@ export interface LanyardActivity {
 }
 
 export interface UseLanyardResult {
-  data: LanyardData | null;
+  data: LanyardStatusResponse | null;
   loading: boolean;
   isRefreshing: boolean;
   error: Error | null;

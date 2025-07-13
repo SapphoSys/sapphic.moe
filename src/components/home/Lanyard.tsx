@@ -23,13 +23,9 @@ const LanyardStatus: FC<LanyardStatusProps> = ({ userId, refreshInterval = 30000
     }
   }, [loading, initialLoadComplete]);
 
-  const statusIcon = data?.discord_status
-    ? DISCORD_STATUS_ICON_MAP[data.discord_status] || DISCORD_STATUS_ICON_MAP.offline
-    : DISCORD_STATUS_ICON_MAP.offline;
-
-  const statusColorClass = data?.discord_status
-    ? DISCORD_STATUS_COLOR_MAP[data.discord_status] || 'text-ctp-subtext0'
-    : 'text-ctp-subtext0';
+  const status = data?.discord_status ?? 'offline';
+  const statusIcon = DISCORD_STATUS_ICON_MAP[status] || DISCORD_STATUS_ICON_MAP.offline;
+  const statusColorClass = DISCORD_STATUS_COLOR_MAP[status] || 'text-ctp-subtext0';
 
   if (loading && !initialLoadComplete) {
     return (
@@ -46,8 +42,7 @@ const LanyardStatus: FC<LanyardStatusProps> = ({ userId, refreshInterval = 30000
 
   if (error || !data) return null;
 
-  const { discord_status } = data;
-  const statusText = DISCORD_STATUS_MAP[discord_status] || 'Unknown';
+  const statusText = DISCORD_STATUS_MAP[status] || 'Unknown';
 
   return (
     <div
