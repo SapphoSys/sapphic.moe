@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 
 import { analytics } from '$utils/config';
 
-
 export const GET: APIRoute = async () => {
   const umamiScriptUrl = `${analytics.url}${analytics.script}`;
 
