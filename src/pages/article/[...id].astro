@@ -29,6 +29,6 @@ const { minutesRead } = await getMinutesRead(entry);
 const { Content, headings } = await render(entry);
 ---
 
-<ArticleLayout {...article.data} {id} minutesRead={minutesRead} {headings} fullWidth={true}>
+<ArticleLayout {...article.data} {id} {minutesRead} {headings} fullWidth={true}>
   <Content components={{ img: Image }} />
 </ArticleLayout>
