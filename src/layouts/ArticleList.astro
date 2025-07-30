@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry } from 'astro:content';
+import { Icon } from 'astro-icon/components';
 
 import ArticleCard from '$components/blog/ArticleCard.astro';
 import Layout from '$layouts/Page.astro';
@@ -37,6 +38,19 @@ const description = tag
         })
     }
   </div>
+
+  {
+    tag && (
+      <a
+        href="/articles"
+        class="mt-8 flex flex-row items-center gap-2 rounded-lg border border-ctp-mauve bg-ctp-crust px-3 py-2 text-ctp-mauve hover:bg-ctp-mauve hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out dark:border-ctp-pink dark:text-ctp-pink dark:hover:bg-ctp-pink"
+        data-custom-icon
+      >
+        <Icon name="mdi:arrow-left" size={20} />
+        Back to all articles
+      </a>
+    )
+  }
 
   <slot />
 </Layout>
