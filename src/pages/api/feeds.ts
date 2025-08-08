@@ -2,14 +2,9 @@ import type { APIRoute } from 'astro';
 import Parser from 'rss-parser';
 
 import { feedList } from '$data/feeds';
-import type { FeedCacheEntry, FeedItem } from '$types/feeds';
+import type { FeedCacheEntry, FeedItem, FeedListEntry } from '$types/feeds';
 import { FEEDS_MAX_ITEMS } from '$utils/constants';
-import {
-  cleanFeedTitle,
-  getFeedBaseUrl,
-  processFeedContentSnippet,
-  resolveFeedItemLink,
-} from '$utils/helpers/feed';
+import { mapFeedItems } from '$utils/helpers/feed';
 
 const feedsCache = new Map<string, FeedCacheEntry>();
 const CACHE_DURATION_MS = 3 * 60 * 60 * 1000;
@@ -39,36 +34,43 @@ export const GET: APIRoute = async () => {
   const parser = new Parser();
   let allFeedItems: FeedItem[] = [];
 
-  const feedPromises = feedList.map(async (feedInfo) => {
-    try {
-      const feed = await parser.parseURL(feedInfo.url);
-      const baseUrl = feed.link;
-
-      return feed.items.map((item) => {
-        const fullLink = resolveFeedItemLink(item.link, baseUrl, feedInfo);
-        const feedBaseUrl = getFeedBaseUrl(baseUrl, feedInfo);
-        const truncatedContentSnippet = processFeedContentSnippet(item.contentSnippet);
-
-        return {
-          title: cleanFeedTitle(item.title || 'Untitled'),
-          link: fullLink,
-          pubDate: item.pubDate,
-          isoDate: item.isoDate,
-          content: item.content,
-          contentSnippet: truncatedContentSnippet,
-          feedTitle: feedInfo.title,
-          feedUrl: feedInfo.url,
-          feedAvatar: feedInfo.avatar,
-          feedBaseUrl: feedBaseUrl,
-        } satisfies FeedItem;
-      });
-    } catch (error) {
-      console.error(
-        `[API Route /api/feeds] Error fetching or parsing feed "${feedInfo.title}" (${feedInfo.url}):`,
-        error
-      );
-      return [];
+  const feedPromises = feedList.map(async (feedInfo: FeedListEntry) => {
+    let items: FeedItem[] = [];
+    if (feedInfo.paginated) {
+      let page = 1;
+      let keepGoing = true;
+      const seenLinks = new Set<string>();
+      while (keepGoing && page <= feedInfo.paginated.maxPages) {
+        const url = `${feedInfo.url}?${feedInfo.paginated.param}=${page}`;
+        try {
+          const feed = await parser.parseURL(url);
+          const pageItems = mapFeedItems(feed, feedInfo);
+          const newItems = pageItems.filter((i: FeedItem) => i.link && !seenLinks.has(i.link));
+          newItems.forEach((i: FeedItem) => seenLinks.add(i.link!));
+          items.push(...newItems);
+          if (newItems.length === 0 || pageItems.length === 0) keepGoing = false;
+        } catch (error) {
+          console.error(
+            `[API Route /api/feeds] Error fetching paged feed "${feedInfo.title}" (${url}):`,
+            error
+          );
+          keepGoing = false;
+        }
+        page++;
+      }
+    } else {
+      try {
+        const feed = await parser.parseURL(feedInfo.url);
+        items = mapFeedItems(feed, feedInfo);
+      } catch (error) {
+        console.error(
+          `[API Route /api/feeds] Error fetching or parsing feed "${feedInfo.title}" (${feedInfo.url}):`,
+          error
+        );
+        items = [];
+      }
     }
+    return items;
   });
 
   const results = await Promise.all(feedPromises);

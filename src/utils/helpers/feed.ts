@@ -1,4 +1,8 @@
-export const cleanFeedTitle = (title: string): string => {
+import type { Item, Output } from 'rss-parser';
+
+import type { FeedItem, FeedListEntry } from '$types/feeds';
+
+const cleanFeedTitle = (title: string): string => {
   return title
     .replace(/^[A-Z][a-z]+ \d+(?:st|nd|rd|th), \d{4}: /, '')
     .replace(/^\d{4}-\d{2}-\d{2}: /, '')
@@ -6,7 +10,7 @@ export const cleanFeedTitle = (title: string): string => {
     .trim();
 };
 
-export const getFeedBaseUrl = (
+const getFeedBaseUrl = (
   baseUrl: string | undefined,
   feedInfo: { title: string }
 ): string | undefined => {
@@ -21,7 +25,7 @@ export const getFeedBaseUrl = (
   }
 };
 
-export const processFeedContentSnippet = (
+const processFeedContentSnippet = (
   contentSnippet: string | undefined,
   maxLength: number = 200
 ): string | undefined => {
@@ -49,7 +53,7 @@ export const processFeedContentSnippet = (
   return processedSnippet;
 };
 
-export const resolveFeedItemLink = (
+const resolveFeedItemLink = (
   itemLink: string | undefined,
   baseUrl: string | undefined,
   feedInfo: { title: string }
@@ -94,4 +98,25 @@ export const resolveFeedItemLink = (
       return undefined;
     }
   }
+};
+
+export const mapFeedItems = (feed: Output<unknown>, feedInfo: FeedListEntry): FeedItem[] => {
+  const baseUrl = feed.link;
+  return feed.items.map((item: Item): FeedItem => {
+    const fullLink = resolveFeedItemLink(item.link, baseUrl, feedInfo);
+    const feedBaseUrl = getFeedBaseUrl(baseUrl, feedInfo);
+    const truncatedContentSnippet = processFeedContentSnippet(item.contentSnippet);
+    return {
+      title: cleanFeedTitle(item.title || 'Untitled'),
+      link: fullLink,
+      pubDate: item.pubDate,
+      isoDate: item.isoDate,
+      content: item.content,
+      contentSnippet: truncatedContentSnippet,
+      feedTitle: feedInfo.title,
+      feedUrl: feedInfo.url,
+      feedAvatar: feedInfo.avatar,
+      feedBaseUrl: feedBaseUrl,
+    };
+  });
 };

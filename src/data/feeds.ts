@@ -80,6 +80,7 @@ export const feedList: FeedListEntry[] = [
     url: 'https://devblogs.microsoft.com/oldnewthing/feed',
     title: 'Raymond Chen',
     avatar: 'https://github.com/oldnewthing.png',
+    paginated: { param: 'paged', maxPages: 5 },
   },
   {
     url: 'https://mozzius.dev/rss',
