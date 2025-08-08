@@ -77,6 +77,11 @@ export const feedList: FeedListEntry[] = [
     avatar: 'https://github.com/Ovyerus.png',
   },
   {
+    url: 'https://devblogs.microsoft.com/oldnewthing/feed',
+    title: 'Raymond Chen',
+    avatar: 'https://github.com/oldnewthing.png',
+  },
+  {
     url: 'https://mozzius.dev/rss',
     title: 'Samuel Mozzius',
     avatar: 'https://github.com/mozzius.png',
