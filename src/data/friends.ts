@@ -186,4 +186,12 @@ export const friends = [
     image: 'zeroptr.png',
     url: 'https://zptr.cc',
   },
+  {
+    name: 'ravens',
+    url: 'https://rvns.moe',
+  },
+  {
+    name: 'kat',
+    url: 'https://eunoia.sayitditto.net',
+  },
 ] satisfies Button[];
