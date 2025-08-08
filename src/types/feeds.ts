@@ -20,4 +20,8 @@ export interface FeedListEntry {
   url: string;
   title: string;
   avatar?: string;
+  paginated?: {
+    param: string;
+    maxPages: number;
+  };
 }
