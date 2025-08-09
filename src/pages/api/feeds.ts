@@ -4,6 +4,7 @@ import Parser from 'rss-parser';
 import { feedList } from '$data/feeds';
 import type { FeedCacheEntry, FeedItem, FeedListEntry } from '$types/feeds';
 import { FEEDS_MAX_ITEMS } from '$utils/constants';
+import { compareDates } from '$utils/helpers/date';
 import { mapFeedItems } from '$utils/helpers/feed';
 
 const feedsCache = new Map<string, FeedCacheEntry>();
@@ -77,17 +78,7 @@ export const GET: APIRoute = async () => {
   allFeedItems = results.flat();
 
   allFeedItems.sort((a, b) => {
-    const dateA = a.isoDate
-      ? new Date(a.isoDate).valueOf()
-      : a.pubDate
-        ? new Date(a.pubDate).valueOf()
-        : 0;
-    const dateB = b.isoDate
-      ? new Date(b.isoDate).valueOf()
-      : b.pubDate
-        ? new Date(b.pubDate).valueOf()
-        : 0;
-    return dateB - dateA;
+    return compareDates(b.isoDate || b.pubDate || 0, a.isoDate || a.pubDate || 0);
   });
 
   allFeedItems = allFeedItems.slice(0, FEEDS_MAX_ITEMS);

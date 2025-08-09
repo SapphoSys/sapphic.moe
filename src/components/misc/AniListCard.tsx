@@ -1,5 +1,5 @@
-import { format } from 'date-fns';
 import type { FC } from 'react';
+import { formatDate } from '$utils/helpers/date';
 
 import type { AniListMedia } from '$types/anilist';
 import { cn } from '$utils/helpers/misc';
@@ -25,7 +25,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime, showProgress }) => {
       aria-label={`${anime.title.english || anime.title.romaji}${
         showProgress && anime.progress ? ` - Progress: ${anime.progress} episodes` : ''
       }${anime.averageScore ? ` - Score: ${anime.averageScore}%` : ''}${
-        anime.completedAt ? ` - Completed on ${format(anime.completedAt * 1000, 'PPP')}` : ''
+        anime.completedAt ? ` - Completed on ${formatDate(anime.completedAt * 1000, 'PPP')}` : ''
       }`}
     >
       <img
@@ -57,7 +57,7 @@ const AnimeCard: FC<AnimeCardProps> = ({ anime, showProgress }) => {
 
         {!showProgress && anime.completedAt && (
           <p className="text-sm text-ctp-subtext0">
-            Completed on {format(anime.completedAt * 1000, 'PPP')}
+            Completed on {formatDate(anime.completedAt * 1000, 'PPP')}
           </p>
         )}
       </div>
