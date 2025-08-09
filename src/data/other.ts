@@ -17,7 +17,7 @@ export const other = [
     url: 'https://caddyserver.com',
   },
   {
-    name: 'Cohost',
+    name: 'cohost',
     image: 'cohost.gif',
     url: 'https://cohost.org',
   },
