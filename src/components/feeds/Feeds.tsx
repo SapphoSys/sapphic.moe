@@ -96,7 +96,7 @@ const Feeds: FC<FeedsProps> = () => {
               ) : null}
 
               <div className="flex grow flex-col overflow-auto">
-                <p className="flex flex-row gap-2">
+                <p className="flex flex-row flex-wrap gap-x-2">
                   <span className="font-medium">{item.feedTitle}</span>
 
                   <time className="text-ctp-subtext0" dateTime={item.isoDate || item.pubDate}>
