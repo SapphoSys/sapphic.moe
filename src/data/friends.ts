@@ -47,6 +47,11 @@ export const friends = [
     url: 'https://espi.me',
   },
   {
+    name: 'eunoia (kat)',
+    image: 'eunoia.png',
+    url: 'https://eunoia.sayitditto.net',
+  },
+  {
     name: 'Eva Decker',
     image: 'eva.png',
     url: 'https://eva.town',
@@ -189,9 +194,5 @@ export const friends = [
   {
     name: 'ravens',
     url: 'https://rvns.moe',
-  },
-  {
-    name: 'kat',
-    url: 'https://eunoia.sayitditto.net',
   },
 ] satisfies Button[];
