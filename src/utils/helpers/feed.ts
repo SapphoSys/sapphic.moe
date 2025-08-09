@@ -27,27 +27,27 @@ const getFeedBaseUrl = (
 
 const processFeedContentSnippet = (
   contentSnippet: string | undefined,
+  title: string,
   maxLength: number = 200
 ): string | undefined => {
   if (!contentSnippet) return undefined;
 
-  let processedSnippet = contentSnippet;
+  let processedSnippet = contentSnippet.replace(/<[^>]*>/g, '').trim();
+
+  // Raymond Chen's post descriptions duplicate the post title sometimes. Example: "The post [title] appeared first on The Old New Thing."
+  const footerPattern = new RegExp(
+    `The post ${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')} appeared first on The Old New Thing.`,
+    'i'
+  );
+  processedSnippet = processedSnippet.replace(footerPattern, '').trim();
 
   if (processedSnippet.length > maxLength) {
-    const plainTextSnippet = processedSnippet.replace(/<[^>]*>/g, '');
-
-    if (plainTextSnippet.length > maxLength) {
-      const lastSpaceIndex = plainTextSnippet.lastIndexOf(' ', maxLength);
-      if (lastSpaceIndex !== -1) {
-        processedSnippet = plainTextSnippet.substring(0, lastSpaceIndex) + '...';
-      } else {
-        processedSnippet = plainTextSnippet.substring(0, maxLength) + '...';
-      }
+    const lastSpaceIndex = processedSnippet.lastIndexOf(' ', maxLength);
+    if (lastSpaceIndex !== -1) {
+      processedSnippet = processedSnippet.substring(0, lastSpaceIndex) + '...';
     } else {
-      processedSnippet = plainTextSnippet;
+      processedSnippet = processedSnippet.substring(0, maxLength) + '...';
     }
-  } else {
-    processedSnippet = processedSnippet.replace(/<[^>]*>/g, '');
   }
 
   return processedSnippet;
@@ -105,9 +105,11 @@ export const mapFeedItems = (feed: Output<unknown>, feedInfo: FeedListEntry): Fe
   return feed.items.map((item: Item): FeedItem => {
     const fullLink = resolveFeedItemLink(item.link, baseUrl, feedInfo);
     const feedBaseUrl = getFeedBaseUrl(baseUrl, feedInfo);
-    const truncatedContentSnippet = processFeedContentSnippet(item.contentSnippet);
+    const cleanedTitle = cleanFeedTitle(item.title || 'Untitled');
+    const truncatedContentSnippet = processFeedContentSnippet(item.contentSnippet, cleanedTitle);
+
     return {
-      title: cleanFeedTitle(item.title || 'Untitled'),
+      title: cleanedTitle,
       link: fullLink,
       pubDate: item.pubDate,
       isoDate: item.isoDate,
