@@ -64,15 +64,15 @@ export const GET: APIRoute = async ({ url }) => {
     );
   }
 
-  const headers = new Headers({
-    'User-Agent': 'sapphic.moe Lanyard API Proxy (Astro)',
-  });
-
   const API_URL = `${LANYARD_API_URL}/v1/users/${userId}`;
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const apiRequest = await fetch(API_URL, { headers });
+      const apiRequest = await fetch(API_URL, {
+        headers: {
+          'User-Agent': 'sapphic.moe Lanyard API Proxy (Astro)',
+        },
+      });
 
       if (!apiRequest.ok) {
         const errorBody = await apiRequest.text();

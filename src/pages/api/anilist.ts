@@ -83,6 +83,7 @@ export const GET: APIRoute = async ({ url }) => {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        'User-Agent': 'sapphic.moe AniList API Proxy (Astro)',
       },
       body: JSON.stringify({
         query,

@@ -23,6 +23,9 @@ export const validateAlbumCover = async (url: string | null): Promise<string | n
     const response = await fetch(url, {
       method: 'HEAD',
       signal: controller.signal,
+      headers: {
+        'User-Agent': 'sapphic.moe Last.fm API Proxy (Astro)',
+      },
     });
     clearTimeout(timeoutId);
 

@@ -64,7 +64,7 @@ export const GET: APIRoute = async ({ url }) => {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?${params.toString()}`;
 
     const apiRequest = await fetch(apiUrl, {
-      headers: { 'User-Agent': 'Sapphic.moe Weather API Proxy (Astro)' },
+      headers: { 'User-Agent': 'sapphic.moe Weather API Proxy (Astro)' },
     });
 
     if (!apiRequest.ok) {
