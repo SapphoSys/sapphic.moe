@@ -73,6 +73,7 @@ const Feeds: FC<FeedsProps> = () => {
                   rel="noopener noreferrer"
                   className="inline-block size-12 shrink-0"
                   aria-label={`Visit ${item.feedTitle}`}
+                  data-umami-event={`${item.feedTitle} avatar feed link click`}
                 >
                   <img
                     src={item.feedAvatar}
@@ -105,7 +106,12 @@ const Feeds: FC<FeedsProps> = () => {
 
                 <h2 className="text-2xl font-bold">
                   {item.link ? (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-umami-event={`${item.feedTitle} article link click`}
+                    >
                       {item.title}
                     </a>
                   ) : (

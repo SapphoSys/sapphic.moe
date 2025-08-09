@@ -82,6 +82,7 @@ const Clock: FC<ClockProps> = ({
           className="cursor-pointer border-none bg-transparent p-0"
           title={`Click to toggle the clock to a ${currentDisplayFormat === format24Hour ? '12-hour' : '24-hour'} format.`}
           aria-label={`Toggle time display format. Current format is ${currentDisplayFormat === format24Hour ? '24-hour' : '12-hour'}. Click to switch.`}
+          data-umami-event="Clock format toggle"
         >
           <Icon
             icon="mdi:clock-outline"

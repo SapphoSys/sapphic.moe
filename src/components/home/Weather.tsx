@@ -99,6 +99,7 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
           className="cursor-pointer border-none bg-transparent p-0"
           title={`Current weather is ${description}. Click to toggle temperature unit to ${displayUnit === 'metric' ? 'Fahrenheit' : 'Celsius'}.`}
           aria-label={`Current weather is ${description}. Click to toggle temperature unit to ${displayUnit === 'metric' ? 'Fahrenheit' : 'Celsius'}.`}
+          data-umami-event="Weather unit toggle"
         >
           <Icon
             icon={titleIcon}

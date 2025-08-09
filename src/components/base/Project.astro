@@ -73,6 +73,7 @@ const parsedImage = await loadImage(`/logos/${image}`);
       title={`Visit ${name}`}
       aria-label={`Visit ${name}`}
       data-custom-icon
+      data-umami-event={`${name} project link click`}
     >
       <Icon name="mdi:link-variant" size={24} aria-hidden={true} />
     </a>

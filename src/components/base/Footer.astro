@@ -66,13 +66,20 @@ const maxRows = Math.max(...footerLinks.map((c) => c.length));
 
         <div class="flex flex-col pt-5 text-ctp-subtext1">
           <p class="break-words">
-            <a href="https://github.com/SapphoSys/sapphic.moe" class="font-bold" target="_blank"
-              >{name}</a
+            <a
+              href="https://github.com/SapphoSys/sapphic.moe"
+              class="font-bold"
+              target="_blank"
+              data-umami-event="GitHub repository link click">{name}</a
             > v{version} on Astro {astroVersion} & React {reactVersion}
           </p>
 
           <p class="break-words">
-            Updated on {formatDate(date, 'iso')} (<a href={hashURL} target="_blank">{hash}</a>)
+            Updated on {formatDate(date, 'iso')} (<a
+              href={hashURL}
+              target="_blank"
+              data-umami-event="Git commit hash link click">{hash}</a
+            >)
           </p>
         </div>
       </div>

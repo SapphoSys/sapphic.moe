@@ -155,6 +155,7 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
               aria-label="View our Last.fm profile"
               className="rounded"
               rel="noreferrer"
+              data-umami-event="Last.fm profile link click"
             >
               <Icon icon="mdi:lastfm" fontSize={24} aria-hidden={true} />
             </a>

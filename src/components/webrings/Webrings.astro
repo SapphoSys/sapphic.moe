@@ -30,6 +30,7 @@ import { webrings } from '$data/webrings';
             ]}
             aria-label="Previous site in webring"
             data-custom-icon
+            data-umami-event={`${webring.name} previous link click`}
           >
             <Icon
               name="mdi:arrow-left-thick"
@@ -48,6 +49,7 @@ import { webrings } from '$data/webrings';
               'flex flex-1 flex-col items-center justify-center gap-1 rounded-none px-3 py-3 text-center transition-colors hover:no-underline',
             ]}
             aria-label="Webring home"
+            data-umami-event={`${webring.name} home link click`}
           >
             <span class="text-xl font-bold text-ctp-text group-hover:text-ctp-mantle group-focus:text-ctp-mantle">
               {webring.name}
@@ -68,6 +70,7 @@ import { webrings } from '$data/webrings';
             ]}
             aria-label="Next site in webring"
             data-custom-icon
+            data-umami-event={`${webring.name} next link click`}
           >
             <Icon
               name="mdi:arrow-right-thick"
