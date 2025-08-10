@@ -22,6 +22,11 @@ export const friends = [
     url: 'https://anna.oa.ke',
   },
   {
+    name: 'Bea (Juniper)',
+    image: 'bea.png',
+    url: 'https://eyes-like-fire.org',
+  },
+  {
     name: 'Basil',
     image: 'basil.gif',
     url: 'https://basil.cafe',
