@@ -38,6 +38,7 @@ import { webrings } from '$data/webrings';
               class:list={[textClass, 'group-hover:text-ctp-mantle group-focus:text-ctp-mantle']}
             />
           </a>
+
           <a
             href={webring.links.base}
             class:list={[
@@ -54,10 +55,12 @@ import { webrings } from '$data/webrings';
             <span class="text-xl font-bold text-ctp-text group-hover:text-ctp-mantle group-focus:text-ctp-mantle">
               {webring.name}
             </span>
+
             <span class="text-base text-ctp-overlay2 group-hover:text-ctp-mantle group-focus:text-ctp-mantle">
               {webring.description}
             </span>
           </a>
+
           <a
             href={webring.links.next}
             class:list={[
