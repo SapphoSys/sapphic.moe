@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-
+import ReducedImage from '$components/webrings/ReducedImage.tsx';
 import type { Button } from '$types/button';
 
 interface Props {
@@ -19,13 +18,14 @@ const noImageButtons = buttons.filter((button) => !button.image);
 >
   {
     imageButtons.map((button) => (
-      <a href={button.url} title={button.name} target="_blank" class="rounded-none">
-        <Image
-          class="h-[31px] w-[88px]"
+      <a href={button.url} title={button.name} target="_blank">
+        <ReducedImage
           src={`/buttons/${folder}/${button.image}`}
           alt={`Webring of ${button.name}`}
           width={88}
           height={31}
+          className="h-[31px] w-[88px] select-auto"
+          client:load
         />
       </a>
     ))
@@ -36,8 +36,8 @@ const noImageButtons = buttons.filter((button) => !button.image);
   noImageButtons.length > 0 && (
     <div class="not-prose flex flex-wrap gap-x-5 gap-y-6 pt-8 md:gap-x-9">
       {noImageButtons.map((button) => (
-        <a href={button.url} title={button.name} target="_blank" class="rounded-none">
-          <span class="flex h-[31px] w-[88px] flex-row justify-center border-2 border-ctp-mauve bg-ctp-crust px-3 text-ctp-mauve hover:bg-ctp-mauve hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out dark:border-ctp-pink dark:text-ctp-pink dark:hover:bg-ctp-pink">
+        <a href={button.url} target="_blank" class="rounded-none">
+          <span class="flex h-[31px] flex-row justify-center border-2 border-ctp-mauve bg-ctp-crust px-3 text-ctp-mauve hover:bg-ctp-mauve hover:text-ctp-crust motion-safe:transition motion-safe:duration-150 motion-safe:ease-in-out dark:border-ctp-pink dark:text-ctp-pink dark:hover:bg-ctp-pink">
             {button.name}
           </span>
         </a>

@@ -32,7 +32,7 @@ export const processOgImage = (
   };
 };
 
-export const convertGifToStatic = async (gifUrl: string) => {
+const convertImageToStatic = async (imageUrl: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const img = new Image();
     img.crossOrigin = 'anonymous';
@@ -42,25 +42,23 @@ export const convertGifToStatic = async (gifUrl: string) => {
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext('2d');
-
         if (!ctx) throw new Error('Failed to get canvas context');
-
         ctx.drawImage(img, 0, 0);
         const dataUrl = canvas.toDataURL('image/png');
-
         if (!dataUrl) throw new Error('Failed to convert image to data URL');
-
         resolve(dataUrl);
       } catch (error) {
         reject(error instanceof Error ? error : new Error(String(error)));
       }
     };
-
     img.onerror = (error) =>
       reject(error instanceof Error ? error : new Error('Failed to load image'));
-
-    img.src = gifUrl;
+    img.src = imageUrl;
   });
+};
+
+export const convertGifToStatic = async (gifUrl: string) => {
+  return convertImageToStatic(gifUrl);
 };
 
 export const getReducedMotionImage = async (
@@ -69,13 +67,35 @@ export const getReducedMotionImage = async (
 ) => {
   if (!imageUrl) return null;
 
-  const isGif = imageUrl.toLowerCase().endsWith('.gif');
-  if (!isGif || !prefersReducedMotion) return imageUrl;
+  const lowerUrl = imageUrl.toLowerCase();
+  const isGif = lowerUrl.endsWith('.gif');
+  const isWebp = lowerUrl.endsWith('.webp');
+  // TODO: Handle SVG.
 
-  try {
-    return await convertGifToStatic(imageUrl);
-  } catch (error) {
-    console.error('Failed to convert GIF to static image:', error);
-    return imageUrl;
+  if (!prefersReducedMotion) return imageUrl;
+
+  if (isGif) {
+    try {
+      return await convertImageToStatic(imageUrl);
+    } catch (error) {
+      console.error('Failed to convert GIF to static image:', error);
+      return imageUrl;
+    }
   }
+
+  if (isWebp) {
+    try {
+      const resp = await fetch(imageUrl);
+      const buf = await resp.arrayBuffer();
+      const str = new TextDecoder().decode(buf);
+      const isAnimated = str.includes('ANMF') || str.includes('ANIM');
+      if (!isAnimated) return imageUrl;
+      return await convertImageToStatic(imageUrl);
+    } catch (error) {
+      console.error('Failed to convert WEBP to static image:', error);
+      return imageUrl;
+    }
+  }
+
+  return imageUrl;
 };
