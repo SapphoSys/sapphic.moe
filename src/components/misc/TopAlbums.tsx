@@ -143,8 +143,7 @@ const TopAlbums: FC<TopAlbumsProps> = ({ username, period = '12month', limit = 2
                   'h-full w-full object-cover',
                   'motion-safe:transition motion-safe:duration-300',
                   'group-hover:opacity-90',
-                  'group-hover:blur-sm',
-                  gifAlbums[album.image] ? 'gif-cover-art' : ''
+                  'group-hover:blur-sm'
                 )}
                 loading="lazy"
               />
