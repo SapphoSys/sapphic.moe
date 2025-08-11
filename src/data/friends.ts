@@ -12,6 +12,11 @@ export const friends = [
     url: 'https://alula.me',
   },
   {
+    name: 'Aly Cerruti',
+    image: 'aly.svg',
+    url: 'https://aly.fish',
+  },
+  {
     name: 'Alyxia',
     image: 'alyxia.png',
     url: 'https://alyxia.dev',
@@ -42,9 +47,29 @@ export const friends = [
     url: 'https://damien.zone',
   },
   {
+    name: 'danii',
+    image: 'danii.gif',
+    url: 'https://danii.fi',
+  },
+  {
+    name: 'dscp46 (isithran)',
+    image: 'dscp46.png',
+    url: 'https://gensokyo.tf',
+  },
+  {
+    name: 'ella (2lay)',
+    image: 'ella.png',
+    url: 'https://2lay.net',
+  },
+  {
     name: 'erin',
     image: 'erin.png',
     url: 'https://e2.pm',
+  },
+  {
+    name: 'eris',
+    image: 'eris.gif',
+    url: 'https://erisdump.neocities.org',
   },
   {
     name: 'Espi Marisa',
@@ -104,12 +129,17 @@ export const friends = [
   {
     name: 'Lyra (Rebane2001)',
     image: 'lyra.png',
-    url: 'https://lyra.horse/',
+    url: 'https://lyra.horse',
   },
   {
     name: 'mae',
     image: 'mae.png',
     url: 'https://mae.wtf',
+  },
+  {
+    name: 'maeve',
+    image: 'maeve.png',
+    url: 'https://ytrav.me',
   },
   {
     name: 'maia arson crimew',
@@ -152,9 +182,19 @@ export const friends = [
     url: 'https://botoaca.github.io',
   },
   {
+    name: 'ravens',
+    image: 'ravens.gif',
+    url: 'https://ravens.moe',
+  },
+  {
     name: 'resolv',
     image: 'resolv.png',
     url: 'https://resolv.moe',
+  },
+  {
+    name: 'rushii',
+    image: 'rushii.webp',
+    url: 'https://rushii.dev',
   },
   {
     name: 'Shuga',
@@ -165,6 +205,11 @@ export const friends = [
     name: 'Spotlight',
     image: 'spotlight.gif',
     url: 'https://joscomputing.space',
+  },
+  {
+    name: 'thermia',
+    image: 'thermia.gif',
+    url: 'https://girlthi.ng/~thermia',
   },
   {
     name: 'UtsuhoRocks',
@@ -193,11 +238,7 @@ export const friends = [
   },
   {
     name: 'zptr',
-    image: 'zeroptr.png',
+    image: 'zeroptr.gif',
     url: 'https://zptr.cc',
-  },
-  {
-    name: 'ravens',
-    url: 'https://rvns.moe',
   },
 ] satisfies Button[];
