@@ -184,7 +184,7 @@ export const friends = [
   {
     name: 'ravens',
     image: 'ravens.gif',
-    url: 'https://ravens.moe',
+    url: 'https://rvns.moe',
   },
   {
     name: 'resolv',
