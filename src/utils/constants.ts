@@ -1,6 +1,6 @@
 export const CLOUDFLARE_TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
-export const FEEDS_MAX_ITEMS = 100;
+export const FEEDS_MAX_ITEMS = 150;
 
 export const GUESTBOOK_MESSAGE_CHARACTER_LIMIT = 140;
 export const GUESTBOOK_NAME_CHARACTER_LIMIT = 50;
