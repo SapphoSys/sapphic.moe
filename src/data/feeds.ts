@@ -13,8 +13,13 @@ export const feedList: FeedListEntry[] = [
   },
   {
     url: 'https://tei.su/blog/rss.xml',
-    title: 'teidesu',
+    title: 'alina (teidesu)',
     avatar: 'https://github.com/teidesu.png',
+  },
+  {
+    url: 'https://basil.cafe/feeds/posts.xml',
+    title: 'Basil',
+    avatar: 'https://codeberg.org/basil.png',
   },
   {
     url: 'https://char.lt/blog.rss',
