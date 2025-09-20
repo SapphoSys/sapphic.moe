@@ -52,6 +52,11 @@ export const feedList: FeedListEntry[] = [
     avatar: 'https://github.com/jakearchibald.png',
   },
   {
+    url: 'https://www.jeffgeerling.com/blog.xml',
+    title: 'Jeff Geerling',
+    avatar: 'https://github.com/geerlingguy.png',
+  },
+  {
     url: 'https://vriska.dev/atom.xml',
     title: 'leo homestuck',
     avatar: 'https://github.com/leo60228.png',
