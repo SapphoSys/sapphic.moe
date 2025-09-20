@@ -1,5 +1,5 @@
 .tooltip-container {
-  @apply absolute right-6 top-4 z-[1000];
+  @apply absolute right-6 top-4 z-[1000] flex items-center gap-2;
 }
 
 [data-rmiz-btn-zoom],
@@ -27,7 +27,6 @@
 
 .tooltip {
   @apply absolute left-auto right-[100%] top-1 ml-4 mr-3 w-max min-w-32 break-words rounded-lg bg-ctp-crust p-3 text-ctp-text opacity-0;
-
   transform: translateX(8px);
   max-width: min(320px, 60vw);
   white-space: normal;
@@ -38,7 +37,7 @@
 }
 
 .tooltip.visible {
-  @apply translate-x-0 opacity-100;
+  @apply pointer-events-auto translate-x-0 cursor-text opacity-100;
 }
 
 @media (max-width: 640px) {
@@ -57,7 +56,7 @@
 }
 
 .info-button {
-  @apply select-none;
+  @apply relative z-[1001] select-none;
 }
 
 [data-rmiz-ghost] {
