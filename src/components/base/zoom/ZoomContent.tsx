@@ -1,10 +1,15 @@
-import { Icon } from '@iconify/react';
+import { Icon, loadIcons } from '@iconify/react';
 import type { ImgHTMLAttributes } from 'react';
-import { useId, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 
 import type { ZoomContentProps } from '$types/zoom';
 
 const CustomZoomContent = ({ img, onUnzoom, disableTooltip = false }: ZoomContentProps) => {
+  // Preload both icons on mount
+  useEffect(() => {
+    loadIcons(['mdi:information', 'mdi:information-outline']);
+  }, []);
+
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipId = useId();
 
@@ -58,6 +63,7 @@ const CustomZoomContent = ({ img, onUnzoom, disableTooltip = false }: ZoomConten
               id={tooltipId}
               role="tooltip"
               className={`tooltip ${isTooltipVisible ? 'visible' : ''}`}
+              onClick={(e) => e.stopPropagation()}
             >
               <div>
                 <h4 className="text-2xl font-bold">Image Information</h4>
