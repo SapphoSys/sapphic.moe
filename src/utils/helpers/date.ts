@@ -65,7 +65,7 @@ export const formatDate = (
 
         const currentYear = now.getFullYear();
         const dateYear = dateObj.getFullYear();
-        if (dateYear === currentYear) return formatInTimeZone(dateObj, timeZone, 'MMM d');
+        if (dateYear === currentYear) return formatInTimeZone(dateObj, timeZone, 'MMMM d');
 
         return formatInTimeZone(dateObj, timeZone, preferences.dateFormat);
       }
