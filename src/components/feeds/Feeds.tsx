@@ -31,21 +31,36 @@ const Feeds: FC<FeedsProps> = () => {
   return (
     <section className="flex flex-col gap-6">
       {loading && !initialLoadComplete && (
-        <div
-          className="flex flex-col items-center justify-center rounded-md border-2 border-ctp-pink bg-ctp-mantle p-4 text-center"
-          role="status"
-          aria-live="polite"
-        >
-          <div className="flex flex-row gap-x-3">
-            <Icon
-              icon="line-md:loading-loop"
-              fontSize={30}
-              aria-hidden={true}
-              className="text-ctp-pink"
-            />
-            <p>Fetching posts from {totalFeeds} RSS feeds...</p>
+        <div className="animate-pulse" data-guestbook-loading>
+          <div className="flex flex-col gap-y-6">
+            <div className="flex flex-col gap-y-6">
+              {[...Array(10)].map((_, index) => (
+                <div key={index} className="flex gap-4">
+                  <div className="size-12 shrink-0 rounded-full bg-ctp-surface1" />
+                  <div className="flex grow flex-col gap-y-2 overflow-auto">
+                    <div className="flex flex-row flex-wrap gap-x-2">
+                      <div
+                        className="h-6 rounded bg-ctp-surface1"
+                        style={{ width: `${Math.floor(Math.random() * (16 - 8 + 1)) + 8}rem` }}
+                      />
+                      <div
+                        className="h-6 w-6 rounded bg-ctp-surface1"
+                        style={{ width: `${Math.floor(Math.random() * (20 - 16 + 1)) + 12}rem` }}
+                      />
+                    </div>
+                    <div
+                      className="h-8 rounded bg-ctp-surface1"
+                      style={{ width: `${Math.floor(Math.random() * (40 - 24 + 1)) + 24}rem` }}
+                    />
+                    <div
+                      className="h-16 rounded bg-ctp-surface1"
+                      style={{ height: `${Math.floor(Math.random() * (6 - 4 + 1)) + 2}rem` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="italic text-ctp-subtext1">Should take no more than 5 seconds!</p>
         </div>
       )}
 
