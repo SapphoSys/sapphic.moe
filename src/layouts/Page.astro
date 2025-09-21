@@ -153,9 +153,37 @@ const {
         }
       }
 
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+
+        to {
+          opacity: 1;
+        }
+      }
+
       @media (prefers-reduced-motion: no-preference) {
         .animate-fade-in-up {
           animation-name: fadeInUp;
+          animation-duration: 0.4s;
+          animation-timing-function: ease-out;
+          animation-delay: 0s;
+          animation-fill-mode: backwards;
+          animation-iteration-count: 1;
+        }
+
+        .animate-fade-in-zoom {
+          animation-name: fadeInZoom;
+          animation-duration: 0.4s;
+          animation-timing-function: ease-out;
+          animation-delay: 0s;
+          animation-fill-mode: backwards;
+          animation-iteration-count: 1;
+        }
+
+        .animate-fade-in {
+          animation-name: fadeIn;
           animation-duration: 0.4s;
           animation-timing-function: ease-out;
           animation-delay: 0s;

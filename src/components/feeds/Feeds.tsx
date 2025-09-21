@@ -53,7 +53,7 @@ const Feeds: FC<FeedsProps> = () => {
         <div
           className={cn(
             'rounded-md border border-ctp-red p-4 text-ctp-text',
-            initialLoadComplete && 'animate-fade-in-up'
+            initialLoadComplete && 'animate-fade-in'
           )}
           role="alert"
           aria-live="assertive"
@@ -63,7 +63,7 @@ const Feeds: FC<FeedsProps> = () => {
       )}
 
       {!loading && !fetchError && allFeedItems.length > 0 && (
-        <div className={cn(initialLoadComplete && 'animate-fade-in-up', 'flex flex-col gap-6')}>
+        <div className={cn(initialLoadComplete && 'animate-fade-in', 'flex flex-col gap-6')}>
           {allFeedItems.map((item: FeedItem) => (
             <article key={`${item.feedTitle}-${item.title}-${item.pubDate}`} className="flex gap-4">
               {item.feedAvatar && item.feedBaseUrl ? (
@@ -100,7 +100,7 @@ const Feeds: FC<FeedsProps> = () => {
                   <span className="font-medium">{item.feedTitle}</span>
 
                   <time className="text-ctp-subtext0" dateTime={item.isoDate || item.pubDate}>
-                    {formatFeedDate(item.isoDate || item.pubDate)}
+                    {formatDate(formatFeedDate(item.isoDate || item.pubDate), 'relative')}
                   </time>
                 </p>
 
@@ -131,7 +131,7 @@ const Feeds: FC<FeedsProps> = () => {
       )}
 
       {!loading && !fetchError && allFeedItems.length === 0 && initialLoadComplete && (
-        <div className={cn(initialLoadComplete && 'animate-fade-in-up')}>
+        <div className={cn(initialLoadComplete && 'animate-fade-in')}>
           <p>No feed items found.</p>
         </div>
       )}
