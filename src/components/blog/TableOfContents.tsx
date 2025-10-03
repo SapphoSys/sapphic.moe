@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { MdListAlt, MdExpandMore } from 'react-icons/md';
 import type { MarkdownHeading } from 'astro';
 import { useEffect, useRef, useState } from 'react';
 
@@ -113,16 +113,10 @@ const TableOfContents = ({ headings, initialOpen = false }: Props) => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex w-full cursor-pointer items-center gap-2 rounded-none bg-ctp-mauve p-3 text-ctp-base hover:no-underline hover:opacity-100 dark:bg-ctp-pink"
       >
-        <Icon
-          icon="mdi:table-of-contents"
-          fontSize={25}
-          className="!text-ctp-base"
-          aria-hidden={true}
-        />
+        <MdListAlt size={25} className="!text-ctp-base" aria-hidden={true} />
         <h2 className="font-semibold">Table of Contents</h2>
-        <Icon
-          icon="mdi:chevron-down"
-          fontSize={20}
+        <MdExpandMore
+          size={20}
           className={`ml-auto !text-ctp-base motion-safe:transition-transform motion-safe:duration-200 ${
             isOpen ? 'rotate-180' : ''
           }`}

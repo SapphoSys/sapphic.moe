@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaArrowLeft, FaFlag } from 'react-icons/fa';
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import useTurnstileState from '$hooks/useTurnstileState';
@@ -85,7 +85,7 @@ const ReportForm = ({ entryId }: ReportFormProps) => {
           href="/guestbook"
           className="flex flex-row items-center gap-2 rounded-lg bg-ctp-mauve px-2.5 py-1.5 text-base text-ctp-base transition hover:opacity-80 dark:bg-ctp-pink"
         >
-          <Icon icon="mdi:arrow-left" fontSize={20} aria-hidden={true} />
+          <FaArrowLeft size={20} aria-hidden={true} />
           Back
         </a>
         <button
@@ -93,7 +93,7 @@ const ReportForm = ({ entryId }: ReportFormProps) => {
           disabled={!isFormValid}
           className="flex flex-row items-center gap-2 rounded-lg bg-ctp-red px-2.5 py-1.5 text-center text-base font-medium text-ctp-base transition ease-out hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <Icon icon="mdi:flag" fontSize={20} aria-hidden={true} />
+          <FaFlag size={20} aria-hidden={true} />
           Report
         </button>
       </div>

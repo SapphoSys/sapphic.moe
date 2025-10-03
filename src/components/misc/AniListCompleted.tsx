@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaSpinner } from 'react-icons/fa';
 import { type FC, useEffect, useState } from 'react';
 
 import AnimeCard from '$components/misc/AniListCard.tsx';
@@ -27,12 +27,7 @@ const AniListCompleted: FC<RecentlyCompletedAnimeProps> = ({ username, limit = 8
         role="status"
         aria-live="polite"
       >
-        <Icon
-          icon="line-md:loading-loop"
-          fontSize={30}
-          aria-hidden={true}
-          className="text-ctp-pink"
-        />
+        <FaSpinner size={30} aria-hidden={true} className="animate-spin text-ctp-pink" />
         Loading recently completed anime...
       </div>
     );
@@ -75,11 +70,10 @@ const AniListCompleted: FC<RecentlyCompletedAnimeProps> = ({ username, limit = 8
       </div>
       {isRefreshing && initialLoadComplete && (
         <div className="flex justify-center">
-          <Icon
-            icon="line-md:loading-loop"
-            fontSize={20}
+          <FaSpinner
+            size={20}
             aria-hidden={true}
-            className="text-ctp-pink motion-reduce:hidden"
+            className="animate-spin text-ctp-pink motion-reduce:hidden"
           />
         </div>
       )}

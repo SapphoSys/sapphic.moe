@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaRegClock } from 'react-icons/fa';
 import { type FC, useEffect, useState } from 'react';
 
 import useCurrentTime from '$hooks/useCurrentTime';
@@ -99,12 +99,7 @@ const Clock: FC<ClockProps> = ({
           aria-label={`Toggle time display format. Current format is ${currentDisplayFormat === format24Hour ? '24-hour' : '12-hour'}. Click to switch.`}
           data-umami-event="Clock format toggle"
         >
-          <Icon
-            icon="mdi:clock-outline"
-            fontSize={24}
-            aria-hidden={true}
-            className="text-ctp-mauve dark:text-ctp-pink"
-          />
+          <FaRegClock size={24} aria-hidden={true} className="text-ctp-mauve dark:text-ctp-pink" />
         </button>
       </div>
 

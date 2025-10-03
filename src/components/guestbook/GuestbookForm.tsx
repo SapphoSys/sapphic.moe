@@ -1,6 +1,7 @@
-import { Icon } from '@iconify/react';
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 
+import { FaChevronDown } from 'react-icons/fa';
+import { RiPencilFill } from 'react-icons/ri';
 import GuestbookPreview from '$components/guestbook/GuestbookPreview';
 import useTurnstileState from '$hooks/useTurnstileState';
 import {
@@ -201,10 +202,9 @@ const GuestbookForm = () => {
               </option>
             ))}
           </select>
-          <Icon
-            icon="mdi:chevron-down"
+          <FaChevronDown
+            size={20}
             className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-ctp-subtext0"
-            fontSize={20}
             aria-hidden={true}
           />
         </div>
@@ -232,7 +232,7 @@ const GuestbookForm = () => {
           disabled={!isFormValid}
           className="flex flex-row items-center gap-2 rounded-lg border-none bg-ctp-mauve px-2.5 py-1.5 text-center font-medium text-ctp-base disabled:cursor-not-allowed disabled:opacity-50 dark:bg-ctp-pink"
         >
-          <Icon icon="mdi:pencil-add" fontSize={20} aria-hidden={true} />
+          <RiPencilFill size={25} aria-hidden={true} />
           Sign
         </button>
 

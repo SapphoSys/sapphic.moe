@@ -1,4 +1,5 @@
-import { Icon } from '@iconify/react';
+import { MdCloud } from 'react-icons/md';
+import { FaSpinner } from 'react-icons/fa';
 import { type FC, useEffect, useState } from 'react';
 
 import useWeather from '$hooks/useWeather';
@@ -89,9 +90,8 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
 
   const { city, country, description, iconCode } = data || {};
 
-  const titleIcon = iconCode
-    ? WEATHER_ICON_MAP[iconCode] || 'mdi:weather-cloudy'
-    : 'mdi:weather-cloudy';
+  // Use WEATHER_ICON_MAP for weather icons
+  const WeatherIcon = (iconCode && WEATHER_ICON_MAP[iconCode]) || MdCloud;
 
   return (
     <div className="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink">
@@ -105,12 +105,7 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
           aria-label={`Current weather is ${description}. Click to toggle temperature unit to ${displayUnit === 'metric' ? 'Fahrenheit' : 'Celsius'}.`}
           data-umami-event="Weather unit toggle"
         >
-          <Icon
-            icon={titleIcon}
-            fontSize={24}
-            className="text-ctp-mauve dark:text-ctp-pink"
-            aria-hidden={true}
-          />
+          <WeatherIcon size={24} className="text-ctp-mauve dark:text-ctp-pink" aria-hidden={true} />
         </button>
       </div>
       <div
@@ -132,10 +127,9 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
           in {city}, {country}
         </p>
         {isRefreshing && (
-          <Icon
-            icon="line-md:loading-loop"
-            fontSize={20}
-            className="shrink-0 text-ctp-mauve dark:text-ctp-pink"
+          <FaSpinner
+            size={20}
+            className="shrink-0 animate-spin text-ctp-mauve dark:text-ctp-pink"
             aria-hidden={true}
           />
         )}

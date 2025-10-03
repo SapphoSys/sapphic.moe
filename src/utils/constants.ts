@@ -1,3 +1,17 @@
+import type { IconType } from 'react-icons/lib';
+import { MdCircle, MdNightlightRound, MdPowerSettingsNew, MdRemoveCircle } from 'react-icons/md';
+import {
+  RiCloudLine,
+  RiCloudy2Line,
+  RiDrizzleLine,
+  RiFoggyLine,
+  RiMoonClearLine,
+  RiRainyLine,
+  RiSnowyLine,
+  RiSunLine,
+  RiThunderstormsLine,
+} from 'react-icons/ri';
+
 export const CLOUDFLARE_TURNSTILE_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 export const FEEDS_MAX_ITEMS = 150;
@@ -32,11 +46,11 @@ export const DISCORD_STATUS_COLOR_MAP: Record<string, string> = {
   offline: 'text-ctp-lavender',
 };
 
-export const DISCORD_STATUS_ICON_MAP: Record<string, string> = {
-  online: 'mdi:circle',
-  idle: 'mdi:moon-and-stars',
-  dnd: 'mdi:minus-circle',
-  offline: 'mdi:power-sleep',
+export const DISCORD_STATUS_ICON_MAP: Record<string, IconType> = {
+  online: MdCircle,
+  idle: MdNightlightRound,
+  dnd: MdRemoveCircle,
+  offline: MdPowerSettingsNew,
 };
 
 export const DISCORD_STATUS_MAP: Record<string, string> = {
@@ -46,21 +60,21 @@ export const DISCORD_STATUS_MAP: Record<string, string> = {
   offline: 'Offline',
 };
 
-export const WEATHER_ICON_MAP: Record<string, string> = {
-  '01d': 'mdi:weather-sunny',
-  '01n': 'mdi:weather-night',
-  '02d': 'mdi:weather-partly-cloudy',
-  '02n': 'mdi:weather-night-partly-cloudy',
-  '03d': 'mdi:weather-cloudy',
-  '03n': 'mdi:weather-cloudy',
-  '09d': 'mdi:weather-pouring',
-  '09n': 'mdi:weather-pouring',
-  '10d': 'mdi:weather-rainy',
-  '10n': 'mdi:weather-rainy',
-  '11d': 'mdi:weather-lightning',
-  '11n': 'mdi:weather-lightning',
-  '13d': 'mdi:weather-snowy',
-  '13n': 'mdi:weather-snowy',
-  '50d': 'mdi:weather-fog',
-  '50n': 'mdi:weather-fog',
+export const WEATHER_ICON_MAP: Record<string, IconType> = {
+  '01d': RiSunLine,
+  '01n': RiMoonClearLine,
+  '02d': RiCloudy2Line,
+  '02n': RiCloudy2Line,
+  '03d': RiCloudLine,
+  '03n': RiCloudLine,
+  '09d': RiDrizzleLine,
+  '09n': RiDrizzleLine,
+  '10d': RiRainyLine,
+  '10n': RiRainyLine,
+  '11d': RiThunderstormsLine,
+  '11n': RiThunderstormsLine,
+  '13d': RiSnowyLine,
+  '13n': RiSnowyLine,
+  '50d': RiFoggyLine,
+  '50n': RiFoggyLine,
 };

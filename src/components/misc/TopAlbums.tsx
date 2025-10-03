@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaSpinner } from 'react-icons/fa';
 import { type FC, useEffect, useState } from 'react';
 
 import useLastFMTopAlbums from '$hooks/useAlbums';
@@ -74,12 +74,7 @@ const TopAlbums: FC<TopAlbumsProps> = ({ username, period = '12month', limit = 2
         role="status"
         aria-live="polite"
       >
-        <Icon
-          icon="line-md:loading-loop"
-          fontSize={30}
-          aria-hidden={true}
-          className="text-ctp-pink"
-        />
+        <FaSpinner size={30} aria-hidden={true} className="animate-spin text-ctp-pink" />
         Loading top albums...
       </div>
     );

@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaLink } from 'react-icons/fa';
 
 import { GUESTBOOK_VALID_COLORS } from '$utils/constants';
 import { formatDate } from '$utils/helpers/date';
@@ -39,12 +39,7 @@ const GuestbookPreview = ({
               aria-label={`A link to ${name}'s website.`}
               data-custom-icon
             >
-              <Icon
-                icon="mdi:link-variant"
-                fontSize={24}
-                className={textClass}
-                aria-hidden={true}
-              />
+              <FaLink size={24} className={textClass} aria-hidden={true} />
             </a>
           )}
         </div>

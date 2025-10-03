@@ -1,20 +1,10 @@
-import { Icon } from '@iconify/react';
+import { FaSearchPlus, FaSearchMinus } from 'react-icons/fa';
 import type { FC } from 'react';
 
 export const IconZoom: FC = () => (
-  <Icon
-    icon="mdi:magnify-plus"
-    fontSize={20}
-    className="text-ctp-mauve dark:text-ctp-pink"
-    aria-hidden={true}
-  />
+  <FaSearchPlus size={32} aria-hidden={true} className="text-ctp-mauve dark:text-ctp-pink" />
 );
 
 export const IconUnzoom: FC = () => (
-  <Icon
-    icon="mdi:magnify-minus"
-    fontSize={20}
-    className="text-ctp-mauve dark:text-ctp-pink"
-    aria-hidden={true}
-  />
+  <FaSearchMinus size={32} aria-hidden={true} className="text-ctp-mauve dark:text-ctp-pink" />
 );

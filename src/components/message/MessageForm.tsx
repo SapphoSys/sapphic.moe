@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { MdEmail } from 'react-icons/md';
 import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 import useTurnstileState from '$hooks/useTurnstileState';
@@ -125,7 +125,7 @@ const MessageForm = () => {
           disabled={!isFormValid}
           className="flex flex-row items-center gap-2 rounded-lg border-none bg-ctp-mauve px-2.5 py-1.5 text-center font-medium text-ctp-base transition ease-out hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-ctp-pink"
         >
-          <Icon icon="mdi:email" fontSize={20} aria-hidden={true} className="text-ctp-base" />
+          <MdEmail size={20} aria-hidden={true} className="text-ctp-base" />
           Send
         </button>
 

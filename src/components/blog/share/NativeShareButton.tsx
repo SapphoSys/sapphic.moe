@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { MdShare } from 'react-icons/md';
 import { type FC, useEffect, useState } from 'react';
 
 import type { NativeShareButtonProps, ShareUrlParams } from '$types/share';
@@ -92,7 +92,7 @@ const NativeShareButton: FC<NativeShareButtonProps> = ({
         aria-label="Share this article using native share dialog"
         title="Share this article using native share dialog"
       >
-        <Icon icon="mdi:share-variant" aria-hidden={true} fontSize={25} /> Share
+        <MdShare aria-hidden={true} size={25} /> Share
       </button>
 
       {message && (

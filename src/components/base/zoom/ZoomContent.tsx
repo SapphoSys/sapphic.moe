@@ -1,15 +1,10 @@
-import { Icon, loadIcons } from '@iconify/react';
+import { MdInfo, MdInfoOutline } from 'react-icons/md';
 import type { ImgHTMLAttributes } from 'react';
 import { useEffect, useId, useState } from 'react';
 
 import type { ZoomContentProps } from '$types/zoom';
 
 const CustomZoomContent = ({ img, onUnzoom, disableTooltip = false }: ZoomContentProps) => {
-  // Preload both icons on mount
-  useEffect(() => {
-    loadIcons(['mdi:information', 'mdi:information-outline']);
-  }, []);
-
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipId = useId();
 
@@ -53,11 +48,11 @@ const CustomZoomContent = ({ img, onUnzoom, disableTooltip = false }: ZoomConten
                 setIsTooltipVisible(!isTooltipVisible);
               }}
             >
-              <Icon
-                icon={isTooltipVisible ? 'mdi:information-outline' : 'mdi:information'}
-                aria-hidden={true}
-                fontSize={32}
-              />
+              {isTooltipVisible ? (
+                <MdInfoOutline aria-hidden={true} size={32} />
+              ) : (
+                <MdInfo aria-hidden={true} size={32} />
+              )}
             </button>
             <div
               id={tooltipId}
