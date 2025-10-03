@@ -1,7 +1,8 @@
 ---
 import Clock from '$components/home/Clock.tsx';
-import LastFM from '$components/home/LastFM.tsx';
+// import LastFM from '$components/home/LastFM.tsx';
 import LatestArticle from '$components/home/LatestArticle.astro';
+import ListenBrainzTrack from '$components/home/ListenBrainzTrack.tsx';
 import Weather from '$components/home/Weather.tsx';
 import { platforms, preferences } from '$utils/config';
 ---
@@ -16,7 +17,12 @@ import { platforms, preferences } from '$utils/config';
 <div class="hidden" data-requires-js>
   <div class="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_minmax(240px,1fr)]">
     <div class="md:col-span-2">
-      <LastFM username={platforms.lastFM} client:idle transition:persist="lastfm" />
+      <ListenBrainzTrack
+        username={platforms.listenBrainz}
+        client:idle
+        transition:persist="listenbrainz"
+      />
+      <!-- LastFM component left for future use: <LastFM username={platforms.lastFM} client:idle transition:persist="lastfm" /> -->
     </div>
 
     <Clock
