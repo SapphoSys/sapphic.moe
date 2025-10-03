@@ -12,6 +12,6 @@ export interface ZoomContentProps {
   img: ReactElement<unknown, string | JSXElementConstructor<unknown>> | null;
   buttonUnzoom: ReactElement<HTMLButtonElement, string | JSXElementConstructor<unknown>>;
   modalState: unknown;
-  onUnzoom: () => void;
+  onUnzoom: (e: Event) => void;
   disableTooltip?: boolean;
 }

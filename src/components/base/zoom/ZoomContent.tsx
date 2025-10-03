@@ -8,9 +8,9 @@ const CustomZoomContent = ({ img, onUnzoom, disableTooltip = false }: ZoomConten
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const tooltipId = useId();
 
-  const handleUnzoom = () => {
+  const handleUnzoom: React.MouseEventHandler<HTMLElement> = (e) => {
     setIsTooltipVisible(false);
-    onUnzoom();
+    onUnzoom?.(e.nativeEvent);
   };
 
   const altText = (img?.props as ImgHTMLAttributes<HTMLImageElement> | undefined)?.alt;
