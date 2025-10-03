@@ -97,6 +97,7 @@ export const platforms = {
   discordID: '312145496179474434',
   github: 'SapphoSys',
   lastFM: 'solelychloe',
+  listenBrainz: 'SapphoSys',
   mastodon: 'https://wetdry.world/@chloe',
   twitter: 'SapphoSys',
 };
