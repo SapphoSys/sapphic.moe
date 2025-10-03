@@ -69,6 +69,7 @@
     "astro-show-tailwindcss-breakpoint": "^1.0.10",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
+    "howler": "^2.2.4",
     "mdast-util-to-string": "^4.0.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -89,6 +90,7 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@types/eslint": "^9.6.1",
+    "@types/howler": "^2.2.12",
     "@types/react": "^19.1.13",
     "@typescript-eslint/parser": "^8.44.0",
     "astro-eslint-parser": "^1.2.2",

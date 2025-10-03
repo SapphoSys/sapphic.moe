@@ -1,3 +1,5 @@
+import { Howl } from 'howler';
+
 export const cn = (...classes: (string | boolean)[]) => classes.filter(Boolean).join(' ');
 export const isProduction = import.meta.env.MODE === 'production';
 
@@ -17,9 +19,10 @@ export const initJsContent = () => {
 };
 
 export const playPopAudio = async () => {
-  const audio = new Audio('/pop.mp3');
+  const sound = new Howl({
+    src: ['/pop.mp3'],
+    volume: 0.5,
+  });
 
-  audio.preload = 'auto';
-
-  return audio.play();
+  sound.play();
 };
