@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import { type FC, useEffect, useState } from 'react';
 
 import { feedList } from '$data/feeds';
