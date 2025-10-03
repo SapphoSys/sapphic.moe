@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react';
+import { FaSpinner, FaCompactDisc, FaPlay, FaPause, FaLastfm } from 'react-icons/fa';
 import { type FC, useEffect, useRef, useState } from 'react';
 
 import Zoom from '$components/base/zoom/Zoom.tsx';
@@ -40,11 +40,10 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
         role="status"
         aria-live="polite"
       >
-        <Icon
-          icon="line-md:loading-loop"
-          fontSize={30}
+        <FaSpinner
+          size={30}
           aria-hidden={true}
-          className="text-ctp-mauve dark:text-ctp-pink"
+          className="animate-spin text-ctp-mauve dark:text-ctp-pink"
         />
         Loading track...
       </div>
@@ -108,7 +107,7 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
             </Zoom>
           )}
           {(track.image === null || showNoCoverFallback) && (
-            <Icon icon="mdi:disc" fontSize={40} aria-hidden={true} className="text-ctp-surface2" />
+            <FaCompactDisc size={40} aria-hidden={true} className="text-ctp-surface2" />
           )}
         </div>
 
@@ -118,12 +117,12 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
               {isPlaying ? (
                 <div className="flex flex-row items-center gap-x-1">
                   <p>Now playing</p>
-                  <Icon icon="mdi:play" fontSize={18} aria-hidden={true} />
+                  <FaPlay size={18} aria-hidden={true} />
                 </div>
               ) : (
                 <div className="flex flex-row items-center gap-x-1">
                   <p>Last played</p>
-                  <Icon icon="mdi:pause" fontSize={18} aria-hidden={true} />
+                  <FaPause size={18} aria-hidden={true} />
                 </div>
               )}
             </h2>
@@ -137,7 +136,7 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
               rel="noreferrer"
               data-umami-event="Last.fm profile link click"
             >
-              <Icon icon="mdi:lastfm" fontSize={24} aria-hidden={true} />
+              <FaLastfm size={24} aria-hidden={true} />
             </a>
           </div>
 
@@ -167,9 +166,8 @@ const LastFMTrack: FC<LastFMTrackProps> = ({ username }) => {
             </p>
 
             {isRefreshing && initialLoadComplete && (
-              <Icon
-                icon="line-md:loading-loop"
-                fontSize={20}
+              <FaSpinner
+                size={20}
                 aria-hidden={true}
                 className="shrink-0 text-ctp-pink motion-reduce:hidden"
               />
