@@ -38,17 +38,21 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
   if (loading && !initialLoadComplete) {
     return (
       <div
-        className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink"
+        className="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink"
         role="status"
         aria-live="polite"
       >
-        <Icon
-          icon="line-md:loading-loop"
-          fontSize={30}
-          className="text-ctp-mauve dark:text-ctp-pink"
-          aria-hidden={true}
-        />
-        Loading weather stats...
+        <div className="flex flex-row items-center justify-between">
+          <h2 className="text-base text-ctp-subtext1">Weather</h2>
+        </div>
+        <div className="animate-fade-in-up flex flex-col gap-1 md:items-center">
+          <p className="m-0 flex items-center justify-center p-0 font-semibold text-ctp-text motion-safe:transition-[color] motion-safe:duration-200">
+            <span className="text-2xl opacity-70">Loading...</span>
+          </p>
+          <p className="m-0 p-0 text-xs text-ctp-subtext0 opacity-70 motion-safe:transition-[color] motion-safe:duration-200">
+            {location}
+          </p>
+        </div>
       </div>
     );
   }
@@ -60,7 +64,7 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
         role="alert"
         aria-live="assertive"
       >
-        <div className={cn(initialLoadComplete && 'animate-fade-in-up')}>
+        <div className={cn(initialLoadComplete && 'animate-fade-in')}>
           Error loading weather: {error.message}
         </div>
       </div>
@@ -74,7 +78,7 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
         role="status"
         aria-live="polite"
       >
-        <div className={cn(initialLoadComplete && 'animate-fade-in-up')}>
+        <div className={cn(initialLoadComplete && 'animate-fade-in')}>
           Could not retrieve weather for {location}.
         </div>
       </div>
@@ -112,7 +116,7 @@ const Weather: FC<WeatherProps> = ({ location, unit = 'metric', refreshInterval 
       <div
         className={cn(
           'flex flex-col gap-1',
-          initialLoadComplete && 'animate-fade-in-up',
+          initialLoadComplete && 'animate-fade-in',
           'md:items-center'
         )}
         role="status"

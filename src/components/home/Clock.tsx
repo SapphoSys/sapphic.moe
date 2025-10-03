@@ -54,17 +54,32 @@ const Clock: FC<ClockProps> = ({
   if (loading && !initialLoadComplete) {
     return (
       <div
-        className="flex flex-row items-center justify-center gap-2 rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink"
+        className="flex flex-col rounded-md border-2 border-ctp-mauve bg-ctp-mantle p-4 dark:border-ctp-pink"
         role="status"
         aria-live="polite"
       >
-        <Icon
-          icon="line-md:loading-loop"
-          fontSize={30}
-          className="text-ctp-mauve dark:text-ctp-pink"
-          aria-hidden={true}
-        />
-        Loading time stats...
+        <div className="flex flex-row items-center justify-between text-center">
+          <h2 className="text-base text-ctp-subtext1">{title}</h2>
+        </div>
+        <div className="animate-fade-in-up flex flex-col gap-1 md:items-center">
+          <p
+            className={cn(
+              'm-0 p-0 text-2xl font-semibold text-ctp-text md:text-3xl',
+              'motion-safe:transition-[color] motion-safe:duration-200'
+            )}
+          >
+            Loading...
+          </p>
+
+          <p
+            className={cn(
+              'm-0 p-0 text-xs text-ctp-subtext0',
+              'motion-safe:transition-[color] motion-safe:duration-200'
+            )}
+          >
+            {timeZone} (UTC{currentOffset})
+          </p>
+        </div>
       </div>
     );
   }
@@ -96,7 +111,7 @@ const Clock: FC<ClockProps> = ({
       <div
         className={cn(
           'flex flex-col gap-1 md:items-center',
-          initialLoadComplete && 'animate-fade-in-up'
+          initialLoadComplete && 'animate-fade-in'
         )}
         role="timer"
         aria-live="polite"
