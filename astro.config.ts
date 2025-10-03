@@ -25,6 +25,10 @@ import { schema } from '$utils/env';
 export default defineConfig({
   site: site.url,
 
+  devToolbar: {
+    enabled: false,
+  },
+
   adapter: node({
     mode: 'standalone',
   }),
