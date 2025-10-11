@@ -1,5 +1,5 @@
-import { FaSpinner } from 'react-icons/fa';
-import { FaExclamationTriangle } from 'react-icons/fa';
+import { FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
+import { Icon } from '@iconify/react';
 import { type FC, useEffect, useState } from 'react';
 
 import useLanyard from '$hooks/useLanyard';
@@ -62,7 +62,7 @@ const LanyardStatus: FC<LanyardStatusProps> = ({ userId, refreshInterval = 30000
 
   return (
     <div className={statusClass} role="status" aria-label={`Discord status: ${statusText}`}>
-      <StatusIcon size={20} className={statusColorClass} aria-hidden={true} />
+      <Icon icon={StatusIcon} fontSize={20} className={statusColorClass} aria-hidden={true} />
       <span className="text-base">{statusText}</span>
     </div>
   );
