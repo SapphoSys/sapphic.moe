@@ -463,8 +463,12 @@ export async function processTrackData(
       }
     }
 
+    // Use canonical recording name from MusicBrainz (without feat. notation)
+    // Fall back to track_name if recording_name is not available
+    const trackTitle = mbidMapping.recording_name || track.track_name;
+
     return {
-      track: track.track_name,
+      track: trackTitle,
       originUrl: info.origin_url,
       musicService: info.music_service,
       artist_mbids: mbidMapping.artist_mbids || info.artist_mbids,
