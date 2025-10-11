@@ -366,7 +366,7 @@ export async function fetchListenBrainzData(username: string): Promise<ListenBra
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const apiUrl = `https://api.listenbrainz.org/1/user/${encodeURIComponent(username)}/playing-now`;
+      const apiUrl = `https://api.listenbrainz.org/1/user/${encodeURIComponent(username)}/listens?count=1`;
       const apiRequest = await fetch(apiUrl, {
         headers: {
           'User-Agent': 'sapphic.moe ListenBrainz API Proxy (Astro)',
@@ -407,6 +407,82 @@ export async function processTrackData(
 
   const track = listens[0].track_metadata;
   const info = track.additional_info || {};
+  const mbidMapping = track.mbid_mapping;
+
+  // Use mbid_mapping data if available (much faster)
+  if (mbidMapping) {
+    console.warn('[processTrackData] Using mbid_mapping data from ListenBrainz (fast path)');
+
+    const recording_mbid = mbidMapping.recording_mbid || info.recording_mbid;
+    const release_mbid = mbidMapping.release_mbid || info.release_mbid;
+    const caa_release_mbid = mbidMapping.caa_release_mbid;
+
+    // Build artist credits from mbid_mapping
+    let artists: ArtistCredit[] = [];
+    if (Array.isArray(mbidMapping.artists)) {
+      artists = mbidMapping.artists.map((artist) => ({
+        name: artist.artist_credit_name,
+        joinphrase: artist.join_phrase || '',
+        artist: {
+          id: artist.artist_mbid,
+          name: artist.artist_credit_name,
+        },
+      }));
+    }
+
+    // Build MusicBrainz URLs
+    const musicbrainz_track_url = recording_mbid
+      ? `https://musicbrainz.org/recording/${recording_mbid}`
+      : undefined;
+
+    // Use the first artist MBID for artist URL
+    const firstArtistMbid = mbidMapping.artist_mbids?.[0] || artists[0]?.artist?.id;
+    const musicbrainz_artist_url = firstArtistMbid
+      ? `https://musicbrainz.org/artist/${firstArtistMbid}`
+      : undefined;
+
+    // Use Cover Art Archive data from mbid_mapping
+    let coverArtUrl: string | undefined;
+    let thumbnailUrl: string | undefined;
+    if (caa_release_mbid) {
+      coverArtUrl = `https://coverartarchive.org/release/${caa_release_mbid}/front`;
+      thumbnailUrl = `https://coverartarchive.org/release/${caa_release_mbid}/front-250`;
+    } else if (release_mbid) {
+      // Fallback to release_mbid if caa_release_mbid not available
+      coverArtUrl = `https://coverartarchive.org/release/${release_mbid}/front`;
+      thumbnailUrl = `https://coverartarchive.org/release/${release_mbid}/front-250`;
+    }
+
+    // Fetch BlurHash for the thumbnail
+    let blurhash: string | undefined;
+    if (thumbnailUrl) {
+      try {
+        blurhash = (await generateBlurHash(thumbnailUrl)) || undefined;
+      } catch (err) {
+        console.error('[processTrackData] Error fetching BlurHash:', err);
+      }
+    }
+
+    return {
+      track: track.track_name,
+      originUrl: info.origin_url,
+      musicService: info.music_service,
+      artist_mbids: mbidMapping.artist_mbids || info.artist_mbids,
+      recording_mbid,
+      release_mbid,
+      coverArtUrl,
+      blurhash,
+      musicbrainz_artist_url,
+      musicbrainz_track_url,
+      artists,
+    };
+  }
+
+  // Fallback to old behavior if mbid_mapping is not available (slow path)
+  console.warn(
+    '[processTrackData] mbid_mapping not available, using slow path with MusicBrainz API calls'
+  );
+
   let release_mbid = typeof info.release_mbid === 'string' ? info.release_mbid : undefined;
 
   if (!release_mbid && track.artist_name && track.track_name) {

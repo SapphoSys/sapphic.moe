@@ -16,6 +16,21 @@ export interface ListenBrainzResponse {
           artist_mbids?: string[];
           recording_mbid?: string;
           release_mbid?: string;
+          duration_ms?: number;
+          recording_msid?: string;
+        };
+        mbid_mapping?: {
+          artist_mbids?: string[];
+          artists?: Array<{
+            artist_credit_name: string;
+            artist_mbid: string;
+            join_phrase?: string;
+          }>;
+          caa_id?: number;
+          caa_release_mbid?: string;
+          recording_mbid?: string;
+          recording_name?: string;
+          release_mbid?: string;
         };
       };
     }>;
