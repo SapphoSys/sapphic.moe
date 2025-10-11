@@ -32,7 +32,9 @@ export const GET: APIRoute = async ({ url }) => {
   const imageUrl = url.searchParams.get('url');
   const wantBlurhash = url.searchParams.get('blurhash') === 'true';
 
-  if (!imageUrl || !/^https?:\/\//.test(imageUrl)) {
+  // Only allow Cover Art Archive URLs
+  const coverArtArchivePattern = /^https?:\/\/(?:[^.]+\.)?coverartarchive\.org\//i;
+  if (!imageUrl || !coverArtArchivePattern.test(imageUrl)) {
     return new Response('Missing or invalid url parameter', { status: 400 });
   }
 
