@@ -82,6 +82,11 @@ export const other = [
     url: 'https://n2.pm',
   },
   {
+    name: 'PDSls',
+    image: 'pdsls.svg',
+    url: 'https://pdsls.dev',
+  },
+  {
     name: 'Proxmox',
     image: 'proxmox.gif',
     url: 'https://proxmox.com',
