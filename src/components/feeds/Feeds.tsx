@@ -16,7 +16,7 @@ interface FeedsProps {
 }
 
 const Feeds: FC<FeedsProps> = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [shouldFetch, setShouldFetch] = useState(false);
   const {
     data: allFeedItems,
@@ -25,31 +25,32 @@ const Feeds: FC<FeedsProps> = () => {
   } = useFeeds(shouldFetch ? '/api/feeds' : '');
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
+  // Only after hydration completes, start the fetch
   useEffect(() => {
-    setIsMounted(true);
+    setIsHydrated(true);
+    // Use setTimeout to ensure this happens after React hydration completes
+    const timeoutId = setTimeout(() => {
+      setShouldFetch(true);
+    }, 0);
+    return () => clearTimeout(timeoutId);
   }, []);
 
+  // Once data loads, mark initial load as complete
   useEffect(() => {
-    if (isMounted && !shouldFetch) {
-      // Use setTimeout to ensure this happens after React hydration completes
-      const timeoutId = setTimeout(() => {
-        setShouldFetch(true);
-      }, 0);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isMounted, shouldFetch]);
-
-  useEffect(() => {
-    if (!loading && !initialLoadComplete) {
+    if (!loading && isHydrated && !initialLoadComplete) {
       setInitialLoadComplete(true);
     }
-  }, [loading, initialLoadComplete]);
+  }, [loading, isHydrated, initialLoadComplete]);
 
   const totalFeeds = feedList.length;
 
   return (
     <section className="flex flex-col gap-6">
-      {loading && !initialLoadComplete && (
+      {!isHydrated ? (
+        // During hydration, render empty placeholder
+        <div />
+      ) : loading ? (
+        // After hydration, show skeleton while loading
         <div className="animate-pulse" data-guestbook-loading>
           <div className="flex flex-col gap-y-6">
             <div className="flex flex-col gap-y-6">
@@ -69,23 +70,18 @@ const Feeds: FC<FeedsProps> = () => {
             </div>
           </div>
         </div>
-      )}
-
-      {fetchError && initialLoadComplete && (
+      ) : fetchError ? (
+        // Show error after hydration
         <div
-          className={cn(
-            'rounded-md border border-ctp-red p-4 text-ctp-text',
-            initialLoadComplete && 'animate-fade-in'
-          )}
+          className={cn('rounded-md border border-ctp-red p-4 text-ctp-text', 'animate-fade-in')}
           role="alert"
           aria-live="assertive"
         >
           <p>{fetchError}</p>
         </div>
-      )}
-
-      {!loading && !fetchError && allFeedItems.length > 0 && (
-        <div className={cn(initialLoadComplete && 'animate-fade-in', 'flex flex-col gap-6')}>
+      ) : allFeedItems.length > 0 ? (
+        // Show feed items after hydration
+        <div className={cn('animate-fade-in', 'flex flex-col gap-6')}>
           {allFeedItems.map((item: FeedItem) => (
             <article key={`${item.feedTitle}-${item.title}-${item.pubDate}`} className="flex gap-4">
               {item.feedAvatar && item.feedBaseUrl ? (
@@ -150,10 +146,9 @@ const Feeds: FC<FeedsProps> = () => {
             </article>
           ))}
         </div>
-      )}
-
-      {!loading && !fetchError && allFeedItems.length === 0 && initialLoadComplete && (
-        <div className={cn(initialLoadComplete && 'animate-fade-in')}>
+      ) : (
+        // Show empty state after hydration
+        <div className={cn('animate-fade-in')}>
           <p>No feed items found.</p>
         </div>
       )}
