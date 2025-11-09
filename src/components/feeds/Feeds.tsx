@@ -58,23 +58,11 @@ const Feeds: FC<FeedsProps> = () => {
                   <div className="size-12 shrink-0 rounded-full bg-ctp-surface1" />
                   <div className="flex grow flex-col gap-y-2 overflow-auto">
                     <div className="flex flex-row flex-wrap gap-x-2">
-                      <div
-                        className="h-6 rounded bg-ctp-surface1"
-                        style={{ width: `${Math.floor(Math.random() * (16 - 8 + 1)) + 8}rem` }}
-                      />
-                      <div
-                        className="h-6 w-6 rounded bg-ctp-surface1"
-                        style={{ width: `${Math.floor(Math.random() * (20 - 16 + 1)) + 12}rem` }}
-                      />
+                      <div className="h-6 w-32 rounded bg-ctp-surface1" />
+                      <div className="h-6 w-40 rounded bg-ctp-surface1" />
                     </div>
-                    <div
-                      className="h-8 rounded bg-ctp-surface1"
-                      style={{ width: `${Math.floor(Math.random() * (40 - 24 + 1)) + 24}rem` }}
-                    />
-                    <div
-                      className="h-16 rounded bg-ctp-surface1"
-                      style={{ height: `${Math.floor(Math.random() * (6 - 4 + 1)) + 2}rem` }}
-                    />
+                    <div className="h-8 w-96 rounded bg-ctp-surface1" />
+                    <div className="h-16 w-full rounded bg-ctp-surface1" />
                   </div>
                 </div>
               ))}
