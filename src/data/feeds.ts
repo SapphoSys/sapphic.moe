@@ -32,6 +32,12 @@ export const feedList: FeedListEntry[] = [
     avatar: 'https://github.com/gaearon.png',
   },
   {
+    url: 'https://blog.stream.place/rss',
+    title: 'Stream.place',
+    avatar:
+      'https://blog.stream.place/api/atproto_images?did=did:plc:2zmxikig2sj7gqaezl5gntae&cid=bafkreibfsgqythqbeppzlljrnqewluqsgevrjnrggq3ngdzdanuvafqpom',
+  },
+  {
     url: 'https://erina.moe/index.xml',
     title: 'Erina',
     avatar: 'https://github.com/Erinaaaaaaa.png',
@@ -40,6 +46,12 @@ export const feedList: FeedListEntry[] = [
     url: 'https://erisa.dev/rss/',
     title: 'Erisa',
     avatar: 'https://github.com/Erisa.png',
+  },
+  {
+    url: 'https://icy.leaflet.pub/rss',
+    title: 'icy takes',
+    avatar:
+      'https://icy.leaflet.pub/api/atproto_images?did=did:plc:hwevmowznbiukdf6uk5dwrrq&cid=bafkreidlxt2jm3jmjgosp3vpcf4prhbkyqyivvk3ud2zx3ozk7kyozzfau',
   },
   {
     url: 'https://isabelroses.com/feed.xml',
@@ -57,6 +69,24 @@ export const feedList: FeedListEntry[] = [
     avatar: 'https://github.com/geerlingguy.png',
   },
   {
+    url: 'https://juliet.leaflet.pub/rss',
+    title: 'Juliet',
+    avatar:
+      'https://juliet.leaflet.pub/api/atproto_images?did=did:plc:7vimlesenouvuaqvle42yhvo&cid=bafkreieedurktkmv7geyifspruv5trawaetolh76vrpygc22j23jsnooru',
+  },
+  {
+    url: 'https://connectedplaces.leaflet.pub/rss',
+    title: 'Laurens Hof',
+    avatar:
+      'https://cdn.bsky.app/img/avatar/plain/did:plc:mdjhvva6vlrswsj26cftjttd/bafkreibbttnj2runfdsfenqzb6zd74pxhmdvd2kuakei6ynu5gmg4n3wmq@jpeg',
+  },
+  {
+    url: 'https://lab.leaflet.pub/rss',
+    title: 'Leaflet Lab Notes',
+    avatar:
+      'https://lab.leaflet.pub/api/atproto_images?did=did:plc:btxrwcaeyodrap5mnjw2fvmz&cid=bafkreifbzus5wl4fqbqsfqkz4zsfi644lwvitzg443vrfeowlukvcrfhgi',
+  },
+  {
     url: 'https://vriska.dev/atom.xml',
     title: 'leo homestuck',
     avatar: 'https://github.com/leo60228.png',
@@ -65,6 +95,12 @@ export const feedList: FeedListEntry[] = [
     url: 'https://lewisakura.moe/rss.xml',
     title: 'lewisakura',
     avatar: 'https://github.com/lewisakura.png',
+  },
+  {
+    url: 'https://pfrazee.leaflet.pub/rss',
+    title: 'Paul Frazee',
+    avatar:
+      'https://pfrazee.leaflet.pub/api/atproto_images?did=did:plc:ragtjsm2j2vknwkz3zp4oxrd&cid=bafkreighxlygswtkinvkvcm67igorlys6ldigjftn2zzvy35d6fbnr6rbi',
   },
   {
     url: 'https://lyra.horse/blog/posts/index.xml',
@@ -100,6 +136,12 @@ export const feedList: FeedListEntry[] = [
     url: 'https://snoolie.gay/blog/rss.xml',
     title: 'Snoolie',
     avatar: 'https://github.com/0xilis.png',
+  },
+  {
+    url: 'https://notes.teal.fm/rss',
+    title: 'teal.fm notes',
+    avatar:
+      'https://notes.teal.fm/api/atproto_images?did=did:plc:iwhuynr6mm6xxuh25o4do2tx&cid=bafkreiceq5cwvvhkcfypj6rvzhdcru3ba67wc46d36qrhktawnqwvd3rw4',
   },
   {
     url: 'https://www.tomscott.com/updates.xml',
