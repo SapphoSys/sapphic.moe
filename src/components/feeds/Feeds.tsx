@@ -16,8 +16,15 @@ interface FeedsProps {
 }
 
 const Feeds: FC<FeedsProps> = () => {
-  const { data: allFeedItems, loading, error: fetchError } = useFeeds('/api/feeds');
+  const [isMounted, setIsMounted] = useState(false);
+  const { data: allFeedItems, loading, error: fetchError } = useFeeds(
+    isMounted ? '/api/feeds' : ''
+  );
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!loading && !initialLoadComplete) {

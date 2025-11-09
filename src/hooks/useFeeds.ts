@@ -18,6 +18,11 @@ const useFeeds = (apiUrl: string): UseFeedsResult => {
   >(null);
 
   useEffect(() => {
+    // Skip fetch if URL is not provided (used to defer fetching until after mount)
+    if (!apiUrl) {
+      return;
+    }
+
     const fetchFeeds = async () => {
       setLoading(true);
       setError(null);
