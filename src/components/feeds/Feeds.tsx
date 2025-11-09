@@ -17,14 +17,27 @@ interface FeedsProps {
 
 const Feeds: FC<FeedsProps> = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const { data: allFeedItems, loading, error: fetchError } = useFeeds(
-    isMounted ? '/api/feeds' : ''
-  );
+  const [shouldFetch, setShouldFetch] = useState(false);
+  const {
+    data: allFeedItems,
+    loading,
+    error: fetchError,
+  } = useFeeds(shouldFetch ? '/api/feeds' : '');
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isMounted && !shouldFetch) {
+      // Use setTimeout to ensure this happens after React hydration completes
+      const timeoutId = setTimeout(() => {
+        setShouldFetch(true);
+      }, 0);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [isMounted, shouldFetch]);
 
   useEffect(() => {
     if (!loading && !initialLoadComplete) {
