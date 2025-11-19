@@ -16,6 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     nodejs_22
     pnpm
+    cacert
   ];
 
   configurePhase = ''
@@ -23,6 +24,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     export HOME="$NIX_BUILD_TOP"
     export PNPM_HOME="$NIX_BUILD_TOP/.pnpm"
+    export NODE_EXTRA_CA_CERTS="${cacert}/etc/ssl/certs/ca-bundle.crt"
 
     runHook postConfigure
   '';
