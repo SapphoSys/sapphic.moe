@@ -1,14 +1,20 @@
 {
   dockerTools,
+  pkgs,
   site,
 }:
 dockerTools.buildLayeredImage {
   name = "sapphic-moe";
   tag = "latest";
 
+  contents = [
+    pkgs.nodejs_22
+    pkgs.coreutils
+  ];
+
   config = {
     Cmd = [
-      "node"
+      "${pkgs.nodejs_22}/bin/node"
       "${site}/dist/server/entry.mjs"
     ];
     Env = [
