@@ -56,7 +56,7 @@ jobs:
           COMMIT_HASH: ${{ github.sha }}
           COMMIT_DATE: ${{ github.event.head_commit.timestamp }}
         run: |
-          nix build .#container --max-jobs auto
+          nix build .#container --max-jobs auto --impure
           docker load < result
           docker tag sapphic-moe ghcr.io/sapphosys/sapphic-moe:latest
           docker push ghcr.io/sapphosys/sapphic-moe:latest
