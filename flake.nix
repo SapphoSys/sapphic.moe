@@ -38,7 +38,7 @@
         pkgs:
         let
           site = pkgs.callPackage ./site.nix { };
-          container = pkgs.callPackage ./container.nix { inherit site; };
+          container = pkgs.callPackage ./container.nix { inherit pkgs site; };
         in
         {
           inherit site container;

@@ -10,6 +10,7 @@ dockerTools.buildLayeredImage {
   contents = [
     pkgs.nodejs_22
     pkgs.coreutils
+    site
   ];
 
   config = {
@@ -19,6 +20,7 @@ dockerTools.buildLayeredImage {
     ];
     Env = [
       "NODE_ENV=production"
+      "NODE_PATH=${site}/node_modules"
       "ASTRO_TELEMETRY_DISABLED=1"
       "NPM_CONFIG_UPDATE_NOTIFIER=false"
     ];

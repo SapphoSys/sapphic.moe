@@ -57,5 +57,8 @@ stdenv.mkDerivation (finalAttrs: {
   installPhase = ''
     mkdir -p $out
     cp -r dist $out/
+    cp -r node_modules $out/
+    cp package.json $out/
+    cp pnpm-lock.yaml $out/
   '';
 })
