@@ -56,7 +56,21 @@ jobs:
           COMMIT_HASH: ${{ github.sha }}
           COMMIT_DATE: ${{ github.event.head_commit.timestamp }}
         run: |
-          nix build .#container --max-jobs auto
+          nix build .#container \
+            --max-jobs auto \
+            --arg PUBLIC_TURNSTILE_SITE_KEY "$PUBLIC_TURNSTILE_SITE_KEY" \
+            --arg TURNSTILE_SECRET_TOKEN "$TURNSTILE_SECRET_TOKEN" \
+            --arg OWM_API_KEY "$OWM_API_KEY" \
+            --arg LASTFM_API_KEY "$LASTFM_API_KEY" \
+            --arg ASTRO_DB_REMOTE_URL "$ASTRO_DB_REMOTE_URL" \
+            --arg ASTRO_DB_APP_TOKEN "$ASTRO_DB_APP_TOKEN" \
+            --arg ASTRO_DB_GUESTBOOK_DASHBOARD_URL "$ASTRO_DB_GUESTBOOK_DASHBOARD_URL" \
+            --arg DISCORD_CONTACT_WEBHOOK_URL "$DISCORD_CONTACT_WEBHOOK_URL" \
+            --arg DISCORD_GUESTBOOK_WEBHOOK_URL "$DISCORD_GUESTBOOK_WEBHOOK_URL" \
+            --arg DISCORD_USER_ID "$DISCORD_USER_ID" \
+            --arg LANYARD_API_URL "$LANYARD_API_URL" \
+            --arg COMMIT_HASH "$COMMIT_HASH" \
+            --arg COMMIT_DATE "$COMMIT_DATE"
           docker load < result
           docker tag sapphic-moe ghcr.io/sapphosys/sapphic-moe:latest
           docker push ghcr.io/sapphosys/sapphic-moe:latest

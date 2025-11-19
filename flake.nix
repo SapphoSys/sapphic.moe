@@ -4,7 +4,10 @@
   };
 
   outputs =
-    { nixpkgs, ... }:
+    {
+      nixpkgs,
+      ...
+    }@inputs:
     let
       forSystems =
         fn:
@@ -37,7 +40,8 @@
       packages = forSystems (
         pkgs:
         let
-          # Build-time environment variables (from GitHub Actions secrets or local .env.production)
+          # Build-time environment variables
+          # Can be passed via --arg from CLI or read from environment
           buildEnv = {
             PUBLIC_TURNSTILE_SITE_KEY = builtins.getEnv "PUBLIC_TURNSTILE_SITE_KEY";
             TURNSTILE_SECRET_TOKEN = builtins.getEnv "TURNSTILE_SECRET_TOKEN";

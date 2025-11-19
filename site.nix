@@ -29,7 +29,7 @@ stdenv.mkDerivation (finalAttrs: {
 
     # Export build-time environment variables
     ${lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (name: value: "export ${name}=\"${value}\"") buildEnv
+      lib.mapAttrsToList (name: value: ''export ${name}="${value}"'') buildEnv
     )}
 
     runHook postConfigure
