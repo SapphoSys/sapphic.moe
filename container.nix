@@ -2,6 +2,8 @@
   dockerTools,
   pkgs,
   site,
+  commitHash ? "unknown",
+  commitDate ? "unknown",
 }:
 dockerTools.buildLayeredImage {
   name = "sapphic-moe";
@@ -25,6 +27,8 @@ dockerTools.buildLayeredImage {
       "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
       "ASTRO_TELEMETRY_DISABLED=1"
       "NPM_CONFIG_UPDATE_NOTIFIER=false"
+      "COMMIT_HASH=${commitHash}"
+      "COMMIT_DATE=${commitDate}"
     ];
     ExposedPorts = {
       "4321/tcp" = { };

@@ -41,7 +41,7 @@
         pkgs:
         let
           # Build-time environment variables
-          # Can be passed via --arg from CLI or read from environment
+          # Only include variables that affect the build output
           buildEnv = {
             PUBLIC_TURNSTILE_SITE_KEY = builtins.getEnv "PUBLIC_TURNSTILE_SITE_KEY";
             TURNSTILE_SECRET_TOKEN = builtins.getEnv "TURNSTILE_SECRET_TOKEN";
@@ -54,11 +54,14 @@
             DISCORD_GUESTBOOK_WEBHOOK_URL = builtins.getEnv "DISCORD_GUESTBOOK_WEBHOOK_URL";
             DISCORD_USER_ID = builtins.getEnv "DISCORD_USER_ID";
             LANYARD_API_URL = builtins.getEnv "LANYARD_API_URL";
-            COMMIT_HASH = builtins.getEnv "COMMIT_HASH";
-            COMMIT_DATE = builtins.getEnv "COMMIT_DATE";
+            # COMMIT_HASH and COMMIT_DATE are set at runtime, not build time
           };
           site = pkgs.callPackage ./site.nix { inherit buildEnv; };
-          container = pkgs.callPackage ./container.nix { inherit pkgs site; };
+          container = pkgs.callPackage ./container.nix {
+            inherit pkgs site;
+            commitHash = builtins.getEnv "COMMIT_HASH";
+            commitDate = builtins.getEnv "COMMIT_DATE";
+          };
         in
         {
           inherit site container;
