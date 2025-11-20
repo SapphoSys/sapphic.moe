@@ -12,16 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: nixbuild/nix-quick-install-action@v30
+      - uses: cachix/install-nix-action@v31
         with:
-          nix_conf: |
-            keep-env-derivations = false
-            keep-outputs = false
-            max-jobs = auto
-            cores = 0
-            substituters = https://cache.nixos.org https://nix-community.cachix.org
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypQtVrp8wSJr09Kl1Cj6obRh7f0= nix-community.cachix.org-1:mB9FSh9qF2qLqn8tQ7Dvxlfqwng0m7kbs35atqwvrnE=
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: GHA Nix cache
         uses: nix-community/cache-nix-action@v6
