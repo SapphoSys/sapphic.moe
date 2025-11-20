@@ -20,13 +20,15 @@ jobs:
             keep-outputs = false
             max-jobs = auto
             cores = 0
+            substituters = https://cache.nixos.org https://nix-community.cachix.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypQtVrp8wSJr09Kl1Cj6obRh7f0= nix-community.cachix.org-1:mB9FSh9qF2qLqn8tQ7Dvxlfqwng0m7kbs35atqwvrnE=
 
       - name: GHA Nix cache
         uses: nix-community/cache-nix-action@v6
         with:
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-
-          gc-max-store-size-linux: 1G
+          gc-max-store-size-linux: 2G
           purge: true
           purge-prefixes: nix-${{ runner.os }}-
           purge-created: 0
@@ -56,7 +58,7 @@ jobs:
           COMMIT_HASH: ${{ github.sha }}
           COMMIT_DATE: ${{ github.event.head_commit.timestamp }}
         run: |
-          nix build .#container --max-jobs auto --impure
+          nix build .#container --max-jobs auto --impure --fallback
           docker load < result
           docker tag sapphic-moe ghcr.io/sapphosys/sapphic-moe:latest
           docker push ghcr.io/sapphosys/sapphic-moe:latest
