@@ -21,7 +21,7 @@ jobs:
             max-jobs = auto
             cores = 0
             substituters = https://cache.nixos.org https://sapphic-moe.cachix.org
-            trusted-public-keys = sapphic-moe.cachix.org-1:tKNbRYC7VnC7xhdputyclq8bqPRTid3UmMjGP7du+C8=
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= sapphic-moe.cachix.org-1:tKNbRYC7VnC7xhdputyclq8bqPRTid3UmMjGP7du+C8=
 
       - name: Setup Cachix
         uses: cachix/cachix-action@v15
