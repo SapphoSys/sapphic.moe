@@ -10,7 +10,7 @@ dockerTools.buildLayeredImage {
   contents = [
     pkgs.nodejs_22
     pkgs.coreutils
-    pkgs.ca-certificates
+    pkgs.cacert
     site
   ];
 
@@ -22,7 +22,7 @@ dockerTools.buildLayeredImage {
     Env = [
       "NODE_ENV=production"
       "NODE_PATH=${site}/node_modules"
-      "SSL_CERT_FILE=${pkgs.ca-certificates}/etc/ssl/certs/ca-bundle.crt"
+      "SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
       "ASTRO_TELEMETRY_DISABLED=1"
       "NPM_CONFIG_UPDATE_NOTIFIER=false"
     ];
