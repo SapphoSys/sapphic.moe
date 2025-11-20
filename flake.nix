@@ -31,7 +31,6 @@
           packages = [
             nodejs
             pnpm
-            flyctl
             turso-cli
           ];
         }
