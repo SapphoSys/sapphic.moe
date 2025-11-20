@@ -50,8 +50,6 @@ jobs:
           DISCORD_GUESTBOOK_WEBHOOK_URL: ${{ secrets.DISCORD_GUESTBOOK_WEBHOOK_URL }}
           DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
           LANYARD_API_URL: ${{ secrets.LANYARD_API_URL }}
-          COMMIT_HASH: ${{ github.sha }}
-          COMMIT_DATE: ${{ github.event.head_commit.timestamp }}
         run: |
           nix build .#container --max-jobs auto --impure
           docker load < result
