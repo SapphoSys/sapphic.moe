@@ -31,6 +31,7 @@
           packages = [
             nodejs
             pnpm
+            cachix
             turso-cli
           ];
         }
