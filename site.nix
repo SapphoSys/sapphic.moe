@@ -39,7 +39,7 @@ stdenv.mkDerivation (finalAttrs: {
   buildPhase = ''
     runHook preBuild
 
-    pnpm install --frozen-lockfile --prefer-offline
+    pnpm install --frozen-lockfile
     pnpm run build
 
     runHook postBuild
