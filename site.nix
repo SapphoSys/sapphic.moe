@@ -26,7 +26,6 @@ stdenv.mkDerivation (finalAttrs: {
     export HOME="$NIX_BUILD_TOP"
     export PNPM_HOME="$NIX_BUILD_TOP/.pnpm"
     export NODE_EXTRA_CA_CERTS="${cacert}/etc/ssl/certs/ca-bundle.crt"
-    export NODE_OPTIONS="--max-old-space-size=4096"
 
     # Export build-time environment variables
     ${lib.concatStringsSep "\n" (
