@@ -44,7 +44,6 @@ export const projects = [
       technologies.tailwind,
       technologies.mdx,
       technologies.nix,
-      technologies.flydotio,
     ],
     link: 'https://sapphic.moe',
   },

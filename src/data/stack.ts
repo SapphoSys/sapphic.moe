@@ -11,7 +11,6 @@ export const learnedStack = [
   technologies.astro,
   technologies.vite,
   technologies.htmx,
-  technologies.flydotio,
   technologies.cloudflareWorkers,
   technologies.django,
   technologies.tailwind,

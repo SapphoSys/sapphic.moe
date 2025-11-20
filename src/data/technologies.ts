@@ -111,11 +111,6 @@ export const technologies = {
     icon: 'simple-icons:flutter',
     link: 'https://flutter.dev/',
   },
-  flydotio: {
-    name: 'Fly.io',
-    icon: 'simple-icons:flydotio',
-    link: 'https://fly.io/',
-  },
   git: {
     name: 'Git',
     icon: 'simple-icons:git',
