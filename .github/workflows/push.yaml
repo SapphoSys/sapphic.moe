@@ -38,8 +38,22 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
+        env:
+          PUBLIC_TURNSTILE_SITE_KEY: ${{ secrets.PUBLIC_TURNSTILE_SITE_KEY }}
+          TURNSTILE_SECRET_TOKEN: ${{ secrets.TURNSTILE_SECRET_TOKEN }}
+          OWM_API_KEY: ${{ secrets.OWM_API_KEY }}
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+          ASTRO_DB_REMOTE_URL: ${{ secrets.ASTRO_DB_REMOTE_URL }}
+          ASTRO_DB_APP_TOKEN: ${{ secrets.ASTRO_DB_APP_TOKEN }}
+          ASTRO_DB_GUESTBOOK_DASHBOARD_URL: ${{ secrets.ASTRO_DB_GUESTBOOK_DASHBOARD_URL }}
+          DISCORD_CONTACT_WEBHOOK_URL: ${{ secrets.DISCORD_CONTACT_WEBHOOK_URL }}
+          DISCORD_GUESTBOOK_WEBHOOK_URL: ${{ secrets.DISCORD_GUESTBOOK_WEBHOOK_URL }}
+          DISCORD_USER_ID: ${{ secrets.DISCORD_USER_ID }}
+          LANYARD_API_URL: ${{ secrets.LANYARD_API_URL }}
+          COMMIT_HASH: ${{ github.sha }}
+          COMMIT_DATE: ${{ github.event.head_commit.timestamp }}
         run: |
-          nix build .#container --max-jobs auto
+          nix build .#container --max-jobs auto --impure
           docker load < result
           docker tag sapphic-moe ghcr.io/sapphosys/sapphic-moe:latest
           docker push ghcr.io/sapphosys/sapphic-moe:latest
