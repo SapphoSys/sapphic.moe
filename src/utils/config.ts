@@ -87,7 +87,7 @@ export const footerLinks: Link[][] = [
 export const navLinks: Link[] = [
   { link: '/about', icon: 'mdi:information', text: 'About' },
   { link: '/articles', icon: 'mdi:pencil', text: 'Articles' },
-  { link: '/feeds', icon: 'mdi:feed', text: '/feeds' },
+  // { link: '/feeds', icon: 'mdi:feed', text: '/feeds' },
   { link: '/uses', icon: 'mdi:tools', text: '/uses' },
 ];
 
